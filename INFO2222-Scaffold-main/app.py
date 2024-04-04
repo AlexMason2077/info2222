@@ -4,11 +4,10 @@ this is where you'll find all of the get/post request handlers
 the socket event handlers are inside of socket_routes.py
 '''
 
-from flask import Flask, jsonify, render_template, request, abort, url_for
+from flask import Flask, render_template, request, abort, url_for
 from flask_socketio import SocketIO
 import db
 import secrets
-from models import RequestStatus
 
 # import logging
 
@@ -81,50 +80,16 @@ def page_not_found(_):
 def home():
     if request.args.get("username") is None:
         abort(404)
-    friends = ["nihao"]    
-    return render_template("home.jinja", username=request.args.get("username"), friends=friends)
-
-@app.route("/send_friend_request", methods=["POST"])
-def send_request():
-    data = request.json
-    if not data:
-        return jsonify({"error": "Missing JSON data"}), 400
-    if 'sender' not in data or 'receiver' not in data:
-        return jsonify({"error": "Missing 'sender' or 'receiver' in data"}), 400
-    
-    result = db.send_friend_request(data['sender'], data['receiver'])
-    return jsonify({"message": result})
-
-
-@app.route("/update_friend_request", methods=["POST"])
-def update_request():
-    data = request.json
-    if not data or 'request_id' not in data or 'status' not in data:
-        return jsonify({"error": "Invalid data"}), 400
-    
-    try:
-        new_status = RequestStatus(data['status'])
-    except ValueError:
-        return jsonify({"error": "Invalid status value"}), 400
-    
-    result = db.update_friend_request(data['request_id'], new_status)
-    return jsonify(result)
-
-# 假设这是处理加入聊天室请求的 Flask 路由
-@app.route("/join_chatroom", methods=["POST"])
-def join_chatroom():
-    data = request.json
-    username1 = data['username1']
-    username2 = data['username2']
-
-    if not db.are_friends(username1, username2):
-        return jsonify({"error": "You must be friends to join the same chatroom."}), 403
-
-    # 加入聊天室的逻辑...
+    return render_template("home.jinja", username=request.args.get("username"))
 
 
 
 if __name__ == '__main__':
-    #socketio.run(app, host='0.0.0.0', port=8999, allow_unsafe_werkzeug=True)
-    socketio.run(app, host='0.0.0.0', port=8999, debug=True)
-    
+
+    # db.get_all_messages()
+    socketio.run(app)
+
+    # db.drop_room_info_table()
+    # db.get_all_messages()
+    # print(db.get_messages_by_room_id(4))
+

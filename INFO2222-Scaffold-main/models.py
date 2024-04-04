@@ -10,10 +10,9 @@ Prisma docs also looks so much better in comparison
 or use SQLite, if you're not into fancy ORMs (but be mindful of Injection attacks :) )
 '''
 
-from sqlalchemy import Column, Integer, String, ForeignKey , Enum
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from typing import Dict
-from enum import Enum as PyEnum
 
 import db
 
@@ -33,17 +32,15 @@ class User(Base):
     # in other words we've mapped the username Python object property to an SQL column of type String 
     username: Mapped[str] = mapped_column(String, primary_key=True)
     password: Mapped[str] = mapped_column(String)
-
     
 
 # stateful counter used to generate the room id
 class Counter():
     def __init__(self):
-        self.counter = 0
+        pass
     
     def get(self):
-        self.counter += 1
-        return self.counter
+        return db.find_free_room_id()
 
 # Room class, used to keep track of which username is in which room
 class Room():
@@ -59,7 +56,6 @@ class Room():
         room_id = db.find_room_id_by_users(sender,receiver)
         if not room_id:
             room_id = self.counter.get()
-            print("Im here")
             db.insert_room(room_id,sender,receiver)
 
         self.dict[sender] = room_id
@@ -88,24 +84,11 @@ class RoomInfo(Base):
     user_a = Column(String)
     user_b = Column(String)
 
+class Message(Base):
+    __tablename__ = "messages"
 
-class RequestStatus(PyEnum):
-    PENDING = 'pending'
-    APPROVED = 'approved'
-    REJECTED = 'rejected'
-
-class FriendRequest(Base):
-    __tablename__ = 'friend_request'
     id = Column(Integer, primary_key=True)
-    sender_id = Column(String, ForeignKey('user.username'))
-    receiver_id = Column(String, ForeignKey('user.username'))
-    status = Column(String)
-
-class Friendship(Base):
-    __tablename__ = 'friendship'
-    user_username = Column(String, ForeignKey('user.username'),primary_key=True)
-    friend_username = Column(String, ForeignKey('user.username'),primary_key=True)
-
-    user = relationship("User", foreign_keys=[user_username])
-    friend = relationship("User", foreign_keys=[friend_username])
-
+    room_id = Column(Integer)
+    sender = Column(String)
+    content = Column(String)
+    

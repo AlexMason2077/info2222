@@ -6,8 +6,7 @@ database file, containing all the logic to interface with the sql database
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from models import *
-
-
+from sqlalchemy import Table
 from pathlib import Path
 from sqlalchemy import or_
 
@@ -65,49 +64,71 @@ def find_room_id_by_users(user_a: str, user_b: str) -> int:
         
         return None
 
-def send_friend_request(sender_username: str, receiver_username: str):
+def find_free_room_id():
     with Session(engine) as session:
-        # 检查接收者是否存在
-        receiver = session.get(User, receiver_username)
-        if not receiver:
-            return "Receiver does not exist."
-        
-        # 检查是否已经发送了好友请求或已经是好友
-        existing_request = session.query(FriendRequest).filter(
-            ((FriendRequest.sender_id == sender_username) & (FriendRequest.receiver_id == receiver_username)) |
-            ((FriendRequest.sender_id == receiver_username) & (FriendRequest.receiver_id == sender_username))
-        ).first()
+        # 获取所有现有的room_id，按升序排序
+        existing_ids = session.query(RoomInfo.room_id).order_by(RoomInfo.room_id).all()
+        existing_ids = [id[0] for id in existing_ids]  # 将结果转换为单个数字列表
 
-        if existing_request:
-            return "Friend request already sent or already friends."
+        # 寻找第一个空闲的ID
+        free_id = 1
+        while free_id in existing_ids:
+            free_id += 1
 
-        # 创建新的好友请求
-        new_request = FriendRequest(sender_id=sender_username, receiver_id=receiver_username, status=RequestStatus.PENDING.value)
-        session.add(new_request)
-        session.commit()
-        
-        return "Friend request sent successfully."
+        return free_id
 
 
-def update_friend_request(request_id: int, new_status: RequestStatus):
+def insert_message(room_id: int, sender: str, content: str):
     with Session(engine) as session:
-        friend_request = session.query(FriendRequest).filter_by(id=request_id).first()
+        # 创建一个Message实例
+        message = Message(room_id=room_id, sender=sender, content=content)
         
-        if not friend_request:
-            return {"error": "Friend request not found."}
+        # 添加这个实例到session
+        session.add(message)
         
-        friend_request.status = new_status.value
-        session.commit()
-        
-        # 如果请求被接受，更新好友列表
-        if new_status == RequestStatus.APPROVED:
-            add_friend(friend_request.sender_id, friend_request.receiver_id)
-        
-        return {"message": "Friend request updated successfully."}
+        # 提交session到数据库
+        try:
+            session.commit()
+            print(f"Message added: {sender}: {content} in room {room_id}")
+        except Exception as e:
+            # 如果出现错误，回滚更改
+            session.rollback()
+            print(f"Failed to insert message: {e}")
+        finally:
+            # 关闭session
+            session.close()
+
+def get_all_messages():
+    with Session(engine) as session:
+        # 查询messages表中的所有记录
+        messages = session.query(Message).all()
+
+        # 用于存储所有消息信息的列表
+        all_messages = []
+
+        # 遍历每条消息记录，并收集其详细信息
+        for message in messages:
+            message_info = (message.id, message.room_id, message.sender, message.content)
+            all_messages.append(message_info)
+
+            # 如果需要在控制台打印每条消息的详细信息
+            print(f"ID: {message.id}, Room ID: {message.room_id}, Sender: {message.sender}, Content: {message.content}")
+
+        # 返回所有消息的详细信息列表
+        return all_messages
+
+def get_messages_by_room_id(room_id: int) -> list:
+    with Session(engine) as session:
+        # 查询指定room_id的所有消息
+        messages = session.query(Message.sender, Message.content).filter(Message.room_id == room_id).all()
+
+        # messages 已经是一个包含了很多元组的列表，每个元组包含(sender, content)
+        return messages
 
 
-########################################################################################################################################
-########################################################################################################################################
+#################################################################################
+# 下面是支持函数
+#################################################################################
 
 
 # deletes a user from the database by username
@@ -123,38 +144,20 @@ def delete_user(username: str):
         else:
             return False  # Indicate no user was found with that username
 
-
-def add_friend(user_username, friend_username):
+def get_all_room_info():
     with Session(engine) as session:
-        # 检查是否已经是好友
-        existing_friendship = session.query(Friendship).filter(
-            ((Friendship.user_username == user_username) & (Friendship.friend_username == friend_username)) |
-            ((Friendship.user_username == friend_username) & (Friendship.friend_username == user_username))
-        ).first()
-        
-        if existing_friendship:
-            return "Already friends."
-        
-        # 添加好友关系
-        friendship = Friendship(user_username=user_username, friend_username=friend_username)
-        session.add(friendship)
-        session.commit()
-        return "Friend added successfully."
-    
-def can_join_chatroom(username1, username2):
-    # 使用 SQLAlchemy session 来查询 Friendship 表
-    with Session() as session:
-        friendship = session.query(Friendship).filter(
-            ((Friendship.user_username == username1) & (Friendship.friend_username == username2)) |
-            ((Friendship.user_username == username2) & (Friendship.friend_username == username1))
-        ).first()
-        return bool(friendship)  # 如果找到了好友关系，返回 True
+        # 查询RoomInfo表中的所有记录
+        rooms = session.query(RoomInfo).all()
 
+        # 如果需要，您可以在这里打印每个房间的信息，或者返回这些信息
+        for room in rooms:
+            print(f"Room ID: {room.room_id}, User A: {room.user_a}, User B: {room.user_b}")
 
-def are_friends(username1, username2):
-    with Session(engine) as session:
-        friendship = session.query(Friendship).filter(
-            ((Friendship.user_username == username1) & (Friendship.friend_username == username2)) |
-            ((Friendship.user_username == username2) & (Friendship.friend_username == username1))
-        ).first()
-        return friendship is not None
+        # 或者，如果您想返回这些记录以供进一步处理，可以这样做：
+        return rooms
+
+def drop_room_info_table():
+    with engine.begin() as connection:
+        # 直接删除RoomInfo表
+        RoomInfo.__table__.drop(bind=engine, checkfirst=True)
+        print("RoomInfo table has been dropped.")
