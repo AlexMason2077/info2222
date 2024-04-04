@@ -69,7 +69,7 @@ def join(sender_name, receiver_name):
     print(room_id_stored)
     if room_id_stored:
         for e in db.get_messages_by_room_id(room_id_stored):
-            emit("incoming", (f"{e[0]}: {e[1]}.", "red"))
+            emit("incoming", (f"{e[0]}: {e[1]}.", "yellow"))
 
     if room_id_current is not None:
         room.join_room(sender_name, room_id_current)
