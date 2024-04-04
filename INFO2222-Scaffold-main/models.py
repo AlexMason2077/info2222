@@ -10,15 +10,18 @@ Prisma docs also looks so much better in comparison
 or use SQLite, if you're not into fancy ORMs (but be mindful of Injection attacks :) )
 '''
 
-from sqlalchemy import String
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import Column, Integer, String, ForeignKey , Enum
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from typing import Dict
-from sqlalchemy import Integer, ForeignKey, Column
+from enum import Enum as PyEnum
+
+import db
 
 # data models
 class Base(DeclarativeBase):
     pass
 
+# inherit from a Base, this is a fucking table in db
 # model to store user information
 class User(Base):
     __tablename__ = "user"
@@ -30,6 +33,7 @@ class User(Base):
     # in other words we've mapped the username Python object property to an SQL column of type String 
     username: Mapped[str] = mapped_column(String, primary_key=True)
     password: Mapped[str] = mapped_column(String)
+
     
 
 # stateful counter used to generate the room id
@@ -51,7 +55,13 @@ class Room():
         self.dict: Dict[str, int] = {}
 
     def create_room(self, sender: str, receiver: str) -> int:
-        room_id = self.counter.get()
+        # try to find this room by 2 uses
+        room_id = db.find_room_id_by_users(sender,receiver)
+        if not room_id:
+            room_id = self.counter.get()
+            print("Im here")
+            db.insert_room(room_id,sender,receiver)
+
         self.dict[sender] = room_id
         self.dict[receiver] = room_id
         return room_id
@@ -69,11 +79,33 @@ class Room():
         if user not in self.dict.keys():
             return None
         return self.dict[user]
-    
+
+
+class RoomInfo(Base):
+    __tablename__ = "RoomInfo"
+
+    room_id = Column(Integer, primary_key=True)
+    user_a = Column(String)
+    user_b = Column(String)
+
+
+class RequestStatus(PyEnum):
+    PENDING = 'pending'
+    APPROVED = 'approved'
+    REJECTED = 'rejected'
+
+class FriendRequest(Base):
+    __tablename__ = 'friend_request'
+    id = Column(Integer, primary_key=True)
+    sender_id = Column(String, ForeignKey('user.username'))
+    receiver_id = Column(String, ForeignKey('user.username'))
+    status = Column(String)
+
 class Friendship(Base):
     __tablename__ = 'friendship'
+    user_username = Column(String, ForeignKey('user.username'),primary_key=True)
+    friend_username = Column(String, ForeignKey('user.username'),primary_key=True)
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    user_id: Mapped[str] = mapped_column(String, ForeignKey('user.username'))
-    friend_id: Mapped[str] = mapped_column(String, ForeignKey('user.username'))
-    room_id: Mapped[int] = mapped_column(Integer)
+    user = relationship("User", foreign_keys=[user_username])
+    friend = relationship("User", foreign_keys=[friend_username])
+

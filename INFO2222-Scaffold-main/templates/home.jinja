@@ -19,6 +19,20 @@
         padding: 2px;
     }
 
+    #friend_list_box {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        width: 200px;
+        height: 300px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: auto;
+        padding: 10px;
+        display: block; /* Remove 'display: none;' to make it visible */
+    }
+
+
     .text  {
         margin-top: 2px;
         margin-bottom: 2px;
@@ -35,20 +49,6 @@
 
 <h1>Messaging App </h1>
 
-<!-- Add this section for the friends list -->
-<section id="friends_list">
-    <h2>Friends</h2>
-    {% if friends %}
-    <ul>
-        {% for friend in friends %}
-        <li>{{ friend }}</li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>You have no friends added yet.</p>
-    {% endif %}
-</section>
-
 <main>
     <!-- The messages are displayed here -->
     <section id="message_box"></section>
@@ -56,7 +56,7 @@
     <!-- These part ideally should be a form element, 
     but I wrote this code a year ago and I don't want to break anything...-->
     <section id="chat_box">
-        <p class="text">Chat with: </p>
+        <p class="text">Chat with: </p >
         <input id="receiver" placeholder="username">
         <!-- MDN says its bad practice to use the onclick attribute,
         but we're using it anyways coz its easy :)-->
@@ -66,11 +66,37 @@
     <!-- The (message) input box is set to display: none initially, 
     this means the input box is "invisible" initially-->
     <section id="input_box" style="display: none" >
-        <p class="text">Message: </p>
+        <p class="text">Message: </p >
         <input id="message" placeholder="message">
         <button onclick="send()">Send</button>
         <button onclick="leave()">Leave Room</button>
     </section>
+
+    <!-- Friend List -->
+    <section id="friend_list_box" style="display: block;">
+        <h2>Friend List</h2>
+        <ul id="friend_list">
+            <!-- Friends will be added here dynamically or list them statically for now -->
+        </ul>
+    </section>
+
+<!-- Add Friend Section -->
+<section id="add_friend_section">
+    <h2>Add Friend</h2>
+    <input id="friend_username" placeholder="Enter username">
+    <button onclick="sendFriendRequest()">Add Friend</button>
+</section>
+
+<!-- Friend Requests Section -->
+<section id="friend_requests_section">
+    <h2>Friend Requests</h2>
+    <ul id="friend_requests">
+        <!-- Dynamically list friend requests here -->
+    </ul>
+</section>
+
+
+
 </main>
 
 <script src="/static/js/libs/socket.io.min.js"></script>
@@ -168,9 +194,57 @@
     // called when an incoming message has reached a client
     function add_message(message, color) {
         let box = $("#message_box");
-        let child = $(`<p style="color:${color}; margin: 0px;"></p>`).text(message);
+        let child = $(`<p style="color:${color}; margin: 0px;"></p >`).text(message);
         box.append(child);
     }
+    function sendFriendRequest() {
+    let friendUsername = document.getElementById('friend_username').value;
+    if(friendUsername) {
+        // Replace with the actual endpoint URL
+        fetch('/send_friend_request', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ receiver: friendUsername }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message); // Assuming the backend sends back a message
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+}
+
+// Function to update a friend request's status
+function updateFriendRequest(requestId, status) {
+    // Replace with the actual endpoint URL
+    fetch('/update_friend_request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ request_id: requestId, status: status }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message); // Assuming the backend sends back a message
+        // Optionally refresh the friend requests list
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+fetch('/send_friend_request', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sender: senderUsername, receiver: receiverUsername }),
+})
     
 </script>
 {% endblock %}
