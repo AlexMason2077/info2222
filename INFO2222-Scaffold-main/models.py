@@ -13,7 +13,7 @@ or use SQLite, if you're not into fancy ORMs (but be mindful of Injection attack
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from typing import Dict
-
+from enum import Enum as PyEnum
 import db
 
 # data models
@@ -92,3 +92,25 @@ class Message(Base):
     sender = Column(String)
     content = Column(String)
     
+##############################################################################
+# friend request
+##############################################################################
+class RequestStatus(PyEnum):
+    PENDING = 'pending'
+    APPROVED = 'approved'
+    REJECTED = 'rejected'
+
+class FriendRequest(Base):
+    __tablename__ = 'friend_request'
+    id = Column(Integer, primary_key=True)
+    sender_id = Column(String, ForeignKey('user.username'))
+    receiver_id = Column(String, ForeignKey('user.username'))
+    status = Column(String)
+
+class Friendship(Base):
+    __tablename__ = 'friendship'
+    user_username = Column(String, ForeignKey('user.username'),primary_key=True)
+    friend_username = Column(String, ForeignKey('user.username'),primary_key=True)
+
+    user = relationship("User", foreign_keys=[user_username])
+    friend = relationship("User", foreign_keys=[friend_username])

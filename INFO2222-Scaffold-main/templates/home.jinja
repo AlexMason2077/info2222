@@ -43,7 +43,7 @@
 <!--Navbar, you'll see the username here-->
 <nav style="border-bottom: 1px solid black;">
     <ol style="float: right">
-        <li style="display:inline-block">Usernameeeee:  {{ username }} </li>
+        <li style="display:inline-block">Username:  {{ username }} </li>
     </ol>
 </nav>
 
@@ -79,6 +79,21 @@
             <!-- Friends will be added here dynamically or list them statically for now -->
         </ul>
     </section>
+
+    <!-- Add Friend Section -->
+<section id="add_friend_section">
+    <h2>Add Friend</h2>
+    <input id="friend_username" placeholder="Enter username">
+    <button onclick="sendFriendRequest()">Add Friend</button>
+</section>
+
+<!-- Friend Requests Section -->
+<section id="friend_requests_section">
+    <h2>Friend Requests</h2>
+    <ul id="friend_requests">
+        <!-- Dynamically list friend requests here -->
+    </ul>
+</section>
 
 
 </main>
@@ -182,6 +197,132 @@
         let child = $(`<p style="color:${color}; margin: 0px;"></p>`).text(message);
         box.append(child);
     }
-    
+    function sendFriendRequest() {
+        let friendUsername = document.getElementById('friend_username').value;
+        let senderUsername = "{{ username }}";
+        if (friendUsername) {
+            fetch('/send_friend_request', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        sender: senderUsername, // 确保这里使用的是有效的用户名
+        receiver: friendUsername // 同上
+    }),
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+})
+.then(data => console.log(data))
+.catch(error => console.error('There has been a problem with your fetch operation:', error));
+        }
+    }
+
+//////////////////////////////////////////////////////////////////////////////
+// Function to update a friend request's status
+function updateFriendRequest(requestId, status) {
+    fetch('/update_friend_request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ request_id: requestId, status: status }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        // 可能需要重新获取并展示最新的好友请求列表
+        fetchFriendRequests();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update friend request.');
+    });
+}
+
+function fetchFriendRequests() {
+    let currentUsername = "{{ username }}"; // 从服务器端渲染的变量或从其他方式获取当前用户名
+
+    fetch(`/get_friend_requests?username=${currentUsername}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch friend requests');
+        }
+        return response.json();
+    })
+    .then(friendRequests => {
+        // 获取好友请求列表的容器元素
+        const friendRequestsList = document.getElementById('friend_requests');
+        // 清空当前的列表内容
+        friendRequestsList.innerHTML = '';
+
+        // 遍历所有好友请求并添加到列表中
+        friendRequests.forEach(request => {
+            // 创建一个新的列表项
+            const listItem = document.createElement('li');
+            listItem.textContent = `From: ${request.sender}`;
+
+            // 创建接受和拒绝按钮
+            const acceptButton = document.createElement('button');
+            acceptButton.textContent = 'Accept';
+            acceptButton.onclick = function() {
+                updateFriendRequest(request.id, 'approved');
+            };
+            const rejectButton = document.createElement('button');
+            rejectButton.textContent = 'Reject';
+            rejectButton.onclick = function() {
+                updateFriendRequest(request.id, 'rejected');
+            };
+
+            // 将按钮添加到列表项中
+            listItem.appendChild(acceptButton);
+            listItem.appendChild(rejectButton);
+
+            // 将列表项添加到列表中
+            friendRequestsList.appendChild(listItem);
+        });
+    })
+    .catch(error => console.error('Error fetching friend requests:', error));
+}
+
+
+// 页面加载完成时获取好友请求列表
+document.addEventListener('DOMContentLoaded', fetchFriendRequests);
+
+function fetchFriends() {
+    // 从body元素的data-username属性读取当前用户名
+    let currentUsername = document.body.getAttribute('data-username');
+
+    fetch(`/get_friends?username=${currentUsername}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch friends');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const friendList = document.getElementById('friend_list');
+        friendList.innerHTML = ''; // 清空现有的好友列表
+
+        // 遍历返回的好友数据，为每个好友创建一个列表项
+        data.forEach(friend => {
+            const li = document.createElement('li');
+            li.textContent = friend.name; // 假设每个好友对象都有一个'name'属性
+            friendList.appendChild(li);
+        });
+    })
+    .catch(error => console.error('Error fetching friends:', error));
+}
+
+// 页面加载完成时获取好友列表
+document.addEventListener('DOMContentLoaded', fetchFriends);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 </script>
 {% endblock %}
