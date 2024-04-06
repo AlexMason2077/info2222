@@ -18,6 +18,8 @@ import db
 
 room = Room()
 
+
+
 # when the client connects to a socket
 # this event is emitted when the io() function is called in JS
 @socketio.on('connect')
@@ -29,6 +31,8 @@ def connect():
     # socket automatically leaves a room on client disconnect
     # so on client connect, the room needs to be rejoined
     join_room(int(room_id))
+
+
     emit("incoming", (f"{username} has connected", "green"), to=int(room_id))
 
 # event when client disconnects
@@ -39,6 +43,7 @@ def disconnect():
     room_id = request.cookies.get("room_id")
     if room_id is None or username is None:
         return
+
     emit("incoming", (f"{username} has disconnected", "red"), to=int(room_id))
 
 # send message event handler
@@ -47,7 +52,6 @@ def send(username, message, room_id):
     emit("incoming", (f"{username}: {message}"), to=room_id)
     db.insert_message(room_id, username, message)
     
-
     
 # join room event handler
 # sent when the user joins a room
@@ -62,6 +66,13 @@ def join(sender_name, receiver_name):
     if sender is None:
         return "Unknown sender!"
 
+    # Check if they are friends!
+    users = db.get_friends_for_user(sender_name)
+    usernames = [user['username'] for user in users]  # 使用列表推导式提取所有 'username' 的值
+
+    if not (receiver_name in usernames):
+        return f"{receiver_name} is not your friend, please send a request"
+
     room_id_current = room.get_room_id(receiver_name)
 
     # print History messages when someone entered a room
@@ -69,7 +80,7 @@ def join(sender_name, receiver_name):
     print(room_id_stored)
     if room_id_stored:
         for e in db.get_messages_by_room_id(room_id_stored):
-            emit("incoming", (f"{e[0]}: {e[1]}.", "yellow"))
+            emit("incoming", (f"{e[0]}: {e[1]}.", "brown"))
 
     if room_id_current is not None:
         room.join_room(sender_name, room_id_current)
@@ -87,6 +98,7 @@ def join(sender_name, receiver_name):
     # or is simply a new user looking to chat with someone
 
     # it will not create if the room exists
+
     room_id_current = room.create_room(sender_name, receiver_name)
 
     join_room(room_id_current)
