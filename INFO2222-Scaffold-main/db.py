@@ -7,6 +7,7 @@ from sqlalchemy import create_engine, MetaData, or_, Table
 from sqlalchemy.orm import Session
 from models import *  
 from pathlib import Path
+from sqlalchemy.exc import SQLAlchemyError
 
 
 # creates the database directory
@@ -290,57 +291,80 @@ def print_table_names():
 
 def update_friend_request_status(request_id: int, new_status: str):
     with Session(engine) as session:
-        # 根据ID找到好友请求记录
-        friend_request = session.query(FriendRequest).filter(FriendRequest.id == request_id).first()
-        if friend_request:
+        try:
+            # 根据ID找到好友请求记录
+            friend_request = session.query(FriendRequest).filter(FriendRequest.id == request_id).first()
+            if not friend_request:
+                return False, "Friend request not found."
+
             # 更新状态
             friend_request.status = new_status
-            # 提交更改到数据库
+            if new_status == "approved":
+                # 检查是否已存在好友关系
+                exists = session.query(Friendship).filter_by(user_username=friend_request.sender_id, friend_username=friend_request.receiver_id).first()
+                if not exists:
+                    new_friendship1 = Friendship(user_username=friend_request.sender_id, friend_username=friend_request.receiver_id)
+                    new_friendship2 = Friendship(user_username=friend_request.receiver_id, friend_username=friend_request.sender_id)
+                    session.add(new_friendship1)
+                    session.add(new_friendship2)
+                    print(f"We are friends!!!!!!!: {new_friendship1.user_username} <--> {new_friendship2.user_username}")
+            
             session.commit()
-            return True
-        else:
-            # 如果找不到记录，返回False
-            return False
+            return True, "Friend request status updated successfully."
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error updating friend request status: {e}")
+            return False, "Error occurred during the update."
+
+# def approve_friend_request(request_id: int):
+#     with Session(engine) as session:
+#         # 找到对应的好友请求
+#         friend_request = session.query(FriendRequest).filter_by(id=request_id).first()
+#         print(f"found friend_request: {friend_request}")
+    
+#         new_friendship1 = Friendship(user_username=friend_request.sender_id, friend_username=friend_request.receiver_id)
+#         new_friendship2 = Friendship(user_username=friend_request.receiver_id, friend_username=friend_request.sender_id)
+#         session.add(new_friendship1)
+#         session.add(new_friendship2)
+#         session.commit()
+#         print(f"We are friends!!!!!!!: {new_friendship1.user_username} <--> {new_friendship2.user_username}")
 
 
 def get_friends_for_user(username: str):
     with Session(engine) as session:
-        # 查询当前用户作为发起方的好友关系
-        friendships_initiated = session.query(Friendship.friend_username).filter(
-            Friendship.user_username == username
-        ).all()
-        # 查询当前用户作为接收方的好友关系
-        friendships_received = session.query(Friendship.user_username).filter(
-            Friendship.friend_username == username
+        # 查询当前用户的好友关系
+        friendships = session.query(Friendship).filter(
+            (Friendship.user_username == username)
         ).all()
 
-        # 合并列表并提取用户名
-        friends_usernames = {username for username, in friendships_initiated + friendships_received}
+        # 提取好友用户名
+        friends_usernames = [friendship.friend_username for friendship in friendships]
 
         # （可选）获取好友的详细信息，例如用户名和名字
         friends = []
         for friend_username in friends_usernames:
             friend = session.query(User).filter(User.username == friend_username).first()
             if friend:
-                friends.append({"username": friend.username, "name": getattr(friend, 'name', 'No name')})
+                friends.append({"username": friend.username})
         
         return friends
 
 
-# def print_all_friends():
-#     with Session(engine) as session:
-#         # 获取所有用户
-#         users = session.query(User).all()
 
-#         # 对于每个用户，打印他们的好友列表
-#         for user in users:
-#             print(f"User {user.username}'s friends:")
-#             # 调用 get_friends_for_user 函数获取好友列表
-#             friends = get_friends_for_user(user.username)
-#             # print(friends)
-#             # if friends:
-#             #     for friend in friends:
-#             #         print(f"  - {friend['username']} ({friend.get('name', 'No name')})")
-#             # else:
-#             #     print("  - No friends")
-#             # print("\n")
+def print_all_friends():
+    with Session(engine) as session:
+        # 获取所有用户
+        users = session.query(User).all()
+
+        # 对于每个用户，打印他们的好友列表
+        for user in users:
+            print(f"User {user.username}'s friends:")
+            # 调用 get_friends_for_user 函数获取好友列表
+            friends = get_friends_for_user(user.username)
+            print(friends)
+            if friends:
+                for friend in friends:
+                    print(f"  - {friend['username']} ")
+            else:
+                print("  - No friends")
+            print("\n")

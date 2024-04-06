@@ -290,12 +290,13 @@ function fetchFriendRequests() {
 }
 
 
+
 // 页面加载完成时获取好友请求列表
 document.addEventListener('DOMContentLoaded', fetchFriendRequests);
 
 function fetchFriends() {
     // 从body元素的data-username属性读取当前用户名
-    let currentUsername = document.body.getAttribute('data-username');
+    let currentUsername = "{{ username }}";
 
     fetch(`/get_friends?username=${currentUsername}`)
     .then(response => {
@@ -311,7 +312,7 @@ function fetchFriends() {
         // 遍历返回的好友数据，为每个好友创建一个列表项
         data.forEach(friend => {
             const li = document.createElement('li');
-            li.textContent = friend.name; // 假设每个好友对象都有一个'name'属性
+            li.textContent = friend['username']; // 假设每个好友对象都有一个'name'属性
             friendList.appendChild(li);
         });
     })
