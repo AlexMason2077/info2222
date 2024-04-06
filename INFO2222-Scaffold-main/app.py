@@ -146,9 +146,9 @@ def get_friends():
     return jsonify(friends)
 
 
-
 if __name__ == '__main__':
-    db.print_all_friend_requests()
+    #db.view_tables()
+    #db.print_all_friend_requests()
     #db.print_all_friends()
     #db.get_all_messages()
     #db.print_table_names()

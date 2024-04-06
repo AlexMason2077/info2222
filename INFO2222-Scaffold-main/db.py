@@ -3,12 +3,11 @@ db
 database file, containing all the logic to interface with the sql database
 '''
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData, or_, Table
 from sqlalchemy.orm import Session
-from models import *
-from sqlalchemy import Table
+from models import *  
 from pathlib import Path
-from sqlalchemy import or_
+
 
 # creates the database directory
 Path("database") \
@@ -160,10 +159,36 @@ def drop_room_info_table():
     with engine.begin() as connection:
         # 直接删除RoomInfo表
         RoomInfo.__table__.drop(bind=engine, checkfirst=True)
-        print("RoomInfo table has been dropped.")
+        print("RoomInfo tabSle has been dropped.")
+
+def view_tables():
+    # 数据库连接字符串
+    database_url = "sqlite:///database/main.db"
+
+    # 创建数据库引擎
+    engine = create_engine(database_url)
+
+    # 创建元数据对象
+    metadata = MetaData()
+
+    # 使用反射加载所有表的信息
+    metadata.reflect(bind=engine)
+
+    # 遍历所有表，打印出表名和每列的名字及类型
+    for table_name in metadata.tables:
+        print(f"Table: {table_name}")
+        # 获取表对象
+        table = metadata.tables[table_name]
+        # 打印列信息
+        for column in table.c:
+            print(f"  Column: {column.name}, Type: {column.type}")
+        print("")  # 空行，用于分隔不同的表
+
+
 ##############################################################################
 # friend request
 ##############################################################################
+
 def send_friend_request(sender_username: str, receiver_username: str):
     print(f"sender:{sender_username}")
     print(f"receiver:{receiver_username}")
@@ -276,6 +301,8 @@ def update_friend_request_status(request_id: int, new_status: str):
         else:
             # 如果找不到记录，返回False
             return False
+
+
 def get_friends_for_user(username: str):
     with Session(engine) as session:
         # 查询当前用户作为发起方的好友关系
@@ -309,7 +336,7 @@ def get_friends_for_user(username: str):
 #         for user in users:
 #             print(f"User {user.username}'s friends:")
 #             # 调用 get_friends_for_user 函数获取好友列表
-#             friends = db.get_friends_for_user(user.username)
+#             friends = get_friends_for_user(user.username)
 #             # print(friends)
 #             # if friends:
 #             #     for friend in friends:
