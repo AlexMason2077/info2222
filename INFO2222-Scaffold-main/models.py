@@ -14,7 +14,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from typing import Dict
 from enum import Enum as PyEnum
-#import db
+import db
 
 # data models
 class Base(DeclarativeBase):
@@ -112,4 +112,3 @@ class Friendship(Base):
     __tablename__ = 'friendship'
     user_username = Column(String,primary_key=True)
     friend_username = Column(String,primary_key=True)
-    
