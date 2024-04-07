@@ -148,13 +148,14 @@ def get_friends():
 
 if __name__ == '__main__':
     #db.view_tables()
-    db.print_all_friend_requests()
+    #db.print_all_friend_requests()
     #db.approve_friend_request(2)
-    db.print_all_friends()
+    #db.print_all_friends()
     #db.get_all_messages()
     #db.print_table_names()
-    socketio.run(app, host='0.0.0.0', port=8999, debug=True)
-
+    #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/hellfish.test.crt', './certs/hellfish.test.key'))
+    #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/myCA.pem', './certs/myCA.key'))
+    socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/server.crt', './certs/server.key'))
     # db.drop_room_info_table()
     # db.get_all_messages()
     # print(db.get_messages_by_room_id(4))
