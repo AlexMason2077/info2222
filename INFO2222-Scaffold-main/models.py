@@ -31,7 +31,8 @@ class User(Base):
     # then accessing john.username -> will give me some data of type string
     # in other words we've mapped the username Python object property to an SQL column of type String 
     username: Mapped[str] = mapped_column(String, primary_key=True)
-    password: Mapped[str] = mapped_column(String)
+    salt: Mapped[str] = mapped_column(String)  # salt
+    password: Mapped[str] = mapped_column(String) # hash(passwd) 
     
 
 # stateful counter used to generate the room id

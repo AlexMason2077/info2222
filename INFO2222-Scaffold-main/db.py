@@ -9,6 +9,8 @@ from models import *
 from pathlib import Path
 from sqlalchemy.exc import SQLAlchemyError
 
+# for hash and salt
+from bcrypt import gensalt, hashpw, checkpw
 
 # creates the database directory
 Path("database") \
@@ -25,7 +27,12 @@ Base.metadata.create_all(engine)
 # inserts a user to the database
 def insert_user(username: str, password: str):
     with Session(engine) as session:
-        user = User(username=username, password=password)
+
+        salt = gensalt()
+        hashed_password = hashpw(password.encode('utf-8'), salt)
+
+        user = User(username=username, password=hashed_password,salt=salt)
+
         session.add(user)
         session.commit()
 
@@ -130,19 +137,30 @@ def get_messages_by_room_id(room_id: int) -> list:
 # 下面是支持函数
 #################################################################################
 
+def drop_all_tables(database_url: str):
+    # 创建数据库引擎
+    engine = create_engine(database_url)
 
-# deletes a user from the database by username
-def delete_user(username: str):
+    # 创建元数据对象
+    metadata = MetaData()
+
+    # 反射数据库中的所有表
+    metadata.reflect(bind=engine)
+
+    # 删除所有表
+    metadata.drop_all(engine)
+
+    print("所有表已成功删除。")
+
+def print_all_users():
     with Session(engine) as session:
-        # Query the user by username
-        user = session.query(User).filter_by(username=username).first()
-        if user:
-            # If user exists, delete it
-            session.delete(user)
-            session.commit()
-            return True  # Indicate the user was found and deleted
-        else:
-            return False  # Indicate no user was found with that username
+        # 查询User表中的所有记录
+        users = session.query(User).all()
+
+        # 遍历每个用户对象，并打印其详细信息
+        for user in users:
+            print(f"Username: {user.username}, , Salt: {user.salt}, Password: {user.password}")
+
 
 def get_all_room_info():
     with Session(engine) as session:
@@ -368,3 +386,4 @@ def print_all_friends():
             else:
                 print("  - No friends")
             print("\n")
+
