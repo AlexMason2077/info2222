@@ -71,7 +71,7 @@ def join(sender_name, receiver_name):
     usernames = [user['username'] for user in users]  # 使用列表推导式提取所有 'username' 的值
 
     if not (receiver_name in usernames):
-        return f"{receiver_name} is not your friend, please send a request"
+        return f"{receiver_name} is not your friend, please send a request🥰"
 
     room_id_current = room.get_room_id(receiver_name)
 
@@ -80,7 +80,7 @@ def join(sender_name, receiver_name):
     print(room_id_stored)
     if room_id_stored:
         for e in db.get_messages_by_room_id(room_id_stored):
-            emit("incoming", (f"{e[0]}: {e[1]}.", "brown"))
+            emit("incoming", (f"{e[0]}: {e[1]}", "brown"))
 
     if room_id_current is not None:
         room.join_room(sender_name, room_id_current)
