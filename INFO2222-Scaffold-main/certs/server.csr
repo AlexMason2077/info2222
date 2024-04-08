@@ -1,18 +1,66 @@
+Certificate Request:
+    Data:
+        Version: 1 (0x0)
+        Subject: C = AU, ST = NSW, L = SYD, O = USYD, OU = INFO2222, emailAddress = donfpv439@gmail.com, CN = project
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:96:af:1a:bc:b5:a1:f1:21:05:7c:72:f4:e1:09:
+                    94:3b:1e:77:6d:50:ff:e5:31:b6:62:86:22:8a:b8:
+                    59:c3:92:48:d2:0e:f2:48:f1:05:7d:51:db:8a:75:
+                    97:24:5f:c2:87:75:6c:d2:c0:dd:c6:63:2c:9e:a8:
+                    a0:3a:d7:68:c1:63:0f:d8:a6:a0:a6:76:1c:d7:e9:
+                    ed:d7:40:59:f0:ab:3e:ac:13:41:ee:91:62:f7:c3:
+                    84:28:fb:33:68:79:68:3d:49:1f:32:43:22:03:69:
+                    bf:4d:f3:71:ac:ff:5d:d2:a6:bf:46:cd:7c:df:c8:
+                    27:e1:1c:4b:71:bf:15:40:d9:e5:e8:b8:fb:2a:4d:
+                    6a:3f:a2:c5:f0:57:9d:ab:b2:4e:a3:19:5d:a0:2e:
+                    9f:a3:fc:63:4f:8b:18:d5:a6:62:1d:b2:3f:ab:b7:
+                    c9:72:cd:24:48:21:fe:a6:8e:38:6d:47:cc:4e:fc:
+                    c1:93:65:ef:71:1d:7c:73:cd:81:f4:b8:b1:65:80:
+                    d2:3c:df:19:9d:61:34:0e:db:79:49:ee:11:a5:af:
+                    33:6d:e8:8d:4a:62:6f:49:30:4b:5a:74:63:9f:03:
+                    e5:f6:0b:ff:6d:09:f7:b2:8c:ad:f2:b0:c2:b4:fd:
+                    5e:e7:cb:ab:d0:81:1c:12:d1:66:fb:b7:f8:f8:7b:
+                    1a:c7
+                Exponent: 65537 (0x10001)
+        Attributes:
+            Requested Extensions:
+                X509v3 Subject Alternative Name: 
+                    DNS:localhost, IP Address:127.0.0.1
+    Signature Algorithm: sha256WithRSAEncryption
+    Signature Value:
+        2c:e1:a1:bb:59:5f:7d:23:c5:93:9a:c7:cb:cd:19:a7:9c:2f:
+        27:ca:0b:e9:83:d0:e7:66:7b:96:8d:77:33:9c:be:d4:e2:1f:
+        ee:0b:a5:c3:2c:67:98:d0:9a:f7:ba:c1:f6:f3:48:89:2f:6c:
+        21:3e:7e:5b:f9:95:cd:69:f0:4b:f2:98:9c:3f:9a:3d:12:18:
+        0c:c4:00:59:0d:dd:74:f7:56:32:04:1e:58:6d:da:8c:0c:a2:
+        c0:9c:a1:5b:07:be:68:b8:9d:59:06:60:de:60:0b:47:59:a7:
+        c1:6d:e6:3f:13:83:7e:dc:e4:ea:25:02:c4:4c:88:b9:cd:a4:
+        7f:0b:a8:64:4c:69:bb:6a:17:65:02:ef:68:a2:00:c4:1c:c1:
+        ed:97:f6:df:01:68:a6:3a:c7:39:50:db:db:26:13:03:c5:d9:
+        fb:99:70:af:35:7d:38:e9:56:1f:66:c3:bd:c5:9e:09:1a:dc:
+        bf:57:54:62:e9:70:3d:d0:42:34:aa:97:1d:c7:d5:bb:d4:46:
+        70:b4:84:bd:cf:6e:03:26:20:97:4a:0e:39:d9:e6:36:0a:43:
+        70:03:9c:80:51:9d:65:bb:f9:91:62:f9:84:81:c8:61:3b:75:
+        d2:d8:40:ac:16:13:86:e6:81:e1:34:9c:14:c2:58:19:7e:37:
+        c3:fb:a7:60
 -----BEGIN CERTIFICATE REQUEST-----
 MIIC9DCCAdwCAQAwgYExCzAJBgNVBAYTAkFVMQwwCgYDVQQIDANOU1cxDDAKBgNV
 BAcMA1NZRDENMAsGA1UECgwEVVNZRDERMA8GA1UECwwISU5GTzIyMjIxIjAgBgkq
 hkiG9w0BCQEWE2RvbmZwdjQzOUBnbWFpbC5jb20xEDAOBgNVBAMMB3Byb2plY3Qw
-ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCqmtPPM3I7qyBNS5nLytGD
-bOukXVYCrkIe7soqoXIVQMJIXthWBsnM4VwZa1tsabWzq2RPyuHmdItN/ppLahqU
-gT8SQ6l08NGpJ1vNKXafM323WxTTEA2EU1H5MJyLw/KRYu27IxuJNQFG6NrKn8tF
-kgZ2XRXR/07ELjcE6tH4KX0mid+s8f+rnaX55rJrctWOkLXeA1TL2ogd+u45NCda
-SwdOrjtpecVbjbKQmQIs8NqyXiuZLiIscDyypawZgY+bc3K3VIz3QyiXT4OaX2cF
-2XcGUTFtvRtKKnh3haR/vtAcXOR2kaAe96fWI+jnQ1sPo9WuZa4vhbPT7I3QTnIV
+ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCWrxq8taHxIQV8cvThCZQ7
+HndtUP/lMbZihiKKuFnDkkjSDvJI8QV9UduKdZckX8KHdWzSwN3GYyyeqKA612jB
+Yw/YpqCmdhzX6e3XQFnwqz6sE0HukWL3w4Qo+zNoeWg9SR8yQyIDab9N83Gs/13S
+pr9GzXzfyCfhHEtxvxVA2eXouPsqTWo/osXwV52rsk6jGV2gLp+j/GNPixjVpmId
+sj+rt8lyzSRIIf6mjjhtR8xO/MGTZe9xHXxzzYH0uLFlgNI83xmdYTQO23lJ7hGl
+rzNt6I1KYm9JMEtadGOfA+X2C/9tCfeyjK3ysMK0/V7ny6vQgRwS0Wb7t/j4exrH
 AgMBAAGgLTArBgkqhkiG9w0BCQ4xHjAcMBoGA1UdEQQTMBGCCWxvY2FsaG9zdIcE
-fwAAATANBgkqhkiG9w0BAQsFAAOCAQEAIil70fWuoHWp2PbkeM6wAdk5A/GcxWaY
-2J4wNYeYBJiMUbvPAPuHaneDKkgy6hZMnsfgmm+V8tswIJrg8USEopRF/BjqlNIF
-eX68F3mnfBM7LSpmYEMX/rbd8rGo3CsP+wN8YgrJtcWUk0qZvVO+vnc/NNS1uMFs
-QSZN+Jni/i/xUPdqipQC2nFSOTwY5amPdj6Cwcch8WGLHjgRHm4C/Z91joz9vI5u
-igTf3nbpSEqgBj6rgfrAxxK6YQRYIuGmkrTbDMJcvLGMbfYJmKSa4nTn2c49e1DK
-VNqjodJMimg5GNZaj//J1HIUq9+5Z9sb20OComNszbZqr+a4yizjjg==
+fwAAATANBgkqhkiG9w0BAQsFAAOCAQEALOGhu1lffSPFk5rHy80Zp5wvJ8oL6YPQ
+52Z7lo13M5y+1OIf7gulwyxnmNCa97rB9vNIiS9sIT5+W/mVzWnwS/KYnD+aPRIY
+DMQAWQ3ddPdWMgQeWG3ajAyiwJyhWwe+aLidWQZg3mALR1mnwW3mPxODftzk6iUC
+xEyIuc2kfwuoZExpu2oXZQLvaKIAxBzB7Zf23wFopjrHOVDb2yYTA8XZ+5lwrzV9
+OOlWH2bDvcWeCRrcv1dUYulwPdBCNKqXHcfVu9RGcLSEvc9uAyYgl0oOOdnmNgpD
+cAOcgFGdZbv5kWL5hIHIYTt10thArBYThuaB4TScFMJYGX43w/unYA==
 -----END CERTIFICATE REQUEST-----

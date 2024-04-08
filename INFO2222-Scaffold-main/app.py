@@ -156,6 +156,7 @@ if __name__ == '__main__':
     #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/hellfish.test.crt', './certs/hellfish.test.key'))
     #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/myCA.pem', './certs/myCA.key'))
     socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/server.crt', './certs/server.key'))
+    #socketio.run(app, host='0.0.0.0', port=8999, debug=True)
     # db.drop_room_info_table()
     # db.get_all_messages()
     # print(db.get_messages_by_room_id(4))
