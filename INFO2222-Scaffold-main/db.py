@@ -27,7 +27,6 @@ Base.metadata.create_all(engine)
 # inserts a user to the database
 def insert_user(username: str, password: str):
     with Session(engine) as session:
-
         salt = gensalt()
         hashed_password = hashpw(password.encode('utf-8'), salt)
 
@@ -156,7 +155,6 @@ def print_all_users():
     with Session(engine) as session:
         # 查询User表中的所有记录
         users = session.query(User).all()
-
         # 遍历每个用户对象，并打印其详细信息
         for user in users:
             print(f"Username: {user.username}, , Salt: {user.salt}, Password: {user.password}")

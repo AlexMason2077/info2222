@@ -8,6 +8,7 @@ from flask import Flask, jsonify, render_template, request, abort, url_for
 from flask_socketio import SocketIO
 import db
 import secrets
+from bcrypt import gensalt, hashpw, checkpw
 
 # import logging
 
@@ -44,10 +45,11 @@ def login_user():
     password = request.json.get("password")
 
     user =  db.get_user(username)
+
     if user is None:
         return "Error: User does not exist!"
 
-    if user.password != password:
+    if not checkpw(password.encode('utf-8'), user.password):
         return "Error: Password does not match!"
 
     return url_for('home', username=request.json.get("username"))
@@ -156,8 +158,8 @@ if __name__ == '__main__':
     #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/hellfish.test.crt', './certs/hellfish.test.key'))
     #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/myCA.pem', './certs/myCA.key'))
     #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/server.crt', './certs/server.key'))
-    # socketio.run(app, host='0.0.0.0', port=8999, debug=True)
+    socketio.run(app, host='0.0.0.0', port=8999, debug=True)
 
     # db.drop_all_tables("sqlite:///database/main.db")
-    db.print_all_users()
+    # db.print_all_users()
     # print(db.get_messages_by_room_id(4))
