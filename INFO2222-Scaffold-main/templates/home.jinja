@@ -101,7 +101,7 @@
 <script src="/static/js/libs/socket.io.min.js"></script>
 <script>
     let room_id = 0;
-    var current_receiver_public_key = null;
+    let current_receiver_public_key = null;
 
     // when the user presses the "Enter" key inside of the "message box", 
     // the message is sent to the server
@@ -144,9 +144,62 @@
     const socket = io();
 
     // an incoming message arrives, we'll add the message to the message box
-    socket.on("incoming", (msg, color="black") => {
-        add_message(msg, color);
-    })
+    socket.on("incoming", (data) => {
+        var privateKeyHex = localStorage.getItem(username); // 假设私钥以这种方式存储
+        
+        const {content, type, color = "black"} = data;
+
+        let displayColor;
+        switch (type) {
+            case "text":
+                try{
+                    displayColor = color; 
+                    var sharedKeyHex = computeSharedKeyFromHex(privateKeyHex,current_receiver_public_key);
+                    // console.log("[DEBUG] The content: ",content);
+                    // console.log("[DEBUG] Shared key ",sharedKeyHex);
+
+                    // 正则表达式模式
+                    const pattern = /(\w+):\s(.+?)(?=\s\w+:|$)/g;
+
+                    // 匹配字符串并提取用户名和文本内容
+                    let match;
+                    while ((match = pattern.exec(content)) !== null) {
+                          // match[1] 匹配的用户名，ma2tch[2] 匹配的文本内容
+                          const username_message = match[1];
+                          const text = match[2];
+                          console.log("User who sent this message:", username_message);
+                          console.log("Text:", text);
+                          
+                        const decryptedMessage = decryptMessage(text, sharedKeyHex);
+
+                        console.log("[DEBUG] Decrypted message: ",decryptedMessage);
+
+                        const { message, signature } = JSON.parse(decryptedMessage);
+
+                        if (! (username === username_message)) {
+                            if (!verifySignature(message, signature, current_receiver_public_key)) {
+                                console.error("Failed to pass digital signature");
+                            }else{
+                                console.log("[DEBUG] Digital signature passed");
+                            }
+                        }
+                        add_message(username_message + ": " + message, displayColor);
+                    }
+                }catch (error){
+                    console.error('[DEBUG] Error decrypting or verifying message:', error);
+                    return; // 中断执行
+                }
+                break;
+            case "system":
+                displayColor = color; // 系统消息使用红色
+                add_message(content, displayColor);
+                break;
+
+            default:
+                displayColor = "gray"; // 未知类型的消息使用灰色
+        }
+        
+    });
 
     //===========================================================================
     const ec = new elliptic.ec('p256');
@@ -158,6 +211,7 @@
      * @param {String} publicKeyHex 另一用户的公钥（十六进制字符串）
      * @returns {String} 共享密钥的十六进制字符串
      */
+
     function computeSharedKeyFromHex(privateKeyHex, publicKeyHex) {
         // 将当前用户的私钥从十六进制字符串转换为密钥对
         const ownKeyPair = ec.keyFromPrivate(privateKeyHex, 'hex');
@@ -170,45 +224,106 @@
         const sharedKey = ownKeyPair.derive(otherPublicKey).toString(16);
         
         // 打印共享密钥
-        console.log('Shared Key:', sharedKey);
+        console.log('[DEBUG]: Shared Key:', sharedKey);
     
     return sharedKey;
     }
 
     //===========================================================================
 
-    
-    // we'll send the message to the server by emitting a "send" event
-    function send() {
-        let message = $("#message").val();
-        var privateKeyHex = localStorage.getItem(username);
-        console.log(privateKeyHex);
+    function hexStringToArrayBuffer(hexString) {
+        const result = new Uint8Array(hexString.length / 2);
+        for (let i = 0; i < hexString.length; i += 2) {
+            result[i / 2] = parseInt(hexString.substring(i, i + 2), 16);
+        }
+        return result.buffer;
+    }
 
-        // 假设你需要对消息进行加密（这里省略了加密逻辑）
-        // let encryptedMessage = encryptMessage(message, sharedSecret);
+    function encryptMessage(message, sharedKeyHex) {
+        // 将共享密钥从十六进制字符串转换为WordArray，crypto-js需要这种格式
+        const key = CryptoJS.enc.Hex.parse(sharedKeyHex);
+        
+        // 加密消息
+        const encrypted = CryptoJS.AES.encrypt(message, key, {
+            mode: CryptoJS.mode.ECB, // 这里使用ECB模式，但推荐在可能的情况下使用更安全的模式
+            padding: CryptoJS.pad.Pkcs7
+        });
+        
+        // 返回密文的字符串表示
+        return encrypted.toString();
+    }
+
+    function decryptMessage(encryptedMessage, sharedKeyHex) {
+        const key = CryptoJS.enc.Hex.parse(sharedKeyHex);
+        
+        // 解密消息
+        const decrypted = CryptoJS.AES.decrypt(encryptedMessage, key, {
+            mode: CryptoJS.mode.ECB, // 这里使用ECB模式，但推荐在可能的情况下使用更安全的模式
+            padding: CryptoJS.pad.Pkcs7
+        });
+        
+        // 返回解密后的原始消息
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    }
+
+    // 签名消息
+    function signMessage(message, privateKey) {
+        const key = ec.keyFromPrivate(privateKey, 'hex');
+        const msgHash = CryptoJS.SHA256(message).toString();
+        const signature = key.sign(msgHash, 'hex');
+        return signature.toDER('hex');
+    }
+
+    // 验证签名
+    function verifySignature(message, signature, publicKey) {
+        const key = ec.keyFromPublic(publicKey, 'hex');
+        const msgHash = CryptoJS.SHA256(message).toString();
+        return key.verify(msgHash, signature);
+    }
+
+        
+    // we'll send the message to the server by emitting a "send" event
+    async function send() {
+        let message = $("#message").val();
+        var privateKeyHex = localStorage.getItem(username); // 假设私钥以这种方式存储
+
+        console.log('[DEBUG]: local stored private key', privateKeyHex, 'USER: ', username);
+
         if (!privateKeyHex) {
-            console.error('Missing private key');
+            console.error('[DEBUG] Missing private key');
             return; // 中断执行
         }
 
         if (!current_receiver_public_key) {
-            console.error('Missing public key');
+            console.error('[DEBUG] Missing public key');
             return; // 中断执行
         }
 
+        let encryptedMessage; // 在try块之外声明，以便在之后使用
         try {
-            const sharedKey = computeSharedKeyFromHex(privateKeyHex, current_receiver_public_key);
-            // 使用共享密钥进行后续操作...
+            // 生成数字签名
+            const signature = signMessage(message, privateKeyHex); // 假设你已经实现了signMessage函数
+
+            // 附加签名到消息
+            const messageWithSignature = JSON.stringify({ message: message, signature: signature });
+
+            // 计算共享密钥
+            const sharedKeyHex = computeSharedKeyFromHex(privateKeyHex, current_receiver_public_key);
+
+            // 加密消息和签名
+            encryptedMessage = encryptMessage(messageWithSignature, sharedKeyHex); 
+            console.log("[DEBUG] Encrypted message with signature:", encryptedMessage);
+
+
         } catch (error) {
-            console.error('Error computing shared key:', error);
+            console.error('Error computing shared key, signing, or encrypting message:', error);
             return; // 中断执行
         }
-
 
         $("#message").val("");
-        // 这里应该发送加密的消息，假设你已经加密了它
-        socket.emit("send", username, message, room_id); 
+        socket.emit("send", username, encryptedMessage, room_id); // 发送加密后的消息和签名
     }
+
 
     function getPublicKey(username) {
         axios.post('/getPublicKey', {
@@ -217,14 +332,14 @@
         .then(function (response) {
             // 假设后端总是返回JSON对象，并在成功时包含public_key字段
             if (response.data.public_key) {
-                console.log('Success:', response.data.public_key);
+                console.log('[DEBUG]: Get Receiver ', username,' public key: ',response.data.public_key);
                 current_receiver_public_key = response.data.public_key;
             } else if (response.data.error) {
                 // 后端返回了一个错误消息
-                console.error('Error:', response.data.error);
+                console.error('[DEBUG]: Error:', response.data.error);
             } else {
                 // 后端返回的响应格式不符合预期
-                console.error('Unexpected response format:', response.data);
+                console.error('[DEBUG]: Unexpected response format:', response.data);
             }
         })
         .catch(function (error) {
@@ -242,7 +357,6 @@
             }
         });
     }
-
 
 
     // we emit a join room event to the server to join a room

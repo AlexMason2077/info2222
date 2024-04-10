@@ -33,7 +33,7 @@ def connect():
     join_room(int(room_id))
 
 
-    emit("incoming", (f"{username} has connected", "green"), to=int(room_id))
+    emit("incoming", {"content": f"{username} has connected", "color": "green", "type": "system"}, to=int(room_id))
 
 # event when client disconnects
 # quite unreliable use sparingly
@@ -44,18 +44,22 @@ def disconnect():
     if room_id is None or username is None:
         return
 
-    emit("incoming", (f"{username} has disconnected", "red"), to=int(room_id))
+    emit("incoming", {"content": f"{username} has disconnected", "color": "red", "type": "system"}, to=int(room_id))
+
 
 # send message event handler
 @socketio.on("send")
 def send(username, message, room_id):
-    emit("incoming", (f"{username}: {message}"), to=room_id)
-
-
-    #
+    # 假设所有通过这个函数发送的消息默认为"text"类型，除非指定了其他类型
+    emit("incoming", {
+        "content": f"{username}: {message}", 
+        "color": "black", 
+        "type": "text"
+    }, to=room_id)
     
+    # 在数据库插入消息时包含消息类型
     db.insert_message(room_id, username, message)
-    
+
     
 # join room event handler
 # sent when the user joins a room
@@ -90,10 +94,10 @@ def join(sender_name, receiver_name):
         room.join_room(sender_name, room_id_current)
         join_room(room_id_current)
         # emit to everyone in the room except the sender
-        emit("incoming", (f"{sender_name} has joined the room.", "green"), to=room_id_current, include_self=False)
+        emit("incoming", {"content": f"{sender_name} has joined the room.", "color": "green", "type": "system"}, to=room_id_current, include_self=False)
         
         # emit only to the sender
-        emit("incoming", (f"{sender_name} has joined the room. Now talking to {receiver_name}.", "green"))
+        emit("incoming", {"content": f"{sender_name} has joined the room. Now talking to {receiver_name}.", "color": "green", "type": "system"})
         return room_id_current
 
 
@@ -113,6 +117,6 @@ def join(sender_name, receiver_name):
 # leave room event handler
 @socketio.on("leave")
 def leave(username, room_id):
-    emit("incoming", (f"{username} has left the room.", "red"), to=room_id)
+    emit("incoming", {"content": f"{username} has left the room.", "color": "red", "type": "system"}, to=room_id)
     leave_room(room_id)
     room.leave_room(username)

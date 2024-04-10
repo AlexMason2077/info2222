@@ -132,31 +132,23 @@ def get_messages_by_room_id(room_id: int) -> list:
 
 def insert_public_key(username: str, public_key: str):
     with Session(engine) as session:
-        # 尝试查询现有的公钥记录
-        existing_key = session.query(PublicKeys).filter(PublicKeys.user_name == username).first()
+        # 创建一个Message实例
+        PublicKey = PublicKeys(user_name = username, public_key = public_key)
         
-        if existing_key:
-            # 如果存在，更新公钥
-            existing_key.public_key = public_key
-            action = "updated"
-        else:
-            # 如果不存在，创建新实例并添加到session
-            PublicKey = PublicKeys(user_name=username, public_key=public_key)
-            session.add(PublicKey)
-            action = "added"
+        # 添加这个实例到session
+        session.add(PublicKey)
         
         # 提交session到数据库
         try:
             session.commit()
-            print(f"[DEBUG]: PublicKey {action}: {username}: {public_key}")
+            print(f"[DEBUG]: PublicKey added: {username}: {public_key}")
         except Exception as e:
             # 如果出现错误，回滚更改
             session.rollback()
-            print(f"[DEBUG]: Failed to insert/update PublicKey: {e}")
+            print(f"[DEBUG]: Failed to insert PublicKey: {e}")
         finally:
             # 关闭session
             session.close()
-
 
 def get_public_key(username: str):
     with Session(engine) as session:
