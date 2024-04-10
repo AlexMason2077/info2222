@@ -54,7 +54,6 @@ def insert_room(room_id: int, user_a: str, user_b: str):
         finally:
             session.close()  # 确保session被正确关闭
 
-
 def find_room_id_by_users(user_a: str, user_b: str) -> int:
     with Session(engine) as session:
         # 使用or_来构建逻辑或条件
@@ -82,7 +81,6 @@ def find_free_room_id():
             free_id += 1
 
         return free_id
-
 
 def insert_message(room_id: int, sender: str, content: str):
     with Session(engine) as session:
@@ -130,6 +128,50 @@ def get_messages_by_room_id(room_id: int) -> list:
 
         # messages 已经是一个包含了很多元组的列表，每个元组包含(sender, content)
         return messages
+
+
+def insert_public_key(username: str, public_key: str):
+    with Session(engine) as session:
+        # 尝试查询现有的公钥记录
+        existing_key = session.query(PublicKeys).filter(PublicKeys.user_name == username).first()
+        
+        if existing_key:
+            # 如果存在，更新公钥
+            existing_key.public_key = public_key
+            action = "updated"
+        else:
+            # 如果不存在，创建新实例并添加到session
+            PublicKey = PublicKeys(user_name=username, public_key=public_key)
+            session.add(PublicKey)
+            action = "added"
+        
+        # 提交session到数据库
+        try:
+            session.commit()
+            print(f"[DEBUG]: PublicKey {action}: {username}: {public_key}")
+        except Exception as e:
+            # 如果出现错误，回滚更改
+            session.rollback()
+            print(f"[DEBUG]: Failed to insert/update PublicKey: {e}")
+        finally:
+            # 关闭session
+            session.close()
+
+
+def get_public_key(username: str):
+    with Session(engine) as session:
+        try:
+            # 查询数据库以获取给定用户名的公钥
+            public_key = session.query(PublicKeys).filter_by(user_name=username).first()
+            if public_key:
+                return public_key.public_key
+            else:
+                return None
+        except Exception as e:
+            print(f"[DEBUG]: Failed to retrieve PublicKey: {e}")
+            return None
+        finally:
+            session.close()
 
 
 #################################################################################

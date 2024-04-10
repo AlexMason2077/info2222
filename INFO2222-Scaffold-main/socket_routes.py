@@ -50,6 +50,10 @@ def disconnect():
 @socketio.on("send")
 def send(username, message, room_id):
     emit("incoming", (f"{username}: {message}"), to=room_id)
+
+
+    #
+    
     db.insert_message(room_id, username, message)
     
     
@@ -76,11 +80,11 @@ def join(sender_name, receiver_name):
     room_id_current = room.get_room_id(receiver_name)
 
     # print History messages when someone entered a room
-    room_id_stored = db.find_room_id_by_users(sender_name, receiver_name)
-    print(room_id_stored)
-    if room_id_stored:
-        for e in db.get_messages_by_room_id(room_id_stored):
-            emit("incoming", (f"{e[0]}: {e[1]}", "brown"))
+    # room_id_stored = db.find_room_id_by_users(sender_name, receiver_name)
+    # print(room_id_stored)
+    # if room_id_stored:
+    #     for e in db.get_messages_by_room_id(room_id_stored):
+    #         emit("incoming", (f"{e[0]}: {e[1]}", "brown"))
 
     if room_id_current is not None:
         room.join_room(sender_name, room_id_current)

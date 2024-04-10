@@ -13,27 +13,109 @@ Sign up page, pretty much the same as login.
     <button onclick="signup()">Sign up</button>
 
     <script>
-         function isValidURL(string) {
-            if (string.length == 0) {
-                return false;
-            }
-            if (string[0] == "/") {
-                return true;
-            }
+        function isValidURL(string) {
+        if (string.length == 0) {
             return false;
         }
+        if (string[0] == "/") {
+            return true;
+        }
+        return false;
+        }
+
+        //========================================================================================
+        //_
+
+        // 创建一个新的elliptic曲线实例，使用p256曲线
+        const ec = new elliptic.ec('p256');
+
+        /**
+         * 从特定密钥生成ECC密钥对的函数。
+         * @param {string} key - 用户提供的密钥，可以是密码或任意字符串。
+         * @returns {object} 包含hex格式的公钥和私钥的对象。
+         */
+        function generateECCKeyPairFromKey(key) {
+            // 使用SHA-256散列函数处理密钥，生成固定长度的种子
+            return window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(key))
+                .then(hash => {
+                    // 将 ArrayBuffer 转换为 Uint8Array
+                    const hashArray = Array.from(new Uint8Array(hash));
+                    // 将哈希值转换为十六进制字符串
+                    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+                    
+                    // 使用散列值作为随机数生成密钥对
+                    const keyPair = ec.genKeyPair({
+                        entropy: hashHex,
+                        entropyEnc: 'hex',
+                    });
+
+                    // 获取并返回十六进制格式的公钥和私钥
+                    const privateKey = keyPair.getPrivate('hex');
+                    const publicKey = keyPair.getPublic('hex');
+                    //console.log("Private Key:", privateKey);
+                    //console.log("Public Key:", publicKey);
+                    return {
+                        privateKey: privateKey,
+                        publicKey: publicKey
+                    };
+                });
+        }
+        
+        // ^
+        //========================================================================================
 
         // this function is identical to login(), see login.jinja
         async function signup() {
-            let loginURL = "{{ url_for('signup_user') }}";
-            let res = await axios.post(loginURL, {
+            let signupURL = "{{ url_for('signup_user') }}"; // 确保这里使用的是正确的URL
+
+            // 使用crypto-js对密码进行SHA-256加密
+            let hashedPassword = CryptoJS.SHA256($("#password").val()).toString();
+
+            let res = await axios.post(signupURL, {
                 username: $("#username").val(),
-                password: $("#password").val()
+                // 使用加密后的密码而不是原密码
+                password: hashedPassword
             });
+
             if (!isValidURL(res.data)) {
                 alert(res.data);
                 return;
+            } else {
+
+                generateECCKeyPairFromKey($("#password").val())
+                    .then(keyPair => {
+                        console.log("[DEBUG] Private Key:", keyPair.privateKey);
+                        console.log("[DEBUG] Public Key:", keyPair.publicKey);
+
+                        // 获取生成的公钥
+                        const publicKey = keyPair.publicKey;
+                        const privateKey = keyPair.privateKey;
+
+                        // 将公钥作为数据发送到后端
+                        axios.post('/upload_public_key', {
+                            username: $("#username").val(),
+                            publicKey: publicKey
+                        })
+                        .then(response => {
+                            console.log(response.data);
+
+                            // Store private key to local storage
+                            localStorage.setItem($("#username").val(), privateKey);
+
+                            var retrievedValue = localStorage.getItem($("#username").val());
+                            console.log("[DEBUG]: Storing private key of this guy: ",$("#username").val());
+                            console.log("[DEBUG]: The private key stored in localStorage: ",retrievedValue); // 输出 'value'
+                        })
+                        .catch(error => {
+                            console.error('[DEBUG] Error uploading public key:', error);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("[DEBUG] Error generating key pair:", error);
+                    });
+
             }
+
             window.open(res.data, "_self")
         }
     </script>

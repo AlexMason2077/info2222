@@ -92,6 +92,11 @@ class Message(Base):
     room_id = Column(Integer)
     sender = Column(String)
     content = Column(String)
+
+class PublicKeys(Base):
+    __tablename__ = "public_keys"
+    user_name = Column(String, primary_key=True)
+    public_key = Column(String)
     
 ##############################################################################
 # friend request

@@ -101,6 +101,7 @@
 <script src="/static/js/libs/socket.io.min.js"></script>
 <script>
     let room_id = 0;
+    var current_receiver_public_key = null;
 
     // when the user presses the "Enter" key inside of the "message box", 
     // the message is sent to the server
@@ -146,17 +147,107 @@
     socket.on("incoming", (msg, color="black") => {
         add_message(msg, color);
     })
+
+    //===========================================================================
+    const ec = new elliptic.ec('p256');
+
+    /**
+     * 计算共享密钥
+     * 
+     * @param {String} privateKeyHex 当前用户的私钥（十六进制字符串）
+     * @param {String} publicKeyHex 另一用户的公钥（十六进制字符串）
+     * @returns {String} 共享密钥的十六进制字符串
+     */
+    function computeSharedKeyFromHex(privateKeyHex, publicKeyHex) {
+        // 将当前用户的私钥从十六进制字符串转换为密钥对
+        const ownKeyPair = ec.keyFromPrivate(privateKeyHex, 'hex');
+        
+        // 将另一用户的公钥从十六进制字符串转换为公钥对象
+        // 注意：公钥需要以04开头，这表示它是未压缩的公钥
+        const otherPublicKey = ec.keyFromPublic(publicKeyHex, 'hex').getPublic();
+        
+        // 计算共享密钥
+        const sharedKey = ownKeyPair.derive(otherPublicKey).toString(16);
+        
+        // 打印共享密钥
+        console.log('Shared Key:', sharedKey);
+    
+    return sharedKey;
+    }
+
+    //===========================================================================
+
     
     // we'll send the message to the server by emitting a "send" event
     function send() {
         let message = $("#message").val();
+        var privateKeyHex = localStorage.getItem(username);
+        console.log(privateKeyHex);
+
+        // 假设你需要对消息进行加密（这里省略了加密逻辑）
+        // let encryptedMessage = encryptMessage(message, sharedSecret);
+        if (!privateKeyHex) {
+            console.error('Missing private key');
+            return; // 中断执行
+        }
+
+        if (!current_receiver_public_key) {
+            console.error('Missing public key');
+            return; // 中断执行
+        }
+
+        try {
+            const sharedKey = computeSharedKeyFromHex(privateKeyHex, current_receiver_public_key);
+            // 使用共享密钥进行后续操作...
+        } catch (error) {
+            console.error('Error computing shared key:', error);
+            return; // 中断执行
+        }
+
+
         $("#message").val("");
-        socket.emit("send", username, message, room_id);  
-    } 
+        // 这里应该发送加密的消息，假设你已经加密了它
+        socket.emit("send", username, message, room_id); 
+    }
+
+    function getPublicKey(username) {
+        axios.post('/getPublicKey', {
+            username: username  // 将username作为参数传递
+        })
+        .then(function (response) {
+            // 假设后端总是返回JSON对象，并在成功时包含public_key字段
+            if (response.data.public_key) {
+                console.log('Success:', response.data.public_key);
+                current_receiver_public_key = response.data.public_key;
+            } else if (response.data.error) {
+                // 后端返回了一个错误消息
+                console.error('Error:', response.data.error);
+            } else {
+                // 后端返回的响应格式不符合预期
+                console.error('Unexpected response format:', response.data);
+            }
+        })
+        .catch(function (error) {
+            if (error.response) {
+                // 请求已发出，服务器以状态代码响应
+                // 超出了2xx的范围
+                console.error('Error:', error.response.data);
+                console.error('Status:', error.response.status);
+            } else if (error.request) {
+                // 请求已经发起，但没有收到响应
+                console.error('No response received:', error.request);
+            } else {
+                // 在设置请求时发生了一些事情，触发了一个错误
+                console.error('Error:', error.message);
+            }
+        });
+    }
+
+
 
     // we emit a join room event to the server to join a room
     function join_room(receiverUsername) {
-       
+
         let receiver = receiverUsername || $("#receiver").val();
         leave();
         // pass in the receiver of our message to the server
@@ -176,6 +267,9 @@
             // now we'll show the input box, so the user can input their message
             $("#chat_box").hide();
             $("#input_box").show();
+
+            // get receiver's public key and set it
+            getPublicKey(receiver);
         });
      
     }
@@ -184,6 +278,10 @@
     // emits a "leave" event, telling the server that we want to leave the room
     function leave() {
         Cookies.remove("room_id");
+
+        // 把当前对话人的public key设置回null
+        current_receiver_public_key = null;
+
         socket.emit("leave", username, room_id);
         $("#message_box").html('');
         $("#input_box").hide();
@@ -197,135 +295,136 @@
         let child = $(`<p style="color:${color}; margin: 0px;"></p>`).text(message);
         box.append(child);
     }
+
     function sendFriendRequest() {
         let friendUsername = document.getElementById('friend_username').value;
         let senderUsername = "{{ username }}";
         if (friendUsername) {
             fetch('/send_friend_request', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        sender: senderUsername, // 确保这里使用的是有效的用户名
-        receiver: friendUsername // 同上
-    }),
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sender: senderUsername, // 确保这里使用的是有效的用户名
+                    receiver: friendUsername // 同上
+                }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => console.log(data))
+            .catch(error => console.error('There has been a problem with your fetch operation:', error));
+            }
     }
-    return response.json();
-})
-.then(data => console.log(data))
-.catch(error => console.error('There has been a problem with your fetch operation:', error));
-        }
+
+    //////////////////////////////////////////////////////////////////////////////
+    // Function to update a friend request's status
+    function updateFriendRequest(requestId, status) {
+        fetch('/update_friend_request', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ request_id: requestId, status: status }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            // 可能需要重新获取并展示最新的好友请求列表
+            fetchFriendRequests();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to update friend request.');
+        });
     }
 
-//////////////////////////////////////////////////////////////////////////////
-// Function to update a friend request's status
-function updateFriendRequest(requestId, status) {
-    fetch('/update_friend_request', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ request_id: requestId, status: status }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        // 可能需要重新获取并展示最新的好友请求列表
-        fetchFriendRequests();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to update friend request.');
-    });
-}
+    function fetchFriendRequests() {
+        let currentUsername = "{{ username }}"; // 从服务器端渲染的变量或从其他方式获取当前用户名
 
-function fetchFriendRequests() {
-    let currentUsername = "{{ username }}"; // 从服务器端渲染的变量或从其他方式获取当前用户名
+        fetch(`/get_friend_requests?username=${currentUsername}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch friend requests');
+            }
+            return response.json();
+        })
+        .then(friendRequests => {
+            // 获取好友请求列表的容器元素
+            const friendRequestsList = document.getElementById('friend_requests');
+            // 清空当前的列表内容
+            friendRequestsList.innerHTML = '';
 
-    fetch(`/get_friend_requests?username=${currentUsername}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to fetch friend requests');
-        }
-        return response.json();
-    })
-    .then(friendRequests => {
-        // 获取好友请求列表的容器元素
-        const friendRequestsList = document.getElementById('friend_requests');
-        // 清空当前的列表内容
-        friendRequestsList.innerHTML = '';
+            // 遍历所有好友请求并添加到列表中
+            friendRequests.forEach(request => {
+                // 创建一个新的列表项
+                const listItem = document.createElement('li');
+                listItem.textContent = `From: ${request.sender}`;
 
-        // 遍历所有好友请求并添加到列表中
-        friendRequests.forEach(request => {
-            // 创建一个新的列表项
-            const listItem = document.createElement('li');
-            listItem.textContent = `From: ${request.sender}`;
+                // 创建接受和拒绝按钮
+                const acceptButton = document.createElement('button');
+                acceptButton.textContent = 'Accept';
+                acceptButton.onclick = function() {
+                    updateFriendRequest(request.id, 'approved');
+                };
+                const rejectButton = document.createElement('button');
+                rejectButton.textContent = 'Reject';
+                rejectButton.onclick = function() {
+                    updateFriendRequest(request.id, 'rejected');
+                };
 
-            // 创建接受和拒绝按钮
-            const acceptButton = document.createElement('button');
-            acceptButton.textContent = 'Accept';
-            acceptButton.onclick = function() {
-                updateFriendRequest(request.id, 'approved');
-            };
-            const rejectButton = document.createElement('button');
-            rejectButton.textContent = 'Reject';
-            rejectButton.onclick = function() {
-                updateFriendRequest(request.id, 'rejected');
-            };
+                // 将按钮添加到列表项中
+                listItem.appendChild(acceptButton);
+                listItem.appendChild(rejectButton);
 
-            // 将按钮添加到列表项中
-            listItem.appendChild(acceptButton);
-            listItem.appendChild(rejectButton);
-
-            // 将列表项添加到列表中
-            friendRequestsList.appendChild(listItem);
-        });
-    })
-    .catch(error => console.error('Error fetching friend requests:', error));
-}
+                // 将列表项添加到列表中
+                friendRequestsList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error fetching friend requests:', error));
+    }
 
 
 
-// 页面加载完成时获取好友请求列表
-document.addEventListener('DOMContentLoaded', fetchFriendRequests);
+    // 页面加载完成时获取好友请求列表
+    document.addEventListener('DOMContentLoaded', fetchFriendRequests);
 
-function fetchFriends() {
-    // 从body元素的data-username属性读取当前用户名
-    let currentUsername = "{{ username }}";
+    function fetchFriends() {
+        // 从body元素的data-username属性读取当前用户名
+        let currentUsername = "{{ username }}";
 
-    fetch(`/get_friends?username=${currentUsername}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to fetch friends');
-        }
-        return response.json();
-    })
-    .then(data => {
-        const friendList = document.getElementById('friend_list');
-        friendList.innerHTML = ''; // 清空现有的好友列表
+        fetch(`/get_friends?username=${currentUsername}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch friends');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const friendList = document.getElementById('friend_list');
+            friendList.innerHTML = ''; // 清空现有的好友列表
 
-        // 遍历返回的好友数据，为每个好友创建一个列表项
-        data.forEach(friend => {
-            const li = document.createElement('li');
-            const button = document.createElement('button');
-            button.textContent = friend['username']; // 假设每个好友对象都有一个'name'属性
-            button.onclick = function() {
-                join_room(friend['username']);
-            };
-            li.appendChild(button);
-            friendList.appendChild(li);
-        });
-    })
-    .catch(error => console.error('Error fetching friends:', error));
-}
+            // 遍历返回的好友数据，为每个好友创建一个列表项
+            data.forEach(friend => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.textContent = friend['username']; // 假设每个好友对象都有一个'name'属性
+                button.onclick = function() {
+                    join_room(friend['username']);
+                };
+                li.appendChild(button);
+                friendList.appendChild(li);
+            });
+        })
+        .catch(error => console.error('Error fetching friends:', error));
+    }
 
-// 页面加载完成时获取好友列表
-document.addEventListener('DOMContentLoaded', fetchFriends);
+    // 页面加载完成时获取好友列表
+    document.addEventListener('DOMContentLoaded', fetchFriends);
 
 
 ////////////////////////////////////////////////////////////////////////////////

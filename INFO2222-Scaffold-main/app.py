@@ -38,18 +38,22 @@ def login():
 # handles a post request when the user clicks the log in button
 @app.route("/login/user", methods=["POST"])
 def login_user():
+
     if not request.is_json:
         abort(404)
 
-    username = request.json.get("username")
-    password = request.json.get("password")
 
+    username = request.json.get("username")
+    hashedPassword = request.json.get("password") # has been hashed once
+
+    print(f"[DEBUG]: Hash({username} entered password): {hashedPassword}") # DEBUG PURPOSE
+    
     user =  db.get_user(username)
 
     if user is None:
         return "Error: User does not exist!🤡"
 
-    if not checkpw(password.encode('utf-8'), user.password):
+    if not checkpw(hashedPassword.encode('utf-8'), user.password):
         return "Error: Password does not match!🤡"
 
     return url_for('home', username=request.json.get("username"))
@@ -65,10 +69,11 @@ def signup_user():
     if not request.is_json:
         abort(404)
     username = request.json.get("username")
-    password = request.json.get("password")
+    hashedPassword = request.json.get("password")
 
     if db.get_user(username) is None:
-        db.insert_user(username, password)
+        print(f"[DEBUG]: {username}'s password encrpted once at jinja: {hashedPassword}")
+        db.insert_user(username, hashedPassword) # will be hashed again in this function
         return url_for('home', username=username)
     return "Error: User already exists!"
 
@@ -84,6 +89,9 @@ def home():
         abort(404)
     return render_template("home.jinja", username=request.args.get("username"))
 
+
+#============================================================================
+# FRIEND
 
 @app.route("/send_friend_request", methods=["POST"])
 def send_request():
@@ -147,19 +155,52 @@ def get_friends():
     friends = db.get_friends_for_user(username)
     return jsonify(friends)
 
+#============================================================================
+# Public key receive and store
+
+@app.route('/upload_public_key', methods=['POST'])
+def upload_public_key():
+    # 从POST请求数据中获取公钥
+    username = request.json['username']
+    public_key = request.json['publicKey']
+    
+    # 在这里处理公钥，例如存储到数据库中或进行其他操作
+    print(f"[DEBUG] Received {username}'s {public_key}")
+    db.insert_public_key(username,public_key)
+    return 'Public key received successfully'
+
+@app.route('/getPublicKey', methods=['POST'])
+def get_public_key():
+    # 尝试从请求体中获取username
+    data = request.get_json()
+    username = data.get('username')  # 使用get方法安全地访问字典键
+
+    if not username:
+        # 如果没有提供username或者username为空
+        return jsonify({"error": "Missing or empty username parameter"}), 400
+
+    try:
+        public_key = db.get_public_key(username)
+        if public_key:
+            return jsonify({"public_key": public_key})
+        else:
+            # 如果找不到公钥
+            return jsonify({"error": "Public key not found"}), 404
+    except Exception as e:
+        # 如果查询过程中发生了异常
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
-    #db.view_tables()
-    #db.print_all_friend_requests()
-    #db.approve_friend_request(2)
-    #db.print_all_friends()
-    #db.get_all_messages()
-    #db.print_table_names()
-    #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/hellfish.test.crt', './certs/hellfish.test.key'))
-    #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/myCA.pem', './certs/myCA.key'))
-    #socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/server.crt', './certs/server.key'))
-    socketio.run(app, host='0.0.0.0', port=8999, debug=True)
-
+    # db.view_tables()
+    # db.print_all_friend_requests()
+    # db.approve_friend_request(2)
+    # db.print_all_friends()
+    # db.get_all_messages()
+    # db.print_table_names()
     # db.drop_all_tables("sqlite:///database/main.db")
+
+    socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/server.crt', './certs/server.key'))
+
     # db.print_all_users()
     # print(db.get_messages_by_room_id(4))
