@@ -6,6 +6,7 @@ file containing all the routes related to socket.io
 
 from flask_socketio import join_room, emit, leave_room
 from flask import request
+import time
 
 try:
     from __main__ import socketio
@@ -65,7 +66,7 @@ def send(username, message, room_id):
 # sent when the user joins a room
 @socketio.on("join")
 def join(sender_name, receiver_name):
-    
+    print("start join_room")
     receiver = db.get_user(receiver_name)
     if receiver is None:
         return "Unknown receiver!"
@@ -82,13 +83,6 @@ def join(sender_name, receiver_name):
         return f"{receiver_name} is not your friend, please send a request🥰"
 
     room_id_current = room.get_room_id(receiver_name)
-
-    # print History messages when someone entered a room
-    # room_id_stored = db.find_room_id_by_users(sender_name, receiver_name)
-    # print(room_id_stored)
-    # if room_id_stored:
-    #     for e in db.get_messages_by_room_id(room_id_stored):
-    #         emit("incoming", (f"{e[0]}: {e[1]}", "brown"))
 
     if room_id_current is not None:
         room.join_room(sender_name, room_id_current)
@@ -113,6 +107,27 @@ def join(sender_name, receiver_name):
     emit("incoming", (f"{sender_name} has joined the room. Now talking to {receiver_name}.", "green"), to=room_id_current)
 
     return room_id_current
+
+@socketio.on("GetHistoryMessages")
+def GetHisoryMessages(sender_name, receiver_name):
+    # 查找两个用户间的房间ID
+    room_id_stored = db.find_room_id_by_users(sender_name, receiver_name)
+    if room_id_stored:
+        messages_list = []  # 初始化一个空列表来收集消息
+        # 获取房间ID对应的所有消息
+        for e in db.get_messages_by_room_id(room_id_stored):
+            # 构建每条消息的内容
+            message_content = f"{e[0]}: {e[1]}"
+            # 将构建的消息内容添加到列表中
+            messages_list.append({
+                "content": message_content, 
+                "color": "black", 
+                "type": "text"
+            })
+
+        # 使用单个emit发送整个消息列表
+        emit("incoming_messages_list", {"messages": messages_list}, to=room_id_stored)
+
 
 # leave room event handler
 @socketio.on("leave")

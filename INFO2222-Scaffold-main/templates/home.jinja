@@ -143,10 +143,16 @@
     // initializes the socket
     const socket = io();
 
-    // an incoming message arrives, we'll add the message to the message box
+    // invoke processMessage() when receive message
     socket.on("incoming", (data) => {
-        var privateKeyHex = localStorage.getItem(username); // 假设私钥以这种方式存储
-        
+        processMessage(data);
+    });
+
+    // an incoming message arrives, we'll add the message to the message box
+    function processMessage(data) {
+
+        var privateKeyHex = localStorage.getItem(username); // get private key from local storage
+
         const {content, type, color = "black"} = data;
 
         let displayColor;
@@ -154,7 +160,10 @@
             case "text":
                 try{
                     displayColor = color; 
+
+                    // compute shared public key
                     var sharedKeyHex = computeSharedKeyFromHex(privateKeyHex,current_receiver_public_key);
+
                     // console.log("[DEBUG] The content: ",content);
                     // console.log("[DEBUG] Shared key ",sharedKeyHex);
 
@@ -164,27 +173,29 @@
                     // 匹配字符串并提取用户名和文本内容
                     let match;
                     while ((match = pattern.exec(content)) !== null) {
-                          // match[1] 匹配的用户名，ma2tch[2] 匹配的文本内容
-                          const username_message = match[1];
-                          const text = match[2];
-                          console.log("User who sent this message:", username_message);
-                          console.log("Text:", text);
-                          
+                        // match[1] 匹配的用户名，ma2tch[2] 匹配的文本内容
+                        const username_message = match[1];
+                        const text = match[2];
+
+                        // console.log("User who sent this message:", username_message);
+                        // console.log("Text:", text);
+                      
                         const decryptedMessage = decryptMessage(text, sharedKeyHex);
 
-                        console.log("[DEBUG] Decrypted message: ",decryptedMessage);
+                        //console.log("[DEBUG] Decrypted message: ",decryptedMessage);
 
                         const { message, signature } = JSON.parse(decryptedMessage);
 
                         if (! (username === username_message)) {
                             if (!verifySignature(message, signature, current_receiver_public_key)) {
-                                console.error("Failed to pass digital signature");
+                                // console.error("Failed to pass digital signature");
                             }else{
-                                console.log("[DEBUG] Digital signature passed");
+                                // console.log("[DEBUG] Digital signature passed");
                             }
                         }
                         add_message(username_message + ": " + message, displayColor);
                     }
+                    
                 }catch (error){
                     console.error('[DEBUG] Error decrypting or verifying message:', error);
                     return; // 中断执行
@@ -199,7 +210,7 @@
                 displayColor = "gray"; // 未知类型的消息使用灰色
         }
         
-    });
+    }
 
     //===========================================================================
     const ec = new elliptic.ec('p256');
@@ -224,7 +235,7 @@
         const sharedKey = ownKeyPair.derive(otherPublicKey).toString(16);
         
         // 打印共享密钥
-        console.log('[DEBUG]: Shared Key:', sharedKey);
+        //console.log('[DEBUG]: Shared Key:', sharedKey);
     
     return sharedKey;
     }
@@ -332,7 +343,7 @@
         .then(function (response) {
             // 假设后端总是返回JSON对象，并在成功时包含public_key字段
             if (response.data.public_key) {
-                console.log('[DEBUG]: Get Receiver ', username,' public key: ',response.data.public_key);
+                //console.log('[DEBUG]: Get Receiver ', username,' public key: ',response.data.public_key);
                 current_receiver_public_key = response.data.public_key;
             } else if (response.data.error) {
                 // 后端返回了一个错误消息
@@ -358,15 +369,25 @@
         });
     }
 
+    // 监听来自服务器的历史消息列表
+    socket.on("incoming_messages_list", function(data) {
+        data.messages.forEach(message => {
+            // 对每条历史消息调用processMessage函数
+            processMessage(message);
+        });
+    });
+
 
     // we emit a join room event to the server to join a room
     function join_room(receiverUsername) {
-
         let receiver = receiverUsername || $("#receiver").val();
-        leave();
+        //leave();
         // pass in the receiver of our message to the server
         // as well as the current user's username
+        getPublicKey(receiver);
+
         socket.emit("join", username, receiver, (res) => {
+            console.log('in joining a room')
             // res is a string with the error message if the error occurs
             // this is a pretty bad way of doing error handling, but watevs
             if (typeof res != "number") {
@@ -382,10 +403,10 @@
             $("#chat_box").hide();
             $("#input_box").show();
 
-            // get receiver's public key and set it
-            getPublicKey(receiver);
+            socket.emit("GetHistoryMessages", username, receiver); // 发送事件以获取历史消息
         });
-     
+
+
     }
 
     // function when the user clicks on "Leave Room"
@@ -501,7 +522,6 @@
         })
         .catch(error => console.error('Error fetching friend requests:', error));
     }
-
 
 
     // 页面加载完成时获取好友请求列表
