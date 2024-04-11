@@ -44,6 +44,10 @@
 <nav style="border-bottom: 1px solid black;">
     <ol style="float: right">
         <li style="display:inline-block">Username:  {{ username }} </li>
+        <!-- 添加退出按钮 -->
+        <li style="display:inline-block; margin-left: 10px;">
+            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        </li>
     </ol>
 </nav>
 

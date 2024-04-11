@@ -58,6 +58,13 @@ def index():
 def login():    
     return render_template("login.jinja")
 
+@app.route('/logout')
+def logout():
+    # 清除会话
+    session.clear()
+    # 重定向到登录页面
+    return redirect(url_for('index'))
+
 # handles a post request when the user clicks the log in button
 @app.route("/login/user", methods=["POST"])
 def login_user():
@@ -83,7 +90,6 @@ def login_user():
     session['username'] = username  # 存储用户名到 session
 
     return url_for('home', username=request.json.get("username"))
-
 
 # handles a get request to the signup page
 @app.route("/signup")
