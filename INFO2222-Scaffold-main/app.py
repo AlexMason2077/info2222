@@ -4,11 +4,12 @@ this is where you'll find all of the get/post request handlers
 the socket event handlers are inside of socket_routes.py
 '''
 
-from flask import Flask, jsonify, render_template, request, abort, url_for
+from flask import Flask, jsonify, render_template, request, abort, url_for ,redirect, session
 from flask_socketio import SocketIO
 import db
 import secrets
 from bcrypt import gensalt, hashpw, checkpw
+from functools import wraps
 
 # import logging
 
@@ -23,7 +24,6 @@ app.config['SECRET_KEY'] = secrets.token_hex()
 socketio = SocketIO(app)
 
 from flask_session import Session  # 导入 Session
-
 # Flask 应用配置
 app.config['SESSION_TYPE'] = 'filesystem'  # session 数据存储在文件系统
 app.config['SESSION_FILE_DIR'] = 'session_files'  # 存储 session 文件的目录
@@ -35,6 +35,19 @@ Session(app)  # 初始化应用以使用 Flask-Session
 # don't remove this!!
 import socket_routes
 
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            # 如果用户未登录，可以重定向到登录页面，或返回错误响应
+            return redirect(url_for('login'))
+            # 或者返回错误响应
+            # return jsonify({"error": "Unauthorized"}), 401
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 # index page
 @app.route("/")
 def index():
@@ -44,9 +57,6 @@ def index():
 @app.route("/login")
 def login():    
     return render_template("login.jinja")
-
-
-from flask import session  # 导入 session
 
 # handles a post request when the user clicks the log in button
 @app.route("/login/user", methods=["POST"])
@@ -73,6 +83,7 @@ def login_user():
     session['username'] = username  # 存储用户名到 session
 
     return url_for('home', username=request.json.get("username"))
+
 
 # handles a get request to the signup page
 @app.route("/signup")
@@ -102,10 +113,17 @@ def page_not_found(_):
 
 # home page, where the messaging app is
 @app.route("/home")
+@login_required
 def home():
     if request.args.get("username") is None:
         abort(404)
     return render_template("home.jinja", username=request.args.get("username"))
+
+@app.route("/api/sensitive_data")
+@login_required
+def sensitive_data():
+    # 处理敏感数据请求
+    return jsonify({"data": "sensitive information"})
 
 
 #============================================================================

@@ -381,7 +381,7 @@
     // we emit a join room event to the server to join a room
     function join_room(receiverUsername) {
         let receiver = receiverUsername || $("#receiver").val();
-        //leave();
+        leave();
         // pass in the receiver of our message to the server
         // as well as the current user's username
         getPublicKey(receiver);
