@@ -46,7 +46,7 @@ def login_user():
 
     username = request.json.get("username")
     hashedPassword = request.json.get("password") # has been hashed once
-    recaptcha_response = request.form.get('g-recaptcha-response')
+    recaptcha_response = request.json.get('g-recaptcha-response')
     print(f"[DEBUG]: Hash({username} entered password): {hashedPassword}") # DEBUG PURPOSE
     secret_key = "6LeVlbcpAAAAAPEB_cDbBuZSjTeoYmxmVBDv8JqY"
     payload = {
@@ -65,6 +65,7 @@ def login_user():
 
         return url_for('home', username=request.json.get("username"))
     else:
+        print(response_data)
         # reCAPTCHA验证失败
         return "Error: I think you are a robot !🤡"
 # handles a get request to the signup page

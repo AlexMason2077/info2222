@@ -85,10 +85,23 @@
             
             // hashed 一次,传到后端app.py
             let hashedPassword = CryptoJS.SHA256($("#password").val()).toString();
-
+            let recaptchaResponse = grecaptcha.getResponse();
             let res = await axios.post(loginURL, {
                 username: $("#username").val(),
-                password: hashedPassword
+                password: hashedPassword,
+                "g-recaptcha-response": recaptchaResponse
+            }).then(response => {
+                // 如果响应是有效URL，则重定向到该URL
+                if (isValidURL(response.data)) {
+                    window.open(response.data, "_self");
+                } else {
+                    // 如果不是有效URL（即服务器返回错误消息），显示错误消息
+                    alert(response.data);
+                }
+            }).catch(error => {
+                // 处理请求错误
+                console.error('Login error:', error);
+                alert("Login request failed.");
             });
 
             // if the server sends in an error message, alert() the error message
