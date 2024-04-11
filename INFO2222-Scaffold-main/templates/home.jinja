@@ -164,8 +164,8 @@
                     // compute shared public key
                     var sharedKeyHex = computeSharedKeyFromHex(privateKeyHex,current_receiver_public_key);
 
-                    // console.log("[DEBUG] The content: ",content);
-                    // console.log("[DEBUG] Shared key ",sharedKeyHex);
+                    console.log("[DEBUG] The content: ",content);
+                    console.log("[DEBUG] Shared key ",sharedKeyHex);
 
                     // 正则表达式模式
                     const pattern = /(\w+):\s(.+?)(?=\s\w+:|$)/g;
@@ -235,7 +235,7 @@
         const sharedKey = ownKeyPair.derive(otherPublicKey).toString(16);
         
         // 打印共享密钥
-        //console.log('[DEBUG]: Shared Key:', sharedKey);
+        console.log('[DEBUG]: Shared Key:', sharedKey);
     
     return sharedKey;
     }

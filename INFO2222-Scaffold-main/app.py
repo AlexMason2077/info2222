@@ -9,7 +9,6 @@ from flask_socketio import SocketIO
 import db
 import secrets
 from bcrypt import gensalt, hashpw, checkpw
-import requests
 
 # import logging
 
@@ -22,6 +21,16 @@ app = Flask(__name__)
 # secret key used to sign the session cookie
 app.config['SECRET_KEY'] = secrets.token_hex()
 socketio = SocketIO(app)
+
+from flask_session import Session  # 导入 Session
+
+# Flask 应用配置
+app.config['SESSION_TYPE'] = 'filesystem'  # session 数据存储在文件系统
+app.config['SESSION_FILE_DIR'] = 'session_files'  # 存储 session 文件的目录
+app.config['SESSION_PERMANENT'] = False  # session 的持久性
+app.config['SESSION_USE_SIGNER'] = True  # 启用 session 的签名
+Session(app)  # 初始化应用以使用 Flask-Session
+
 
 # don't remove this!!
 import socket_routes
@@ -36,6 +45,9 @@ def index():
 def login():    
     return render_template("login.jinja")
 
+
+from flask import session  # 导入 session
+
 # handles a post request when the user clicks the log in button
 @app.route("/login/user", methods=["POST"])
 def login_user():
@@ -46,28 +58,22 @@ def login_user():
 
     username = request.json.get("username")
     hashedPassword = request.json.get("password") # has been hashed once
-    recaptcha_response = request.json.get('g-recaptcha-response')
+
     print(f"[DEBUG]: Hash({username} entered password): {hashedPassword}") # DEBUG PURPOSE
-    secret_key = "6LeVlbcpAAAAAPEB_cDbBuZSjTeoYmxmVBDv8JqY"
-    payload = {
-        'secret': secret_key, 
-        'response': recaptcha_response
-    }
-    response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
-    response_data = response.json()
+    
     user =  db.get_user(username)
-    if response_data.get('success'):
-        if user is None:
-            return "Error: User does not exist!🤡"
 
-        if not checkpw(hashedPassword.encode('utf-8'), user.password):
-            return "Error: Password does not match!🤡"
+    if user is None:
+        return "Error: User does not exist!🤡"
 
-        return url_for('home', username=request.json.get("username"))
-    else:
-        print(response_data)
-        # reCAPTCHA验证失败
-        return "Error: I think you are a robot !🤡"
+    if not checkpw(hashedPassword.encode('utf-8'), user.password):
+        return "Error: Password does not match!🤡"
+
+    # 用户登录验证成功后
+    session['username'] = username  # 存储用户名到 session
+
+    return url_for('home', username=request.json.get("username"))
+
 # handles a get request to the signup page
 @app.route("/signup")
 def signup():
@@ -84,7 +90,9 @@ def signup_user():
     if db.get_user(username) is None:
         print(f"[DEBUG]: {username}'s password encrpted once at jinja: {hashedPassword}")
         db.insert_user(username, hashedPassword) # will be hashed again in this function
+        session['username'] = username  # 用户注册成功后，存储用户名到 session
         return url_for('home', username=username)
+
     return "Error: User already exists!"
 
 # handler when a "404" error happens
