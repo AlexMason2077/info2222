@@ -9,6 +9,7 @@ from flask_socketio import SocketIO
 import db
 import secrets
 from bcrypt import gensalt, hashpw, checkpw
+import requests
 
 # import logging
 
@@ -45,19 +46,27 @@ def login_user():
 
     username = request.json.get("username")
     hashedPassword = request.json.get("password") # has been hashed once
-
+    recaptcha_response = request.form.get('g-recaptcha-response')
     print(f"[DEBUG]: Hash({username} entered password): {hashedPassword}") # DEBUG PURPOSE
-    
+    secret_key = "6LeVlbcpAAAAAPEB_cDbBuZSjTeoYmxmVBDv8JqY"
+    payload = {
+        'secret': secret_key, 
+        'response': recaptcha_response
+    }
+    response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
+    response_data = response.json()
     user =  db.get_user(username)
+    if response_data.get('success'):
+        if user is None:
+            return "Error: User does not exist!🤡"
 
-    if user is None:
-        return "Error: User does not exist!🤡"
+        if not checkpw(hashedPassword.encode('utf-8'), user.password):
+            return "Error: Password does not match!🤡"
 
-    if not checkpw(hashedPassword.encode('utf-8'), user.password):
-        return "Error: Password does not match!🤡"
-
-    return url_for('home', username=request.json.get("username"))
-
+        return url_for('home', username=request.json.get("username"))
+    else:
+        # reCAPTCHA验证失败
+        return "Error: I think you are a robot !🤡"
 # handles a get request to the signup page
 @app.route("/signup")
 def signup():
