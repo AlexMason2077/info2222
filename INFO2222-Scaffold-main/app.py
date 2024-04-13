@@ -192,6 +192,7 @@ def update_friend_request():
         # 在这里添加更多的日志输出，如果有异常，输出异常信息
         result = db.update_friend_request_status(request_id, new_status)
         print("Update successful")  # 如果成功，输出成功信息
+        socketio.emit('friend_request_update', {'message': 'Update your friend requests list'})
         return jsonify({"message": "Friend request updated successfully."})
     except Exception as e:
         print(f"Error: {e}")  # 输出错误信息

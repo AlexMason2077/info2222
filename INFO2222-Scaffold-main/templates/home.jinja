@@ -552,13 +552,16 @@
         console.log('Received update notification:', data.message);
         // 调用更新好友请求的函数
         fetchFriendRequests();
+        fetchFriends();
     });
+    
     // 页面加载完成时获取好友请求列表
     document.addEventListener('DOMContentLoaded', function() {
     const socket = io();
     // 设置监听更新好友请求的事件
     // 页面加载时获取一次好友请求列表
     fetchFriendRequests();
+    fetchFriends();
     });
 
     function fetchFriends() {
