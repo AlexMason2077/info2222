@@ -242,7 +242,6 @@ def get_public_key():
         # 如果查询过程中发生了异常
         return jsonify({"error": str(e)}), 500
 
-
 if __name__ == '__main__':
     # db.view_tables()
     # db.print_all_friend_requests()

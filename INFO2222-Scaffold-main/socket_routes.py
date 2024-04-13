@@ -66,7 +66,7 @@ def send(username, message, room_id):
 # sent when the user joins a room
 @socketio.on("join")
 def join(sender_name, receiver_name):
-    print("start join_room")
+    #print("start join_room")
     receiver = db.get_user(receiver_name)
     if receiver is None:
         return "Unknown receiver!"
@@ -136,3 +136,10 @@ def leave(username, room_id):
     leave_room(room_id)
     room.leave_room(username)
 
+
+@socketio.on('friend_request_sent')
+def handle_friend_request_sent(data):
+    print("Friend request sent from:", data['sender'], "to:", data['receiver'])
+    # Here you can broadcast to specific rooms or globally as needed
+    print("Emitting friend_request_update event")
+    socketio.emit('friend_request_update', {'message': 'Update your friend requests list'})

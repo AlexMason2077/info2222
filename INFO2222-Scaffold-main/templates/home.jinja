@@ -455,8 +455,8 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    sender: senderUsername, // 确保这里使用的是有效的用户名
-                    receiver: friendUsername // 同上
+                    sender: senderUsername,
+                    receiver: friendUsername
                 }),
             })
             .then(response => {
@@ -465,10 +465,15 @@
                 }
                 return response.json();
             })
-            .then(data => console.log(data))
+            .then(data => {
+                console.log(data);
+                // After successfully sending a friend request, emit a socket event
+                socket.emit('friend_request_sent', {sender: senderUsername, receiver: friendUsername});
+            })
             .catch(error => console.error('There has been a problem with your fetch operation:', error));
-            }
+        }
     }
+
 
     //////////////////////////////////////////////////////////////////////////////
     // Function to update a friend request's status
@@ -493,6 +498,7 @@
     }
 
     function fetchFriendRequests() {
+        console.log('Fetching friend requests...');
         let currentUsername = "{{ username }}"; // 从服务器端渲染的变量或从其他方式获取当前用户名
 
         fetch(`/get_friend_requests?username=${currentUsername}`)
@@ -542,9 +548,18 @@
         .catch(error => console.error('Error fetching friend requests:', error));
     }
 
-
+    socket.on('friend_request_update', function(data) {
+        console.log('Received update notification:', data.message);
+        // 调用更新好友请求的函数
+        fetchFriendRequests();
+    });
     // 页面加载完成时获取好友请求列表
-    document.addEventListener('DOMContentLoaded', fetchFriendRequests);
+    document.addEventListener('DOMContentLoaded', function() {
+    const socket = io();
+    // 设置监听更新好友请求的事件
+    // 页面加载时获取一次好友请求列表
+    fetchFriendRequests();
+    });
 
     function fetchFriends() {
         // 从body元素的data-username属性读取当前用户名
