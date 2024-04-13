@@ -124,6 +124,12 @@ def page_not_found(_):
 def home():
     if request.args.get("username") is None:
         abort(404)
+    requested_username = request.args.get("username")
+    
+    # 验证 session 中的用户名是否与请求的用户名一致
+    if requested_username != session.get('username'):
+        # 如果不一致，返回错误或重定向到其他页面
+        abort(403)  # Forbidden access
     return render_template("home.jinja", username=request.args.get("username"))
 
 @app.route("/api/sensitive_data")
