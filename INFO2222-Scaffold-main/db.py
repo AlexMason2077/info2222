@@ -3,7 +3,7 @@ db
 database file, containing all the logic to interface with the sql database
 '''
 
-from sqlalchemy import create_engine, MetaData, or_, Table
+from sqlalchemy import and_, create_engine, MetaData, or_, Table
 from sqlalchemy.orm import Session
 from models import *  
 from pathlib import Path
@@ -304,24 +304,30 @@ def can_join_chatroom(username1, username2):
         ).first()
         return bool(friendship)  # 如果找到了好友关系，返回 True
 
-
 def get_friend_requests_for_user(username: str):
     with Session(engine) as session:
         # 查询所有发给指定用户的好友请求
         friend_requests = session.query(FriendRequest).filter(
-            FriendRequest.receiver_id == username,
-            FriendRequest.status == RequestStatus.PENDING.value  # 假设我们只对“pending”的请求感兴趣
+            or_(
+                FriendRequest.receiver_id == username,
+                FriendRequest.sender_id == username
+            ),
+            FriendRequest.status == RequestStatus.PENDING.value
         ).all()
         return friend_requests
 
 
-# def are_friends(username1, username2):
-#     with Session(engine) as session:
-#         friendship = session.query(Friendship).filter(
-#             ((Friendship.user_username == username1) & (Friendship.friend_username == username2)) |
-#             ((Friendship.user_username == username2) & (Friendship.friend_username == username1))
-#         ).first()
-#         return friendship is not None
+
+def are_friends(user1: str, user2: str):
+    with Session(engine) as session:
+        # 检查两个用户是否是好友
+        friendship = session.query(Friendship).filter(
+            or_(
+                and_(Friendship.user_username == user1, Friendship.friend_username == user2),
+                and_(Friendship.user_username == user2, Friendship.friend_username == user1)
+            )
+        ).first()
+        return friendship is not None
     
 def print_all_friend_requests():
     with Session(engine) as session:

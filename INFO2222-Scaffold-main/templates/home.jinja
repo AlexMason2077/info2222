@@ -512,6 +512,11 @@
             friendRequests.forEach(request => {
                 // 创建一个新的列表项
                 const listItem = document.createElement('li');
+                 if (request.sender === currentUsername) {
+                // 当前用户是发送者
+                listItem.textContent = `To: ${request.receiver}`;
+                 } else {
+                // 当前用户是接收者
                 listItem.textContent = `From: ${request.sender}`;
 
                 // 创建接受和拒绝按钮
@@ -529,7 +534,7 @@
                 // 将按钮添加到列表项中
                 listItem.appendChild(acceptButton);
                 listItem.appendChild(rejectButton);
-
+            }
                 // 将列表项添加到列表中
                 friendRequestsList.appendChild(listItem);
             });

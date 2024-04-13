@@ -10,6 +10,7 @@ import db
 import secrets
 from bcrypt import gensalt, hashpw, checkpw
 from functools import wraps
+from sqlalchemy.orm import aliased
 
 # import logging
 
@@ -145,6 +146,14 @@ def send_request():
     
     # 在调用db函数之前和之后添加更多的错误检查和日志输出，以确定问题所在
     print(data)
+    sender = data['sender']
+    receiver = data['receiver']
+    
+    if sender == receiver:
+        return jsonify({"error": "Cannot send friend request to yourself."}),400
+    
+    if db.are_friends(sender,receiver):
+        return jsonify({"error": "You are already friends!"}),400
     result = db.send_friend_request(data['sender'], data['receiver'])
     if not result:
         return jsonify({"error": "An error occurred while processing your request"}), 400
@@ -162,6 +171,7 @@ def get_friend_requests():
         return jsonify([{
             "id": fr.id,
             "sender": fr.sender_id,
+            "receiver": fr.receiver_id,
             "status": fr.status
         } for fr in friend_requests])
     except Exception as e:
