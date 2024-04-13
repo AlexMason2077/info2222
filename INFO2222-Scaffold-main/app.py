@@ -246,3 +246,4 @@ if __name__ == '__main__':
 
     # db.print_all_users()
     # print(db.get_messages_by_room_id(4))
+    # print(db.get_messages_by_room_id(4))

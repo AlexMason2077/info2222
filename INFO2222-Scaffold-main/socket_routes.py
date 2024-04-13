@@ -126,7 +126,7 @@ def GetHisoryMessages(sender_name, receiver_name):
             })
 
         # 使用单个emit发送整个消息列表
-        emit("incoming_messages_list", {"messages": messages_list}, to=room_id_stored)
+        emit("incoming_messages_list", {"messages": messages_list}, to=request.sid)
 
 
 # leave room event handler
