@@ -135,3 +135,4 @@ def leave(username, room_id):
     emit("incoming", {"content": f"{username} has left the room.", "color": "red", "type": "system"}, to=room_id)
     leave_room(room_id)
     room.leave_room(username)
+
