@@ -3,9 +3,9 @@ socket_routes
 file containing all the routes related to socket.io
 '''
 
-
 from flask_socketio import join_room, emit, leave_room
-from flask import request
+from functools import wraps
+from flask import request, session
 import time
 
 try:
@@ -20,10 +20,23 @@ import db
 room = Room()
 
 
+def authenticated_only(f):
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+
+        # 检查session中是否有用户名
+        if 'username' not in session:
+            disconnect()  # 适当断开连接而不是再次调用事件
+            return  # 确保返回以避免进一步处理
+        else:
+            return f(*args, **kwargs)  # 正常执行装饰的函数
+    return wrapped
+
 
 # when the client connects to a socket
 # this event is emitted when the io() function is called in JS
 @socketio.on('connect')
+@authenticated_only
 def connect():
     username = request.cookies.get("username")
     room_id = request.cookies.get("room_id")
@@ -50,6 +63,7 @@ def disconnect():
 
 # send message event handler
 @socketio.on("send")
+@authenticated_only
 def send(username, message, room_id):
     # 假设所有通过这个函数发送的消息默认为"text"类型，除非指定了其他类型
     emit("incoming", {
@@ -65,6 +79,7 @@ def send(username, message, room_id):
 # join room event handler
 # sent when the user joins a room
 @socketio.on("join")
+@authenticated_only
 def join(sender_name, receiver_name):
     #print("start join_room")
     receiver = db.get_user(receiver_name)
@@ -109,6 +124,7 @@ def join(sender_name, receiver_name):
     return room_id_current
 
 @socketio.on("GetHistoryMessages")
+@authenticated_only
 def GetHisoryMessages(sender_name, receiver_name):
     # 查找两个用户间的房间ID
     room_id_stored = db.find_room_id_by_users(sender_name, receiver_name)
@@ -131,6 +147,7 @@ def GetHisoryMessages(sender_name, receiver_name):
 
 # leave room event handler
 @socketio.on("leave")
+@authenticated_only
 def leave(username, room_id):
     emit("incoming", {"content": f"{username} has left the room.", "color": "red", "type": "system"}, to=room_id)
     leave_room(room_id)
