@@ -30,6 +30,10 @@ app.config['SESSION_TYPE'] = 'filesystem'  # session 数据存储在文件系统
 app.config['SESSION_FILE_DIR'] = 'session_files'  # 存储 session 文件的目录
 app.config['SESSION_PERMANENT'] = False  # session 的持久性
 app.config['SESSION_USE_SIGNER'] = True  # 启用 session 的签名
+app.config['SESSION_COOKIE_SECURE'] = True  # 只有在 HTTPS 下才发送 cookie
+app.config['SESSION_COOKIE_HTTPONLY'] = True  # 阻止 JavaScript 访问 cookie
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # CSRF 保护
+
 Session(app)  # 初始化应用以使用 Flask-Session
 
 
@@ -144,27 +148,25 @@ def sensitive_data():
 
 @app.route("/send_friend_request", methods=["POST"])
 def send_request():
-    data = request.json
-    if not data:
-        return jsonify({"error": "Missing JSON data"}), 400
-    if 'sender' not in data or 'receiver' not in data:
-        return jsonify({"error": "Missing 'sender' or 'receiver' in data"}), 400
-    
-    # 在调用db函数之前和之后添加更多的错误检查和日志输出，以确定问题所在
-    print(data)
-    sender = data['sender']
-    receiver = data['receiver']
-    
+    if 'username' not in session:
+        return jsonify({"error": "Authentication required"}), 401
+
+    sender = session['username']
+    receiver = request.json.get('receiver')
+
+    if not receiver:
+        return jsonify({"error": "Missing 'receiver' in data"}), 400
     if sender == receiver:
-        return jsonify({"error": "Cannot send friend request to yourself."}),400
-    
-    if db.are_friends(sender,receiver):
-        return jsonify({"error": "You are already friends!"}),400
-    result = db.send_friend_request(data['sender'], data['receiver'])
-    if not result:
+        return jsonify({"error": "Cannot send friend request to yourself."}), 400
+    if db.are_friends(sender, receiver):
+        return jsonify({"error": "You are already friends!"}), 400
+
+    result = db.send_friend_request(sender, receiver)
+    if result:
+        return jsonify({"message": "Friend request sent successfully"})
+    else:
         return jsonify({"error": "An error occurred while processing your request"}), 400
-    
-    return jsonify({"message": result})
+
 
 @app.route('/get_friend_requests')
 def get_friend_requests():
