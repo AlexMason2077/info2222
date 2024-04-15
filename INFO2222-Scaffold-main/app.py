@@ -90,7 +90,7 @@ def login_user():
         return "Error: Password does not match!🤡"
 
     # 用户登录验证成功后
-    session['username'] = username   store user name into session 
+    session['username'] = username   #store user name into session 
 
     return url_for('home', username=request.json.get("username"))
 
