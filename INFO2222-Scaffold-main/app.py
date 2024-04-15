@@ -26,15 +26,15 @@ socketio = SocketIO(app)
 
 from flask_session import Session  # 导入 Session
 # Flask 应用配置
-app.config['SESSION_TYPE'] = 'filesystem'  # session 数据存储在文件系统
-app.config['SESSION_FILE_DIR'] = 'session_files'  # 存储 session 文件的目录
-app.config['SESSION_PERMANENT'] = False  # session 的持久性
-app.config['SESSION_USE_SIGNER'] = True  # 启用 session 的签名
-app.config['SESSION_COOKIE_SECURE'] = True  # 只有在 HTTPS 下才发送 cookie
-app.config['SESSION_COOKIE_HTTPONLY'] = True  # 阻止 JavaScript 访问 cookie
+app.config['SESSION_TYPE'] = 'filesystem'  # session store in session_files
+app.config['SESSION_FILE_DIR'] = 'session_files'  
+app.config['SESSION_PERMANENT'] = False  
+app.config['SESSION_USE_SIGNER'] = True  # signature of session
+app.config['SESSION_COOKIE_SECURE'] = True  # can only send cookie in HTTPS 
+app.config['SESSION_COOKIE_HTTPONLY'] = True  # JavaScript cannot visit cookie
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # CSRF 保护
 
-Session(app)  # 初始化应用以使用 Flask-Session
+Session(app)  #
 
 
 # don't remove this!!
@@ -45,9 +45,8 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'username' not in session:
-            # 如果用户未登录，可以重定向到登录页面，或返回错误响应
+            # If user not login, redirect to the first page
             return redirect(url_for('login'))
-            # 或者返回错误响应
             # return jsonify({"error": "Unauthorized"}), 401
         return f(*args, **kwargs)
     return decorated_function
@@ -91,7 +90,7 @@ def login_user():
         return "Error: Password does not match!🤡"
 
     # 用户登录验证成功后
-    session['username'] = username  # 存储用户名到 session
+    session['username'] = username   store user name into session 
 
     return url_for('home', username=request.json.get("username"))
 
@@ -111,7 +110,7 @@ def signup_user():
     if db.get_user(username) is None:
         print(f"[DEBUG]: {username}'s password encrpted once at jinja: {hashedPassword}")
         db.insert_user(username, hashedPassword) # will be hashed again in this function
-        session['username'] = username  # 用户注册成功后，存储用户名到 session
+        session['username'] = username  # store user name into session 
         return url_for('home', username=username)
 
     return "Error: User already exists!"
@@ -129,7 +128,7 @@ def home():
         abort(404)
     requested_username = request.args.get("username")
     
-    # 验证 session 中的用户名是否与请求的用户名一致
+    # Verify the user name in session , if it same as the request one 
     if requested_username != session.get('username'):
         # 如果不一致，返回错误或重定向到其他页面
         abort(403)  # Forbidden access
@@ -188,7 +187,7 @@ def get_friend_requests():
 @app.route("/update_friend_request", methods=["POST"])
 def update_friend_request():
     data = request.get_json()
-    print(data)  # 打印接收到的数据，看是否符合预期
+    print(data)
     if not data or 'request_id' not in data or 'status' not in data:
         return jsonify({"error": "Invalid data"}), 400
     
@@ -196,13 +195,12 @@ def update_friend_request():
     new_status = data['status']
     
     try:
-        # 在这里添加更多的日志输出，如果有异常，输出异常信息
         result = db.update_friend_request_status(request_id, new_status)
-        print("Update successful")  # 如果成功，输出成功信息
+        print("Update successful") 
         socketio.emit('friend_request_update', {'message': 'Update your friend requests list'})
         return jsonify({"message": "Friend request updated successfully."})
     except Exception as e:
-        print(f"Error: {e}")  # 输出错误信息
+        print(f"Error: {e}") 
         return jsonify({"error": str(e)}), 500
 
 
@@ -224,16 +222,17 @@ def upload_public_key():
     username = request.json['username']
     public_key = request.json['publicKey']
     
-    # 在这里处理公钥，例如存储到数据库中或进行其他操作
+    # GET PUBLIC KEY FROM CLIENT
+    # store it into database
     print(f"[DEBUG] Received {username}'s {public_key}")
     db.insert_public_key(username,public_key)
     return 'Public key received successfully'
 
 @app.route('/getPublicKey', methods=['POST'])
 def get_public_key():
-    # 尝试从请求体中获取username
+
     data = request.get_json()
-    username = data.get('username')  # 使用get方法安全地访问字典键
+    username = data.get('username')  
 
     if not username:
         # 如果没有提供username或者username为空
@@ -244,10 +243,9 @@ def get_public_key():
         if public_key:
             return jsonify({"public_key": public_key})
         else:
-            # 如果找不到公钥
+            # can not find public key in db
             return jsonify({"error": "Public key not found"}), 404
     except Exception as e:
-        # 如果查询过程中发生了异常
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':

@@ -26,10 +26,10 @@ def authenticated_only(f):
 
         # 检查session中是否有用户名
         if 'username' not in session:
-            disconnect()  # 适当断开连接而不是再次调用事件
-            return  # 确保返回以避免进一步处理
+            disconnect() 
+            return  
         else:
-            return f(*args, **kwargs)  # 正常执行装饰的函数
+            return f(*args, **kwargs)  
     return wrapped
 
 
@@ -65,7 +65,6 @@ def disconnect():
 @socketio.on("send")
 @authenticated_only
 def send(username, message, room_id):
-    # 假设所有通过这个函数发送的消息默认为"text"类型，除非指定了其他类型
     emit("incoming", {
         "content": f"{username}: {message}", 
         "color": "black", 
@@ -126,22 +125,18 @@ def join(sender_name, receiver_name):
 @socketio.on("GetHistoryMessages")
 @authenticated_only
 def GetHisoryMessages(sender_name, receiver_name):
-    # 查找两个用户间的房间ID
     room_id_stored = db.find_room_id_by_users(sender_name, receiver_name)
     if room_id_stored:
-        messages_list = []  # 初始化一个空列表来收集消息
-        # 获取房间ID对应的所有消息
+        messages_list = [] 
+
         for e in db.get_messages_by_room_id(room_id_stored):
-            # 构建每条消息的内容
             message_content = f"{e[0]}: {e[1]}"
-            # 将构建的消息内容添加到列表中
             messages_list.append({
                 "content": message_content, 
                 "color": "black", 
                 "type": "text"
             })
 
-        # 使用单个emit发送整个消息列表
         emit("incoming_messages_list", {"messages": messages_list}, to=request.sid)
 
 
