@@ -6,10 +6,12 @@
 
 {% block content %} 
    <style>
+
     nav {
         border-bottom: 1px solid black;
         overflow: auto
     }
+    
 
     #message_box {
         border: 1px solid black; 
@@ -38,6 +40,7 @@
         margin-bottom: 2px;
     }
 
+
 </style>
 
 <!--Navbar, you'll see the username here-->
@@ -52,7 +55,7 @@
 </nav>
 
 <h1>Messaging App </h1>
-
+<div id="error-message" style="display: none; color: red; margin: 10px;"></div>
 <main>
     <!-- The messages are displayed here -->
     <section id="message_box"></section>
@@ -124,7 +127,6 @@
         }
     })
 
-
     $(document).ready(() => {
         // room_id is undefined if the user hasn't joined a room
         // we early return in this case
@@ -161,6 +163,18 @@
         // 注意：这里需要替换为您的实际登出URL
         window.location.href = '/logout';
     }
+
+
+    socket.on('error', function(data) {
+        var errorMessageDiv = document.getElementById('error-message');
+        errorMessageDiv.textContent = data.message;  // 设置错误消息
+        errorMessageDiv.style.display = 'block';     // 显示错误消息元素
+
+        // 可选：设置几秒后自动隐藏错误消息
+        setTimeout(function() {
+            errorMessageDiv.style.display = 'none';  // 隐藏错误消息元素
+        }, 3000);  // 5秒后隐藏
+    });
 
     // an incoming message arrives, we'll add the message to the message box
     function processMessage(data) {

@@ -45,7 +45,6 @@ def connect():
     # so on client connect, the room needs to be rejoined
     join_room(int(room_id))
 
-
     emit("incoming", {"content": f"{username} has connected", "color": "green", "type": "system"}, to=int(room_id))
 
 # event when client disconnects
@@ -60,10 +59,16 @@ def disconnect():
     emit("incoming", {"content": f"{username} has disconnected", "color": "red", "type": "system"}, to=int(room_id))
 
 
-# send message event handler
 @socketio.on("send")
 @authenticated_only
 def send(username, message, room_id):
+    users_in_room = room.get_users_in_room(room_id)
+    print(f"[DEBUG] Current user(s) in room {room_id} : {users_in_room}")
+
+    if len(users_in_room) < 2:
+        emit("error", {"message": "2 users both need to be online"}, to=request.sid)
+        return 
+
     emit("incoming", {
         "content": f"{username}: {message}", 
         "color": "black", 
@@ -73,6 +78,7 @@ def send(username, message, room_id):
     # 在数据库插入消息时包含消息类型
     db.insert_message(room_id, username, message)
 
+    return
     
 # join room event handler
 # sent when the user joins a room

@@ -77,6 +77,9 @@ class Room():
             return None
         return self.dict[user]
 
+    def get_users_in_room(self, room_id: int) -> list[str]:
+        return [user for user, r_id in self.dict.items() if r_id == room_id]
+
 
 class RoomInfo(Base):
     __tablename__ = "RoomInfo"
