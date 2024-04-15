@@ -1,0 +1,67 @@
+\documentclass[12pt]{article}
+
+
+\newcommand{\GroupId}{idk}
+\newcommand{\assignment}{project-security}
+
+\NeedsTeXFormat{LaTeX2e}
+\usepackage[osf]{mathpazo}
+\usepackage[svgnames]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,mathtools}
+\usepackage{hyperref,url}
+\usepackage[margin=2.7cm,a4paper]{geometry}
+\usepackage{tasks}
+\usepackage{xstring}
+\usepackage[tikz]{mdframed}
+\usepackage{environ}
+\usepackage{etoolbox}
+\usepackage{fourier-orns}
+\usepackage{kvoptions}
+\usepackage[]{units}
+\usepackage{url}%
+\usepackage[normal]{subfigure}
+
+% math config
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\set{\{}{\}}
+
+
+% headers
+
+\usepackage{fancyhdr}
+\addtolength{\headheight}{2.5pt}
+\pagestyle{fancy}
+\fancyhead{} 
+\fancyhead[L]{\sc info2222} % Replace with comp2123 or comp2823
+\renewcommand{\headrulewidth}{0.75pt}
+
+% update these headers
+\fancyhead[C]{\sc Group Id: \GroupId}
+\fancyhead[R]{Assignment \assignment}
+
+\begin{document}
+
+\section{Introduction}
+
+This assignment is actually much better than Comp2017's o.O
+
+\section{Approach explanation}
+    \subsection*{Part: Basic Functionality Requirements:}
+        \subsubsection*{1} Basically provided by template...
+
+        \subsubsection*{2} King Zhou !!!
+
+        \subsubsection*{3} King Zhou !!!
+
+        \subsubsection*{6} 
+
+    \subsection*{Part: Additional Criteria:}
+
+        \subsubsection*{1} When signing up, after checking if the user has already signed up, the server will generate a random salt and hash the password with this salt. Finally, it stores the username, salt, and hashed password in the database.
+
+\section{Contribution}
+
+\end{document}

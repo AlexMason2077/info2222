@@ -24,7 +24,6 @@ def authenticated_only(f):
     @wraps(f)
     def wrapped(*args, **kwargs):
 
-        # 检查session中是否有用户名
         if 'username' not in session:
             disconnect() 
             return  

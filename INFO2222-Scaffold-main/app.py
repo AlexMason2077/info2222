@@ -90,7 +90,7 @@ def login_user():
         return "Error: Password does not match!🤡"
 
     # 用户登录验证成功后
-    session['username'] = username   #store user name into session 
+    session['username'] = username   # store user name into session 
 
     return url_for('home', username=request.json.get("username"))
 
@@ -218,7 +218,6 @@ def get_friends():
 
 @app.route('/upload_public_key', methods=['POST'])
 def upload_public_key():
-    # 从POST请求数据中获取公钥
     username = request.json['username']
     public_key = request.json['publicKey']
     
@@ -235,7 +234,6 @@ def get_public_key():
     username = data.get('username')  
 
     if not username:
-        # 如果没有提供username或者username为空
         return jsonify({"error": "Missing or empty username parameter"}), 400
 
     try:
