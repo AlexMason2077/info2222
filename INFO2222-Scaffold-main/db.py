@@ -40,7 +40,7 @@ def get_user(username: str):
     with Session(engine) as session:
         return session.get(User, username)
 
-# 添加RoomInfo记录到数据库
+# add roominfo record to the database
 def insert_room(room_id: int, user_a: str, user_b: str):
     with Session(engine) as session:
         room_info = RoomInfo(room_id=room_id, user_a=user_a, user_b=user_b)
@@ -49,14 +49,14 @@ def insert_room(room_id: int, user_a: str, user_b: str):
             session.commit()
             print(f"Room {room_id} created with users {user_a} and {user_b}.")
         except Exception as e:
-            session.rollback()  # 如果发生错误，则回滚
+            session.rollback()  # rollback if error occurs
             print(f"Failed to insert room info: {e}")
         finally:
-            session.close()  # 确保session被正确关闭
+            session.close()  # ensure the session is properly closed 
 
 def find_room_id_by_users(user_a: str, user_b: str) -> int:
     with Session(engine) as session:
-        # 使用or_来构建逻辑或条件
+        # use or_ to construct logical OR conditions
         room_info = session.query(RoomInfo).filter(
             or_(
                 (RoomInfo.user_a == user_a) & (RoomInfo.user_b == user_b),
@@ -71,11 +71,11 @@ def find_room_id_by_users(user_a: str, user_b: str) -> int:
 
 def find_free_room_id():
     with Session(engine) as session:
-        # 获取所有现有的room_id，按升序排序
+        # get all existing room IDs, sorted in ascending order
         existing_ids = session.query(RoomInfo.room_id).order_by(RoomInfo.room_id).all()
-        existing_ids = [id[0] for id in existing_ids]  # 将结果转换为单个数字列表
+        existing_ids = [id[0] for id in existing_ids]  # convert the result to a single list of numbers
 
-        # 寻找第一个空闲的ID
+        # find the first available ID
         free_id = 1
         while free_id in existing_ids:
             free_id += 1
@@ -84,76 +84,75 @@ def find_free_room_id():
 
 def insert_message(room_id: int, sender: str, content: str):
     with Session(engine) as session:
-        # 创建一个Message实例
+        # create a message instance
         message = Message(room_id=room_id, sender=sender, content=content)
         
-        # 添加这个实例到session
+        # add the instance to the session
         session.add(message)
         
-        # 提交session到数据库
+        # commit the sessino to the database
         try:
             session.commit()
             print(f"Message added: {sender}: {content} in room {room_id}")
         except Exception as e:
-            # 如果出现错误，回滚更改
+            #roll back if error
             session.rollback()
             print(f"Failed to insert message: {e}")
         finally:
-            # 关闭session
+            # close the session
             session.close()
 
 def get_all_messages():
     with Session(engine) as session:
-        # 查询messages表中的所有记录
+        # query all records in the messages table
         messages = session.query(Message).all()
 
-        # 用于存储所有消息信息的列表
+        # list to store all message information
         all_messages = []
 
-        # 遍历每条消息记录，并收集其详细信息
+        # Iterate through each message record and collect its detailed information
         for message in messages:
             message_info = (message.id, message.room_id, message.sender, message.content)
             all_messages.append(message_info)
 
-            # 如果需要在控制台打印每条消息的详细信息
             print(f"ID: {message.id}, Room ID: {message.room_id}, Sender: {message.sender}, Content: {message.content}")
 
-        # 返回所有消息的详细信息列表
+        # Return a list of detailed information for all messages
         return all_messages
 
 def get_messages_by_room_id(room_id: int) -> list:
     with Session(engine) as session:
-        # 查询指定room_id的所有消息
+        # query all messages for the specified room_id
         messages = session.query(Message.sender, Message.content).filter(Message.room_id == room_id).all()
 
-        # messages 已经是一个包含了很多元组的列表，每个元组包含(sender, content)
+        # messages is already a list containing many tuples, each tuple containing (sender, content)
         return messages
 
 
 def insert_public_key(username: str, public_key: str):
     with Session(engine) as session:
-        # 创建一个Message实例
+        # create a message instance
         PublicKey = PublicKeys(user_name = username, public_key = public_key)
         
-        # 添加这个实例到session
+        # add the instance to session
         session.add(PublicKey)
         
-        # 提交session到数据库
+        # commit the session to the database
         try:
             session.commit()
             print(f"[DEBUG]: PublicKey added: {username}: {public_key}")
         except Exception as e:
-            # 如果出现错误，回滚更改
+            # if error, rollback
             session.rollback()
             print(f"[DEBUG]: Failed to insert PublicKey: {e}")
         finally:
-            # 关闭session
+            # close the session
             session.close()
 
 def get_public_key(username: str):
     with Session(engine) as session:
         try:
-            # 查询数据库以获取给定用户名的公钥
+            # query the database to retrieve the public key for the given username
             public_key = session.query(PublicKeys).filter_by(user_name=username).first()
             if public_key:
                 return public_key.public_key
@@ -167,7 +166,7 @@ def get_public_key(username: str):
 
 
 #################################################################################
-# 下面是支持函数
+# functions below
 #################################################################################
 
 def drop_all_tables(database_url: str):
@@ -179,57 +178,55 @@ def drop_all_tables(database_url: str):
 
     metadata.drop_all(engine)
 
-    print("所有表已成功删除。")
+    print("all tables have been successfully deleted.")
 
 def print_all_users():
     with Session(engine) as session:
-        # 查询User表中的所有记录
+        # query all records in the user table
         users = session.query(User).all()
-        # 遍历每个用户对象，并打印其详细信息
+        # Iterate through each user object and print its detailed information
         for user in users:
             print(f"Username: {user.username}, , Salt: {user.salt}, Password: {user.password}")
 
 
 def get_all_room_info():
     with Session(engine) as session:
-        # 查询RoomInfo表中的所有记录
+        # query all records in the roominfo table
         rooms = session.query(RoomInfo).all()
 
-        # 如果需要，您可以在这里打印每个房间的信息，或者返回这些信息
         for room in rooms:
             print(f"Room ID: {room.room_id}, User A: {room.user_a}, User B: {room.user_b}")
-
-        # 或者，如果您想返回这些记录以供进一步处理，可以这样做：
+        
         return rooms
 
 def drop_room_info_table():
     with engine.begin() as connection:
-        # 直接删除RoomInfo表
+        # directly delete the roominfo table
         RoomInfo.__table__.drop(bind=engine, checkfirst=True)
         print("RoomInfo tabSle has been dropped.")
 
 def view_tables():
-    # 数据库连接字符串
+    # database connection string
     database_url = "sqlite:///database/main.db"
 
-    # 创建数据库引擎
+    # create a database engine
     engine = create_engine(database_url)
 
-    # 创建元数据对象
+    # create a metadataobject
     metadata = MetaData()
 
-    # 使用反射加载所有表的信息
+    # Load information for all tables using reflection
     metadata.reflect(bind=engine)
 
-    # 遍历所有表，打印出表名和每列的名字及类型
+    # iterat through all tables, print table names and the name and type of each
     for table_name in metadata.tables:
         print(f"Table: {table_name}")
-        # 获取表对象
+        # get table object
         table = metadata.tables[table_name]
-        # 打印列信息
+        # print column information
         for column in table.c:
             print(f"  Column: {column.name}, Type: {column.type}")
-        print("")  # 空行，用于分隔不同的表
+        print("")  # empty line for separating different tables
 
 
 ##############################################################################
@@ -240,17 +237,13 @@ def send_friend_request(sender_username: str, receiver_username: str):
     print(f"sender:{sender_username}")
     print(f"receiver:{receiver_username}")
     with Session(engine) as session:
-        # 检查接收者是否存在
+        # check if the recipient exists
         receiver = session.get(User, receiver_username)
         print(receiver)
         if not receiver:
             return "Receiver does not exist."
         
-        # # 检查是否已经是好友
-        # if are_friends(sender_username, receiver_username):
-        #     return "Already friends."
-
-        # 检查是否已经发送过好友请求
+         # check if a friend request has already been sent
         existing_request = session.query(FriendRequest).filter(
         (FriendRequest.sender_id == sender_username) & 
         (FriendRequest.receiver_id == receiver_username) & 
@@ -259,7 +252,7 @@ def send_friend_request(sender_username: str, receiver_username: str):
         if existing_request:
             return "Friend request already sent or already friends."
 
-        # 创建并保存新的好友请求
+        # create and save a new friend request
         new_request = FriendRequest(sender_id=sender_username, receiver_id=receiver_username, status=RequestStatus.PENDING.value)
         session.add(new_request)
         try:
@@ -276,7 +269,7 @@ def send_friend_request(sender_username: str, receiver_username: str):
 
 def add_friend(user_username, friend_username):
     with Session(engine) as session:
-        # 检查是否已经是好友
+        # check if they are already friends
         existing_friendship = session.query(Friendship).filter(
             ((Friendship.user_username == user_username) & (Friendship.friend_username == friend_username)) |
             ((Friendship.user_username == friend_username) & (Friendship.friend_username == user_username))
@@ -285,24 +278,24 @@ def add_friend(user_username, friend_username):
         if existing_friendship:
             return "Already friends."
         
-        # 添加好友关系
+        # add friendship
         friendship = Friendship(user_username=user_username, friend_username=friend_username)
         session.add(friendship)
         session.commit()
         return "Friend added successfully."
     
 def can_join_chatroom(username1, username2):
-    # 使用 SQLAlchemy session 来查询 Friendship 表
+    # use SQLALchemy session to query the friendship table
     with Session() as session:
         friendship = session.query(Friendship).filter(
             ((Friendship.user_username == username1) & (Friendship.friend_username == username2)) |
             ((Friendship.user_username == username2) & (Friendship.friend_username == username1))
         ).first()
-        return bool(friendship)  # 如果找到了好友关系，返回 True
+        return bool(friendship)  # return true if the friendship is found
 
 def get_friend_requests_for_user(username: str):
     with Session(engine) as session:
-        # 查询所有发给指定用户的好友请求
+        # query all friend requests sent to the specified user
         friend_requests = session.query(FriendRequest).filter(
             or_(
                 FriendRequest.receiver_id == username,
@@ -316,7 +309,7 @@ def get_friend_requests_for_user(username: str):
 
 def are_friends(user1: str, user2: str):
     with Session(engine) as session:
-        # 检查两个用户是否是好友
+        # check if the two users are friends
         friendship = session.query(Friendship).filter(
             or_(
                 and_(Friendship.user_username == user1, Friendship.friend_username == user2),
@@ -344,15 +337,15 @@ def print_table_names():
 def update_friend_request_status(request_id: int, new_status: str):
     with Session(engine) as session:
         try:
-            # 根据ID找到好友请求记录
+            # find the friend request record by ID
             friend_request = session.query(FriendRequest).filter(FriendRequest.id == request_id).first()
             if not friend_request:
                 return False, "Friend request not found."
 
-            # 更新状态
+            # update the status
             friend_request.status = new_status
             if new_status == "approved":
-                # 检查是否已存在好友关系
+                # check a friendship
                 exists = session.query(Friendship).filter_by(user_username=friend_request.sender_id, friend_username=friend_request.receiver_id).first()
                 if not exists:
                     new_friendship1 = Friendship(user_username=friend_request.sender_id, friend_username=friend_request.receiver_id)
@@ -368,31 +361,15 @@ def update_friend_request_status(request_id: int, new_status: str):
             print(f"Error updating friend request status: {e}")
             return False, "Error occurred during the update."
 
-# def approve_friend_request(request_id: int):
-#     with Session(engine) as session:
-#         # 找到对应的好友请求
-#         friend_request = session.query(FriendRequest).filter_by(id=request_id).first()
-#         print(f"found friend_request: {friend_request}")
-    
-#         new_friendship1 = Friendship(user_username=friend_request.sender_id, friend_username=friend_request.receiver_id)
-#         new_friendship2 = Friendship(user_username=friend_request.receiver_id, friend_username=friend_request.sender_id)
-#         session.add(new_friendship1)
-#         session.add(new_friendship2)
-#         session.commit()
-#         print(f"We are friends!!!!!!!: {new_friendship1.user_username} <--> {new_friendship2.user_username}")
-
-
 def get_friends_for_user(username: str):
     with Session(engine) as session:
-        # 查询当前用户的好友关系
+        # check friendship
         friendships = session.query(Friendship).filter(
             (Friendship.user_username == username)
         ).all()
 
-        # 提取好友用户名
+        # extract the friend's username
         friends_usernames = [friendship.friend_username for friendship in friendships]
-
-        # （可选）获取好友的详细信息，例如用户名和名字
         friends = []
         for friend_username in friends_usernames:
             friend = session.query(User).filter(User.username == friend_username).first()
@@ -405,13 +382,13 @@ def get_friends_for_user(username: str):
 
 def print_all_friends():
     with Session(engine) as session:
-        # 获取所有用户
+        # retrieve all users
         users = session.query(User).all()
 
-        # 对于每个用户，打印他们的好友列表
+        # for each user, print their list of friends
         for user in users:
             print(f"User {user.username}'s friends:")
-            # 调用 get_friends_for_user 函数获取好友列表
+            # call the get_friends_for_user function to retrieve the list of friends
             friends = get_friends_for_user(user.username)
             print(friends)
             if friends:

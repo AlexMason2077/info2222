@@ -25,16 +25,16 @@ app.config['SECRET_KEY'] = secrets.token_hex()
 socketio = SocketIO(app)
 
 from flask_session import Session  # 导入 Session
-# Flask 应用配置
+# Flask application configuration
 app.config['SESSION_TYPE'] = 'filesystem'  # session store in session_files
 app.config['SESSION_FILE_DIR'] = 'session_files'  
 app.config['SESSION_PERMANENT'] = False  
 app.config['SESSION_USE_SIGNER'] = True  # signature of session
 app.config['SESSION_COOKIE_SECURE'] = True  # can only send cookie in HTTPS 
 app.config['SESSION_COOKIE_HTTPONLY'] = True  # JavaScript cannot visit cookie
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # CSRF 保护
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # CSRF Protection
 
-Session(app)  #
+Session(app)  
 
 
 # don't remove this!!
@@ -63,9 +63,9 @@ def login():
 
 @app.route('/logout')
 def logout():
-    # 清除会话
+    # clear the session
     session.clear()
-    # 重定向到登录页面
+    # redirect to the index page
     return redirect(url_for('index'))
 
 # handles a post request when the user clicks the log in button
@@ -89,7 +89,7 @@ def login_user():
     if not checkpw(hashedPassword.encode('utf-8'), user.password):
         return "Error: Password does not match!🤡"
 
-    # 用户登录验证成功后
+    # after successful user login authentication
     session['username'] = username   # store user name into session 
 
     return url_for('home', username=request.json.get("username"))
@@ -130,14 +130,14 @@ def home():
     
     # Verify the user name in session , if it same as the request one 
     if requested_username != session.get('username'):
-        # 如果不一致，返回错误或重定向到其他页面
+        # if inconsistent, return an error and redirect to another page
         abort(403)  # Forbidden access
     return render_template("home.jinja", username=request.args.get("username"))
 
 @app.route("/api/sensitive_data")
 @login_required
 def sensitive_data():
-    # 处理敏感数据请求
+    #handling sensitive data requests
     return jsonify({"data": "sensitive information"})
 
 

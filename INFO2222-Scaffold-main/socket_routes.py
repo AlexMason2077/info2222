@@ -74,7 +74,7 @@ def send(username, message, room_id):
         "type": "text"
     }, to=room_id)
     
-    # 在数据库插入消息时包含消息类型
+    # include the message type when inserting a message into the database
     db.insert_message(room_id, username, message)
 
     return

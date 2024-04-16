@@ -47,7 +47,7 @@
 <nav style="border-bottom: 1px solid black;">
     <ol style="float: right">
         <li style="display:inline-block">Username:  {{ username }} </li>
-        <!-- 添加退出按钮 -->
+        <!-- logout button -->
             <li style="display:inline-block; margin-left: 10px;">
                 <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn">Logout</a>
             </li>
@@ -155,11 +155,10 @@
     });
 
     function logoutAndClearStorage() {
-        // 清除localStorage中的特定记录，假设键名为'userToken'
+        // Clear a specific record from localStorage, assuming the key name is 'userToken'
         localStorage.removeItem(username);
         
-        // 重定向到登出页面
-        // 注意：这里需要替换为您的实际登出URL
+        // Redirect to the logout page
         window.location.href = '/logout';
     }
 
@@ -187,13 +186,12 @@
                     console.log("[DEBUG] The content: ",content);
                     console.log("[DEBUG] Shared key ",sharedKeyHex);
 
-                    // 正则表达式模式
                     const pattern = /(\w+):\s(.+?)(?=\s\w+:|$)/g;
 
-                    // 匹配字符串并提取用户名和文本内容
+                    // Match the string and extract the username and text content.
                     let match;
                     while ((match = pattern.exec(content)) !== null) {
-                        // match[1] 匹配的用户名，ma2tch[2] 匹配的文本内容
+                        // match[1] corresponds to the matched username, match[2] corresponds to the matched text content.
                         const username_message = match[1];
                         const text = match[2];
 
@@ -218,43 +216,44 @@
                     
                 }catch (error){
                     console.error('[DEBUG] Error decrypting or verifying message:', error);
-                    return; // 中断执行
+                    return; // Interrupt execution
                 }
                 break;
             case "system":
-                displayColor = color; // 系统消息使用红色
+                displayColor = color; //red represents system messages
                 add_message(content, displayColor);
                 break;
 
             default:
-                displayColor = "gray"; // 未知类型的消息使用灰色
-        }
+                displayColor = "gray"; // gray represents unknown messages
         
+    }
     }
 
     //===========================================================================
     const ec = new elliptic.ec('p256');
 
     /**
-     * 计算共享密钥
+     * Calculate shared key
      * 
-     * @param {String} privateKeyHex 当前用户的私钥（十六进制字符串）
-     * @param {String} publicKeyHex 另一用户的公钥（十六进制字符串）
-     * @returns {String} 共享密钥的十六进制字符串
+     * @param {String} privateKeyHex Private key of the current user(in hexadecimal string)
+     * @param {String} publicKeyHex Public key of another user(hexadecimal string)
+     * @returns {String} Hexadecimal string of the shared key
      */
 
     function computeSharedKeyFromHex(privateKeyHex, publicKeyHex) {
-        // 将当前用户的私钥从十六进制字符串转换为密钥对
+        // Convert the private key of the current user from a hexadecimal string to a key pair
         const ownKeyPair = ec.keyFromPrivate(privateKeyHex, 'hex');
         
-        // 将另一用户的公钥从十六进制字符串转换为公钥对象
-        // 注意：公钥需要以04开头，这表示它是未压缩的公钥
+        
+        // Convert the public key of another user from a hexadecimal string to a public key object
+        // Note: The public key needs to start with '04', indicating it is an uncompressed public key
         const otherPublicKey = ec.keyFromPublic(publicKeyHex, 'hex').getPublic();
         
-        // 计算共享密钥
+        // calculate sharedKey
         const sharedKey = ownKeyPair.derive(otherPublicKey).toString(16);
         
-        // 打印共享密钥
+        // print the sharedKey
         console.log('[DEBUG]: Shared Key:', sharedKey);
     
     return sharedKey;
@@ -271,33 +270,33 @@
     }
 
     function encryptMessage(message, sharedKeyHex) {
-        // 将共享密钥从十六进制字符串转换为WordArray，crypto-js需要这种格式
+        // Convert the shared key from a hexadecimal string to a WordArray, as required by crypto-js
         const key = CryptoJS.enc.Hex.parse(sharedKeyHex);
         
-        // 加密消息
+        // encrypt the messages
         const encrypted = CryptoJS.AES.encrypt(message, key, {
-            mode: CryptoJS.mode.ECB, // 这里使用ECB模式，但推荐在可能的情况下使用更安全的模式
+            mode: CryptoJS.mode.ECB, 
             padding: CryptoJS.pad.Pkcs7
         });
         
-        // 返回密文的字符串表示
+        // Return the string representation of the ciphertext
         return encrypted.toString();
     }
 
     function decryptMessage(encryptedMessage, sharedKeyHex) {
         const key = CryptoJS.enc.Hex.parse(sharedKeyHex);
         
-        // 解密消息
+        // decrypt the messages
         const decrypted = CryptoJS.AES.decrypt(encryptedMessage, key, {
-            mode: CryptoJS.mode.ECB, // 这里使用ECB模式，但推荐在可能的情况下使用更安全的模式
+            mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7
         });
         
-        // 返回解密后的原始消息
+        // Return the decrypted original message
         return decrypted.toString(CryptoJS.enc.Utf8);
     }
 
-    // 签名消息
+    // sign the message
     function signMessage(message, privateKey) {
         const key = ec.keyFromPrivate(privateKey, 'hex');
         const msgHash = CryptoJS.SHA256(message).toString();
@@ -305,7 +304,7 @@
         return signature.toDER('hex');
     }
 
-    // 验证签名
+    // verify the signature
     function verifySignature(message, signature, publicKey) {
         const key = ec.keyFromPublic(publicKey, 'hex');
         const msgHash = CryptoJS.SHA256(message).toString();
@@ -316,39 +315,39 @@
     // we'll send the message to the server by emitting a "send" event
     async function send() {
         let message = $("#message").val();
-        var privateKeyHex = localStorage.getItem(username); // 假设私钥以这种方式存储
+        var privateKeyHex = localStorage.getItem(username); 
 
         console.log('[DEBUG]: local stored private key', privateKeyHex, 'USER: ', username);
 
         if (!privateKeyHex) {
             console.error('[DEBUG] Missing private key');
-            return; // 中断执行
+            return; // Interrupt execution
         }
 
         if (!current_receiver_public_key) {
             console.error('[DEBUG] Missing public key');
-            return; // 中断执行
+            return; // Interrupt execution
         }
 
-        let encryptedMessage; // 在try块之外声明，以便在之后使用
+        let encryptedMessage; // Declare outside of the try block for later use
         try {
-            // 生成数字签名
-            const signature = signMessage(message, privateKeyHex); // 假设你已经实现了signMessage函数
+            //generate signature
+            const signature = signMessage(message, privateKeyHex);
 
-            // 附加签名到消息
+            // append the signature to the message
             const messageWithSignature = JSON.stringify({ message: message, signature: signature });
 
-            // 计算共享密钥
+            // calculate the sharedkey
             const sharedKeyHex = computeSharedKeyFromHex(privateKeyHex, current_receiver_public_key);
 
-            // 加密消息和签名
+            // Encrypt th message and the signature
             encryptedMessage = encryptMessage(messageWithSignature, sharedKeyHex); 
             console.log("[DEBUG] Encrypted message with signature:", encryptedMessage);
 
 
         } catch (error) {
             console.error('Error computing shared key, signing, or encrypting message:', error);
-            return; // 中断执行
+            return; // interrupt execution
         }
 
         $("#message").val("");
@@ -358,41 +357,39 @@
 
     function getPublicKey(username) {
         axios.post('/getPublicKey', {
-            username: username  // 将username作为参数传递
+            username: username  
         })
         .then(function (response) {
-            // 假设后端总是返回JSON对象，并在成功时包含public_key字段
             if (response.data.public_key) {
                 //console.log('[DEBUG]: Get Receiver ', username,' public key: ',response.data.public_key);
                 current_receiver_public_key = response.data.public_key;
             } else if (response.data.error) {
-                // 后端返回了一个错误消息
+                // The backend returned an error message
                 console.error('[DEBUG]: Error:', response.data.error);
             } else {
-                // 后端返回的响应格式不符合预期
+                // The backend response format does not match the expected format
                 console.error('[DEBUG]: Unexpected response format:', response.data);
             }
         })
         .catch(function (error) {
             if (error.response) {
-                // 请求已发出，服务器以状态代码响应
-                // 超出了2xx的范围
+                // The request has been sent, amnd the server responded with a status code
                 console.error('Error:', error.response.data);
                 console.error('Status:', error.response.status);
             } else if (error.request) {
-                // 请求已经发起，但没有收到响应
+                //No response received
                 console.error('No response received:', error.request);
             } else {
-                // 在设置请求时发生了一些事情，触发了一个错误
+                // Something happend while setting up the request, triggering an error
                 console.error('Error:', error.message);
             }
         });
     }
 
-    // 监听来自服务器的历史消息列表
+    // Listen for the history message list from the server
     socket.on("incoming_messages_list", function(data) {
         data.messages.forEach(message => {
-            // 对每条历史消息调用processMessage函数
+            // Call the processMessage function for each historical message
             processMessage(message);
         });
     });
@@ -423,7 +420,7 @@
             $("#chat_box").hide();
             $("#input_box").show();
 
-            socket.emit("GetHistoryMessages", username, receiver); // 发送事件以获取历史消息
+            socket.emit("GetHistoryMessages", username, receiver); // get the history message
         });
 
 
@@ -434,7 +431,7 @@
     function leave() {
         Cookies.remove("room_id");
 
-        // 把当前对话人的public key设置回null
+        // Set the public key of the current interlocutor back to null
         current_receiver_public_key = null;
 
         socket.emit("leave", username, room_id);
@@ -494,7 +491,7 @@
         .then(response => response.json())
         .then(data => {
             alert(data.message);
-            // 可能需要重新获取并展示最新的好友请求列表
+            // might need to retrieve and display the latest friend request list again
             fetchFriendRequests();
         })
         .catch(error => {
@@ -505,7 +502,7 @@
 
     function fetchFriendRequests() {
         console.log('Fetching friend requests...');
-        let currentUsername = "{{ username }}"; // 从服务器端渲染的变量或从其他方式获取当前用户名
+        let currentUsername = "{{ username }}"; // Retrieve the current username from server-side rendering variables or from another source
 
         fetch(`/get_friend_requests?username=${currentUsername}`)
         .then(response => {
@@ -515,23 +512,23 @@
             return response.json();
         })
         .then(friendRequests => {
-            // 获取好友请求列表的容器元素
+            // get the container element for the friend request list
             const friendRequestsList = document.getElementById('friend_requests');
-            // 清空当前的列表内容
+            // clear the current list content
             friendRequestsList.innerHTML = '';
 
-            // 遍历所有好友请求并添加到列表中
+            // iterate through all friend requests and add them to the list
             friendRequests.forEach(request => {
-                // 创建一个新的列表项
+                // create a new list item
                 const listItem = document.createElement('li');
                  if (request.sender === currentUsername) {
-                // 当前用户是发送者
+                // if the current user is the sender
                 listItem.textContent = `To: ${request.receiver}`;
                  } else {
-                // 当前用户是接收者
+                // if the current user is the receiver
                 listItem.textContent = `From: ${request.sender}`;
 
-                // 创建接受和拒绝按钮
+                //create accept and reject buttons
                 const acceptButton = document.createElement('button');
                 acceptButton.textContent = 'Accept';
                 acceptButton.onclick = function() {
@@ -543,11 +540,11 @@
                     updateFriendRequest(request.id, 'rejected');
                 };
 
-                // 将按钮添加到列表项中
+                // append the buttons to the listitem
                 listItem.appendChild(acceptButton);
                 listItem.appendChild(rejectButton);
             }
-                // 将列表项添加到列表中
+                // add the listitem to the list
                 friendRequestsList.appendChild(listItem);
             });
         })
@@ -556,22 +553,20 @@
 
     socket.on('friend_request_update', function(data) {
         console.log('Received update notification:', data.message);
-        // 调用更新好友请求的函数
+        // Call the function to update friend requests
         fetchFriendRequests();
         fetchFriends();
     });
     
-    // 页面加载完成时获取好友请求列表
+    // retrieve the friend request list when the page finishes loading
     document.addEventListener('DOMContentLoaded', function() {
     const socket = io();
-    // 设置监听更新好友请求的事件
-    // 页面加载时获取一次好友请求列表
     fetchFriendRequests();
     fetchFriends();
     });
 
     function fetchFriends() {
-        // 从body元素的data-username属性读取当前用户名
+        // Read the current username from the data-username attribute of the body element
         let currentUsername = "{{ username }}";
 
         fetch(`/get_friends?username=${currentUsername}`)
@@ -583,13 +578,13 @@
         })
         .then(data => {
             const friendList = document.getElementById('friend_list');
-            friendList.innerHTML = ''; // 清空现有的好友列表
+            friendList.innerHTML = ''; // clear the existing friendlist
 
-            // 遍历返回的好友数据，为每个好友创建一个列表项
+            // iterate through the returned friend data and create a list item for each friend   
             data.forEach(friend => {
                 const li = document.createElement('li');
                 const button = document.createElement('button');
-                button.textContent = friend['username']; // 假设每个好友对象都有一个'name'属性
+                button.textContent = friend['username'];
                 button.onclick = function() {
                     join_room(friend['username']);
                 };
@@ -600,7 +595,7 @@
         .catch(error => console.error('Error fetching friends:', error));
     }
 
-    // 页面加载完成时获取好友列表
+    // Retrieve the friend list when the page finishes loading
     document.addEventListener('DOMContentLoaded', fetchFriends);
 
 
