@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  15 APR 2024 23:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  17 APR 2024 03:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1063,10 +1063,37 @@ Package hyperref Info: Link coloring OFF on input line 45.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-[1{/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/map/p
-dftex/pdftex.map}
 
-] (main.aux)
+Underfull \hbox (badness 10000) in paragraph at lines 61--62
+
+ []
+
+<graphs/insert_user.jpg, id=18, 1296.845pt x 385.44pt>
+File: graphs/insert_user.jpg Graphic file (type jpg)
+<use graphs/insert_user.jpg>
+Package pdftex.def Info: graphs/insert_user.jpg  used on input line 78.
+(pdftex.def)             Requested size: 355.0919pt x 105.54051pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<graphs/hashed_passwd.jpg, id=19, 1150.2975pt x 200.75pt>
+File: graphs/hashed_passwd.jpg Graphic file (type jpg)
+<use graphs/hashed_passwd.jpg>
+Package pdftex.def Info: graphs/hashed_passwd.jpg  used on input line 84.
+(pdftex.def)             Requested size: 355.0919pt x 61.96841pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 9
+2.
+
+(/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
+base/t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+) [1{/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/map
+/pdftex/pdftex.map}
+
+] [2 <./graphs/insert_user.jpg> <./graphs/hashed_passwd.jpg>] (main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -1075,23 +1102,24 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 4522BF1081B224974276FAB06B3A2A45;352.
  ) 
 Here is how much of TeX's memory you used:
- 23949 strings out of 474436
- 456804 string characters out of 5731134
- 1930187 words of memory out of 5000000
- 45849 multiletter control sequences out of 15000+600000
- 577584 words of font info for 57 fonts, out of 8000000 for 9000
+ 24001 strings out of 474436
+ 458246 string characters out of 5731134
+ 1939187 words of memory out of 5000000
+ 45887 multiletter control sequences out of 15000+600000
+ 577897 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 126i,11n,135p,543b,482s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/en
-c/dvips/base/8r.enc}</Users/bamingyuan/Library/Application Support/MiKTeX/texmf
-s/install/fonts/type1/public/fpl/fplbj8a.pfb></Users/bamingyuan/Library/Applica
-tion Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb></Users/b
-amingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/pal
-atino/uplb8a.pfb></Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/i
-nstall/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on main.pdf (1 page, 68001 bytes).
+ 126i,11n,135p,543b,603s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ </Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/pk/l
+jfour/jknappen/ec/dpi600/ectt1200.pk>{/Users/bamingyuan/Library/Application Sup
+port/MiKTeX/texmfs/install/fonts/enc/dvips/base/8r.enc}</Users/bamingyuan/Libra
+ry/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
+></Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/typ
+e1/public/fpl/fplrc8a.pfb></Users/bamingyuan/Library/Application Support/MiKTeX
+/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb></Users/bamingyuan/Library/
+Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplr8a.pfb>
+Output written on main.pdf (2 pages, 217663 bytes).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
- 8 named destinations out of 1000 (max. 500000)
- 37 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 101 PDF objects out of 1000 (max. 8388607)
+ 18 named destinations out of 1000 (max. 500000)
+ 47 words of extra memory for PDF output out of 10000 (max. 10000000)
 

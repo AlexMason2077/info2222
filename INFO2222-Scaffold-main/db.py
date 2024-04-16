@@ -128,7 +128,6 @@ def get_messages_by_room_id(room_id: int) -> list:
         # messages is already a list containing many tuples, each tuple containing (sender, content)
         return messages
 
-
 def insert_public_key(username: str, public_key: str):
     with Session(engine) as session:
         # create a message instance
@@ -166,7 +165,7 @@ def get_public_key(username: str):
 
 
 #################################################################################
-# functions below
+# functions below 
 #################################################################################
 
 def drop_all_tables(database_url: str):
@@ -264,7 +263,6 @@ def send_friend_request(sender_username: str, receiver_username: str):
         session.commit()
         
         return "Friend request sent successfully."
-
 
 
 def add_friend(user_username, friend_username):
@@ -377,8 +375,6 @@ def get_friends_for_user(username: str):
                 friends.append({"username": friend.username})
         
         return friends
-
-
 
 def print_all_friends():
     with Session(engine) as session:
