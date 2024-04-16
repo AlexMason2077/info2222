@@ -63,7 +63,6 @@ def disconnect():
 @authenticated_only
 def send(username, message, room_id):
     users_in_room = room.get_users_in_room(room_id)
-    print(f"[DEBUG] Current user(s) in room {room_id} : {users_in_room}")
 
     if len(users_in_room) < 2:
         emit("error", {"message": "2 users both need to be online"}, to=request.sid)
@@ -86,6 +85,7 @@ def send(username, message, room_id):
 @authenticated_only
 def join(sender_name, receiver_name):
     #print("start join_room")
+
     receiver = db.get_user(receiver_name)
     if receiver is None:
         return "Unknown receiver!"
@@ -96,21 +96,26 @@ def join(sender_name, receiver_name):
 
     # Check if they are friends!
     users = db.get_friends_for_user(sender_name)
-    usernames = [user['username'] for user in users]  # 使用列表推导式提取所有 'username' 的值
+    usernames = [user['username'] for user in users]  
 
     if not (receiver_name in usernames):
         return f"{receiver_name} is not your friend, please send a request🥰"
 
-    room_id_current = room.get_room_id(receiver_name)
+    room_id_current = db.find_room_id_by_users(sender_name,receiver_name)
+
+    print(room_id_current)
 
     if room_id_current is not None:
+
         room.join_room(sender_name, room_id_current)
+
         join_room(room_id_current)
         # emit to everyone in the room except the sender
         emit("incoming", {"content": f"{sender_name} has joined the room.", "color": "green", "type": "system"}, to=room_id_current, include_self=False)
         
         # emit only to the sender
         emit("incoming", {"content": f"{sender_name} has joined the room. Now talking to {receiver_name}.", "color": "green", "type": "system"})
+
         return room_id_current
 
 

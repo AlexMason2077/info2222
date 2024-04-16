@@ -55,7 +55,6 @@
 </nav>
 
 <h1>Messaging App </h1>
-<div id="error-message" style="display: none; color: red; margin: 10px;"></div>
 <main>
     <!-- The messages are displayed here -->
     <section id="message_box"></section>
@@ -166,14 +165,7 @@
 
 
     socket.on('error', function(data) {
-        var errorMessageDiv = document.getElementById('error-message');
-        errorMessageDiv.textContent = data.message;  // 设置错误消息
-        errorMessageDiv.style.display = 'block';     // 显示错误消息元素
-
-        // 可选：设置几秒后自动隐藏错误消息
-        setTimeout(function() {
-            errorMessageDiv.style.display = 'none';  // 隐藏错误消息元素
-        }, 3000);  // 5秒后隐藏
+        alert(data.message);
     });
 
     // an incoming message arrives, we'll add the message to the message box

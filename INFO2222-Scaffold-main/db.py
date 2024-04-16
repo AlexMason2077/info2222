@@ -171,16 +171,12 @@ def get_public_key(username: str):
 #################################################################################
 
 def drop_all_tables(database_url: str):
-    # 创建数据库引擎
     engine = create_engine(database_url)
 
-    # 创建元数据对象
     metadata = MetaData()
 
-    # 反射数据库中的所有表
     metadata.reflect(bind=engine)
 
-    # 删除所有表
     metadata.drop_all(engine)
 
     print("所有表已成功删除。")

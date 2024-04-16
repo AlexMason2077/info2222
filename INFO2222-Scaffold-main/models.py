@@ -71,12 +71,6 @@ class Room():
             return
         del self.dict[user]
 
-    # gets the room id from a user
-    def get_room_id(self, user: str):
-        if user not in self.dict.keys():
-            return None
-        return self.dict[user]
-
     def get_users_in_room(self, room_id: int) -> list[str]:
         return [user for user, r_id in self.dict.items() if r_id == room_id]
 
