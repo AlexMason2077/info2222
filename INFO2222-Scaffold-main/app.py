@@ -24,7 +24,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex()
 socketio = SocketIO(app)
 
-from flask_session import Session  # 导入 Session
+from flask_session import Session  #Session
 # Flask application configuration
 app.config['SESSION_TYPE'] = 'filesystem'  # session store in session_files
 app.config['SESSION_FILE_DIR'] = 'session_files'  

@@ -54,15 +54,16 @@ This assignment is actually much better than Comp2017's o.O
     \subsection*{Part: Basic Functionality Requirements:}
         \subsubsection*{1} Basically provided by template...
 
-        \subsubsection*{2} King Zhou !!!
+        \subsubsection*{2} Once user logs in successfully, a dynamic friend list can be shown bottom right the webpage. It displays all the users who this user is friend with as buttons. By clicking on the bottoms, the user can join in the chat room and chat with the friend. In order to implement this feature, we designed a class called friendship (shown in Figure \ref{friendshipClass}) , then we use a function called get friends for user, to get all the users who this user if friend with.(shown in Figure \ref{getfriends}) . Then we use a function called fetchfriends in the frontend to display all the friends as buttons. Once clicking the bottom, it will trigger join room function, which allows user to chat with friends(shown in Figure \ref{fetchfriends}).
 
-        \subsubsection*{3} King Zhou !!!
-
+        \subsubsection*{3} The user can send a friend request to the other user by entering the username(shown in Figure \ref{enterusername}). We designed a class called FriendRequest to implement this feature (shown in Figure \ref{friendrequestClass}). Once entering the username, the server will check whether the username exists. If the username is valid, then it will check whether they are already been friends\ref{sendfriendrequest}. If so, the friend request will not be sent.
+	
+	   \subsubsection*{4} Once the user trying to send a friend request, if the users are already friends, the request will not be send and will not be displayed. Otherwise, the request will be displayed dynamically to both sender and receiver. The sender will see a message which shows "To: receiver", while the receiver will see "From: sender", with two buttons "Accept" and "Reject"(shown in Figure \ref{twobuttons}) . Once the receiver accept the friendship request, the status will be updated \ref{updatestatus} , and the receiver will become a friend of the sender and will be shown in the friend list immediately. Otherwise if the receiver reject the request, the status will also be updated immediately and this request will disappear automatically.  In order to achieve the dynamic part, we applyed socket to listen to the friendrequest(shown in Figure  \ref{fetchrequests} Figure \ref{requestsocketio}) , so it will update the friend requests automatically without manual refresh.
         \newpage
 
         \subsubsection*{5} 
 
-        Users can click on a friend to open a chatroom. \textbf{King Zhou}\\
+        All the friends of the user is displayed as buttons in the friend list (shown in Figure \ref{friendlist}).  Once clicking on the button, it will call the join room function which allows the user to join in their friend's chat room.  To ensure that both user and friend are currently online so they can communicate securely, we add a get users in room medthod for the room class, which checks whether both of them are in the room.(shown in Figure \ref{getusersinroom}). Then we use this method when trying to send messages (shown in Figure \ref{send}).   
 
         \textbf{The process of ensuring secure communication between users:}
         \begin{enumerate}
@@ -71,6 +72,97 @@ This assignment is actually much better than Comp2017's o.O
             As shown in Figure \ref{generate_key_pairs}, the process begins with hashing the password using the SHA-256 hash function to create a fixed-length seed. This enhances security by mitigating risks associated with using raw passwords and provides necessary entropy. The SHA-256 hash output, initially an ArrayBuffer, is then converted into a Uint8Array, and finally into a hexadecimal string to format the seed for key generation. Using this processed seed, the ec.genKeyPair function from the elliptic library is utilized to generate the ECC key pair, as demonstrated in the cryptographic process.
 
             Subsequently, the frontend stores both the public key and the private key as shown in \ref{store_key_pairs}. The public key is uploaded to the server using an axios request and stored in a database called public\_keys, as shown in Figures \ref{Upload and Store public key} and \ref{db public_key}. Meanwhile, the private key is retained in the user's local storage, as shown in Figure \ref{local_storage}.. These keys are generated based on the user's password, ensuring that they are consistently the same each time they are generated.
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/models_friendship.png}
+                \caption{models.py define a class called friendship}
+                \label{friendshipClass}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/db_getfriendforuser.png}
+                \caption{db.py get all the friends of the current user}
+                \label{getfriends}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/home_fetchFriends.png}
+                \caption{home.jinja fetch friends function}
+                \label{fetchfriends}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.4\textwidth]{zzrgraphs/enter_username.png}
+                \caption{home page: add friend feature}
+                \label{enterusername}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/models_friendrequest.png}
+                \caption{models.py define a class called friendrequest}
+                \label{friendrequestClass}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/db_send_friend_request.png}
+                \caption{db.py send friend request to the other user}
+                \label{sendfriendrequest}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.4\textwidth]{zzrgraphs/display_friendrequests.png}
+                \caption{home page: display friend requests}
+                \label{twobuttons}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/db_update_request_status.png}
+                \caption{db.py: update request status after user's operation}
+                \label{updatestatus}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/home_fetchfriendrequests.png}
+                \caption{home.jinja: fetch friendrequests and socket}
+                \label{fetchrequests}
+            \end{figure}
+	
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/socket_friend_request_sent.png}
+                \caption{socket routes.py: listen to the frontend}
+                \label{requestsocketio}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.2\textwidth]{zzrgraphs/friend_list.png}
+                \caption{home page: friends are displayed as buttons}
+                \label{friendlist}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/models_get_users_in_room.png}
+                \caption{models.py: check how many users are in the room}
+                \label{getusersinroom}
+            \end{figure}
+
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.8\textwidth]{zzrgraphs/socket_send.png}
+                \caption{socket routes.py: check whether both users are online before sending message}
+                \label{send}
+            \end{figure}
 
             \begin{figure}[H]
                 \centering
@@ -233,6 +325,32 @@ This assignment is actually much better than Comp2017's o.O
             \caption{main.db Table: user}
         \end{figure}
 
+	\subsubsection*{2}Https:
+
+
+In order to implement https to make our website more secure, we first create our own SSL certificate called myCA, then we use our own SSL certificate to create a CA-signed certificate called server for our messaging website. Then we tried adding our self-created certificate to the certificate manager to make the browser trust the HTTPS encryption of the localhost. However we encountered a SAN(Subject Alternative Name) issue. To solve this problem, we used a san.cnf file to re-edit the CA-signed certificate. After updating and reinstalling it into the certificate manager, we finally achieved the https encryption for localhost(shown in Figure \ref{certificates} Figure \ref{secureconnection}). We also insures that the user can only visit our website by https(shown in Figure \ref{httpsonly}), and there won't appear any browser warnings since the website is secure and trusted by the browser.
+
+
+	\begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{zzrgraphs/certificates.png}
+            \caption{all the certificates used in the project}
+		\label{certificates}
+        \end{figure}
+
+	\begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{zzrgraphs/connection_is_secure.png}
+            \caption{the connection is secure by using https}
+		\label{secureconnection}
+        \end{figure}
+
+	\begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{zzrgraphs/cookie_secure_https_only.png}
+            \caption{https only}
+		\label{httpsonly}
+        \end{figure}
 
 
 \section{Contribution}
