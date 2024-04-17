@@ -351,7 +351,7 @@
         }
 
         $("#message").val("");
-        socket.emit("send", username, encryptedMessage, room_id); // 发送加密后的消息和签名
+        socket.emit("send", username, encryptedMessage, room_id);
     }
 
 

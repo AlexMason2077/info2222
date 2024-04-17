@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  17 APR 2024 03:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  17 APR 2024 17:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -376,6 +376,15 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 \Hy@SectionHShift=\skip60
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
+float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count290
+\float@exts=\toks29
+\float@box=\box54
+\@float@everytoks=\toks30
+\@floatcapt=\box55
+)
+(/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
 
@@ -383,9 +392,9 @@ Package: geometry 2020/01/02 v5.9 Page Geometry
 c/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count290
-\Gm@cntv=\count291
-\c@Gm@tempcnt=\count292
+\Gm@cnth=\count291
+\Gm@cntv=\count292
+\c@Gm@tempcnt=\count293
 \Gm@bindingoffset=\dimen164
 \Gm@wd@mp=\dimen165
 \Gm@odd@mp=\dimen166
@@ -394,7 +403,7 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layoutheight=\dimen169
 \Gm@layouthoffset=\dimen170
 \Gm@layoutvoffset=\dimen171
-\Gm@dimlist=\toks29
+\Gm@dimlist=\toks31
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 geometry/geometry.cfg))
@@ -407,8 +416,8 @@ Package: expl3 2024-02-20 L3 programming layer (loader)
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-02-20 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count293
-\l__pdf_internal_box=\box54
+\l__color_backend_stack_int=\count294
+\l__pdf_internal_box=\box56
 ))
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 l3packages/xparse/xparse.sty
@@ -420,19 +429,19 @@ l3packages/xtemplate/xtemplate.sty
 l3packages/xtemplate/xtemplate-2023-10-10.sty
 Package: xtemplate 2023-10-10 L3 Experimental prototype document functions
 \l__xtemplate_tmp_dim=\dimen172
-\l__xtemplate_tmp_int=\count294
+\l__xtemplate_tmp_int=\count295
 \l__xtemplate_tmp_muskip=\muskip18
 \l__xtemplate_tmp_skip=\skip61
 ))
 Package: tasks 2022/01/08 v1.4a lists with columns filled horizontally
-\g__tasks_total_items_int=\count295
-\l__tasks_columns_int=\count296
-\g__tasks_rows_int=\count297
-\g__tasks_current_col_num_int=\count298
-\g__tasks_current_row_num_int=\count299
-\l__tasks_item_columns_int=\count300
-\g__tasks_env_int=\count301
-\l__tasks_start_int=\count302
+\g__tasks_total_items_int=\count296
+\l__tasks_columns_int=\count297
+\g__tasks_rows_int=\count298
+\g__tasks_current_col_num_int=\count299
+\g__tasks_current_row_num_int=\count300
+\l__tasks_item_columns_int=\count301
+\g__tasks_env_int=\count302
+\l__tasks_start_int=\count303
 \l__tasks_item_indent_dim=\dimen173
 \l__tasks_item_default_indent_dim=\dimen174
 \l__tasks_item_width_dim=\dimen175
@@ -447,13 +456,13 @@ Package: tasks 2022/01/08 v1.4a lists with columns filled horizontally
 \l__tasks_custom_after_item_skip=\skip63
 \l__tasks_before_list_skip=\skip64
 \l__tasks_after_list_skip=\skip65
-\l__tasks_item_coffin=\box55
-\l__tasks_label_coffin=\box56
-\c@task=\count303
-\l__tasks_tmpa_int=\count304
-\l__tasks_tmpb_int=\count305
-\l__tasks_tmpa_coffin=\box57
-\l__tasks_tmpa_box=\box58
+\l__tasks_item_coffin=\box57
+\l__tasks_label_coffin=\box58
+\c@task=\count304
+\l__tasks_tmpa_int=\count305
+\l__tasks_tmpb_int=\count306
+\l__tasks_tmpa_coffin=\box59
+\l__tasks_tmpa_box=\box60
 
 Package xtemplate Info: Declaring object type 'tasks' taking 3 argument(s) on
 (xtemplate)             line 450.
@@ -465,8 +474,8 @@ tasks/tasks.cfg))
 xstring/xstring.sty
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/xstring/xstring.tex
-\xs_counta=\count306
-\xs_countb=\count307
+\xs_counta=\count307
+\xs_countb=\count308
 )
 Package: xstring 2023/08/22 v1.86 String manipulations (CT)
 )
@@ -490,7 +499,7 @@ Package zref Info: New property list: main on input line 767.
 Package zref Info: New property: default on input line 768.
 Package zref Info: New property: page on input line 769.
 )
-\c@abspage=\count308
+\c@abspage=\count309
 Package zref Info: New property: abspage on input line 67.
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
@@ -498,7 +507,7 @@ needspace/needspace.sty
 Package: needspace 2010/09/12 v1.3d reserve vertical space
 )
 \mdf@templength=\skip66
-\c@mdf@globalstyle@cnt=\count309
+\c@mdf@globalstyle@cnt=\count310
 \mdf@skipabove@length=\skip67
 \mdf@skipbelow@length=\skip68
 \mdf@leftmargin@length=\skip69
@@ -547,13 +556,13 @@ pgf/basiclayer/pgf.sty
 pgf/utilities/pgfrcs.sty
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/utilities/pgfutil-common.tex
-\pgfutil@everybye=\toks30
+\pgfutil@everybye=\toks32
 \pgfutil@tempdima=\dimen183
 \pgfutil@tempdimb=\dimen184
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/utilities/pgfutil-latex.def
-\pgfutil@abb=\box59
+\pgfutil@abb=\box61
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/utilities/pgfrcs.code.tex
@@ -594,12 +603,12 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/utilities/pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks31
-\pgfkeys@temptoks=\toks32
+\pgfkeys@pathtoks=\toks33
+\pgfkeys@temptoks=\toks34
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/utilities/pgfkeyslibraryfiltered.code.tex
-\pgfkeys@tmptoks=\toks33
+\pgfkeys@tmptoks=\toks35
 ))
 \pgf@x=\dimen187
 \pgf@y=\dimen188
@@ -613,14 +622,14 @@ c/pgf/utilities/pgfkeyslibraryfiltered.code.tex
 \pgf@yd=\dimen196
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count310
-\c@pgf@countb=\count311
-\c@pgf@countc=\count312
-\c@pgf@countd=\count313
-\t@pgf@toka=\toks34
-\t@pgf@tokb=\toks35
-\t@pgf@tokc=\toks36
-\pgf@sys@id@count=\count314
+\c@pgf@counta=\count311
+\c@pgf@countb=\count312
+\c@pgf@countc=\count313
+\c@pgf@countd=\count314
+\t@pgf@toka=\toks36
+\t@pgf@tokb=\toks37
+\t@pgf@tokc=\toks38
+\pgf@sys@id@count=\count315
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/systemlayer/pgf.cfg
@@ -639,8 +648,8 @@ File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count315
-\pgfsyssoftpath@bigbuffer@items=\count316
+\pgfsyssoftpath@smallbuffer@items=\count316
+\pgfsyssoftpath@bigbuffer@items=\count317
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/systemlayer/pgfsysprotocol.code.tex
@@ -657,11 +666,11 @@ c/pgf/math/pgfmathutil.code.tex)
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen197
-\pgfmath@count=\count317
-\pgfmath@box=\box60
-\pgfmath@toks=\toks37
-\pgfmath@stack@operand=\toks38
-\pgfmath@stack@operation=\toks39
+\pgfmath@count=\count318
+\pgfmath@box=\box62
+\pgfmath@toks=\toks39
+\pgfmath@stack@operand=\toks40
+\pgfmath@stack@operation=\toks41
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/math/pgfmathfunctions.code.tex)
@@ -685,7 +694,7 @@ c/pgf/math/pgfmathfunctions.integerarithmetics.code.tex)
 c/pgf/math/pgfmathcalc.code.tex)
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count318
+\c@pgfmathroundto@lastzeros=\count319
 ))
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/math/pgfint.code.tex)
@@ -722,10 +731,10 @@ File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfpic=\box61
-\pgf@hbox=\box62
-\pgf@layerbox@main=\box63
-\pgf@picture@serial@count=\count319
+\pgfpic=\box63
+\pgf@hbox=\box64
+\pgf@layerbox@main=\box65
+\pgf@picture@serial@count=\count320
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/basiclayer/pgfcoregraphicstate.code.tex
@@ -760,8 +769,8 @@ File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 c/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@max=\dimen277
-\pgf@sys@shading@range@num=\count320
-\pgf@shadingcount=\count321
+\pgf@sys@shading@range@num=\count321
+\pgf@shadingcount=\count322
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/basiclayer/pgfcoreimage.code.tex
@@ -770,7 +779,7 @@ File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/basiclayer/pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfexternal@startupbox=\box64
+\pgfexternal@startupbox=\box66
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/basiclayer/pgfcorelayers.code.tex
@@ -791,7 +800,7 @@ File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/modules/pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodeparttextbox=\box65
+\pgfnodeparttextbox=\box67
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/modules/pgfmoduleplot.code.tex
@@ -822,8 +831,8 @@ c/pgf/utilities/pgffor.code.tex
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
 \pgffor@iter=\dimen280
 \pgffor@skip=\dimen281
-\pgffor@stack=\toks40
-\pgffor@toks=\toks41
+\pgffor@stack=\toks42
+\pgffor@toks=\toks43
 ))
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/frontendlayer/tikz/tikz.code.tex
@@ -832,7 +841,7 @@ Package: tikz 2023-01-15 v3.1.10 (3.1.10)
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count322
+\pgf@plot@mark@count=\count323
 \pgfplotmarksize=\dimen282
 )
 \tikz@lastx=\dimen283
@@ -843,23 +852,23 @@ File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \tikz@lastmovetoy=\dimen288
 \tikzleveldistance=\dimen289
 \tikzsiblingdistance=\dimen290
-\tikz@figbox=\box66
-\tikz@figbox@bg=\box67
-\tikz@tempbox=\box68
-\tikz@tempbox@bg=\box69
-\tikztreelevel=\count323
-\tikznumberofchildren=\count324
-\tikznumberofcurrentchild=\count325
-\tikz@fig@count=\count326
+\tikz@figbox=\box68
+\tikz@figbox@bg=\box69
+\tikz@tempbox=\box70
+\tikz@tempbox@bg=\box71
+\tikztreelevel=\count324
+\tikznumberofchildren=\count325
+\tikznumberofcurrentchild=\count326
+\tikz@fig@count=\count327
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count327
-\pgfmatrixcurrentcolumn=\count328
-\pgf@matrix@numberofcolumns=\count329
+\pgfmatrixcurrentrow=\count328
+\pgfmatrixcurrentcolumn=\count329
+\pgf@matrix@numberofcolumns=\count330
 )
-\tikz@expandcount=\count330
+\tikz@expandcount=\count331
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generi
 c/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
@@ -869,11 +878,11 @@ File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
 mdframed/md-frame-1.mdf
 File: md-frame-1.mdf 2013/07/01\ 1.9b: md-frame-1
 )
-\mdf@frametitlebox=\box70
-\mdf@footnotebox=\box71
-\mdf@splitbox@one=\box72
-\mdf@splitbox@two=\box73
-\mdf@splitbox@save=\box74
+\mdf@frametitlebox=\box72
+\mdf@footnotebox=\box73
+\mdf@splitbox@one=\box74
+\mdf@splitbox@two=\box75
+\mdf@splitbox@save=\box76
 \mdfsplitboxwidth=\skip106
 \mdfsplitboxtotalwidth=\skip107
 \mdfsplitboxheight=\skip108
@@ -901,16 +910,16 @@ File: md-frame-1.mdf 2013/07/01\ 1.9b: md-frame-1
 \mdf@horizontalspaceofbox=\skip130
 \mdfsubtitleheight=\skip131
 \mdfsubsubtitleheight=\skip132
-\c@mdfcountframes=\count331
+\c@mdfcountframes=\count332
 
 ****** mdframed patching \endmdf@trivlist
 
 ****** -- success******
 
-\mdf@envdepth=\count332
-\c@mdf@env@i=\count333
-\c@mdf@env@ii=\count334
-\c@mdf@zref@counter=\count335
+\mdf@envdepth=\count333
+\c@mdf@env@i=\count334
+\c@mdf@env@ii=\count335
+\c@mdf@zref@counter=\count336
 Package zref Info: New property: mdf@pagevalue on input line 895.
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
@@ -921,6 +930,37 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
+(/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
+caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+
+(/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
+caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
+caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen291
+\captionmargin=\dimen292
+\caption@leftmargin=\dimen293
+\caption@rightmargin=\dimen294
+\caption@width=\dimen295
+\caption@indent=\dimen296
+\caption@parindent=\dimen297
+\caption@hangindent=\dimen298
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count337
+\c@continuedfloat=\count338
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count339
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count340
+)
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 fourier/fourier-orns.sty
 Package: fourier-orns 2022/02/05 2.3 fourier-ornaments package
@@ -941,77 +981,54 @@ Package: nicefrac 1998/08/04 v0.9b Nice fractions
 \L@UnitsRaiseScriptstyle=\skip135
 ))
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
-subfigure/subfigure.sty
-Package: subfigure 2002/07/30 v2.1.4 subfigure package
-\subfigtopskip=\skip136
-\subfigcapskip=\skip137
-\subfigcaptopadj=\dimen291
-\subfigbottomskip=\skip138
-\subfigcapmargin=\dimen292
-\subfiglabelskip=\skip139
-\c@subfigure=\count336
-\c@lofdepth=\count337
-\c@subtable=\count338
-\c@lotdepth=\count339
-
-****************************************
-* Local config file subfigure.cfg used *
-****************************************
-
-(/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
-subfigure/subfigure.cfg)
-\subfig@top=\skip140
-\subfig@bottom=\skip141
-)
-(/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 fancyhdr/fancyhdr.sty
 Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
 
-\f@nch@headwidth=\skip142
-\f@nch@O@elh=\skip143
-\f@nch@O@erh=\skip144
-\f@nch@O@olh=\skip145
-\f@nch@O@orh=\skip146
-\f@nch@O@elf=\skip147
-\f@nch@O@erf=\skip148
-\f@nch@O@olf=\skip149
-\f@nch@O@orf=\skip150
+\f@nch@headwidth=\skip136
+\f@nch@O@elh=\skip137
+\f@nch@O@erh=\skip138
+\f@nch@O@olh=\skip139
+\f@nch@O@orh=\skip140
+\f@nch@O@elf=\skip141
+\f@nch@O@erf=\skip142
+\f@nch@O@olf=\skip143
+\f@nch@O@orf=\skip144
 ) (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/contex
 t/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count340
-\scratchdimen=\dimen293
-\scratchbox=\box75
-\nofMPsegments=\count341
-\nofMParguments=\count342
-\everyMPshowfont=\toks42
-\MPscratchCnt=\count343
-\MPscratchDim=\dimen294
-\MPnumerator=\count344
-\makeMPintoPDFobject=\count345
-\everyMPtoPDFconversion=\toks43
+\scratchcounter=\count341
+\scratchdimen=\dimen299
+\scratchbox=\box77
+\nofMPsegments=\count342
+\nofMParguments=\count343
+\everyMPshowfont=\toks44
+\MPscratchCnt=\count344
+\MPscratchDim=\dimen300
+\MPnumerator=\count345
+\makeMPintoPDFobject=\count346
+\everyMPtoPDFconversion=\toks45
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 epstopdf-pkg/epstopdf-base.sty
@@ -1023,7 +1040,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 00miktex/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 45.
+Package hyperref Info: Link coloring OFF on input line 47.
  (main.out) (main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
@@ -1063,37 +1080,137 @@ Package hyperref Info: Link coloring OFF on input line 45.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+[1{/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/map/p
+dftex/pdftex.map}
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--62
+]
+Underfull \hbox (badness 10000) in paragraph at lines 65--66
 
  []
 
-<graphs/insert_user.jpg, id=18, 1296.845pt x 385.44pt>
-File: graphs/insert_user.jpg Graphic file (type jpg)
-<use graphs/insert_user.jpg>
-Package pdftex.def Info: graphs/insert_user.jpg  used on input line 78.
-(pdftex.def)             Requested size: 355.0919pt x 105.54051pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<graphs/hashed_passwd.jpg, id=19, 1150.2975pt x 200.75pt>
-File: graphs/hashed_passwd.jpg Graphic file (type jpg)
-<use graphs/hashed_passwd.jpg>
-Package pdftex.def Info: graphs/hashed_passwd.jpg  used on input line 84.
-(pdftex.def)             Requested size: 355.0919pt x 61.96841pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 9
-2.
+<graphs/show_keys.jpg, id=37, 1206.5075pt x 319.1925pt>
+File: graphs/show_keys.jpg Graphic file (type jpg)
+<use graphs/show_keys.jpg>
+Package pdftex.def Info: graphs/show_keys.jpg  used on input line 77.
+(pdftex.def)             Requested size: 355.0919pt x 93.94179pt.
+<graphs/generate_key_pairs.jpg, id=38, 1764.5925pt x 1128.215pt>
+File: graphs/generate_key_pairs.jpg Graphic file (type jpg)
+<use graphs/generate_key_pairs.jpg>
+Package pdftex.def Info: graphs/generate_key_pairs.jpg  used on input line 84.
+(pdftex.def)             Requested size: 355.0919pt x 227.03343pt.
+[2 <./graphs/show_keys.jpg>]
+<graphs/store_key_pairs.jpg, id=51, 1624.0675pt x 989.6975pt>
+File: graphs/store_key_pairs.jpg Graphic file (type jpg)
+<use graphs/store_key_pairs.jpg>
+Package pdftex.def Info: graphs/store_key_pairs.jpg  used on input line 91.
+(pdftex.def)             Requested size: 310.70287pt x 189.32811pt.
+<graphs/upload_public_key.jpg, id=52, 1722.435pt x 700.6175pt>
+File: graphs/upload_public_key.jpg Graphic file (type jpg)
+<use graphs/upload_public_key.jpg>
+Package pdftex.def Info: graphs/upload_public_key.jpg  used on input line 100.
+(pdftex.def)             Requested size: 199.73708pt x 81.23747pt.
+<graphs/insert_public_key.jpg, id=53, 2105.8675pt x 967.615pt>
+File: graphs/insert_public_key.jpg Graphic file (type jpg)
+<use graphs/insert_public_key.jpg>
+Package pdftex.def Info: graphs/insert_public_key.jpg  used on input line 106.
+(pdftex.def)             Requested size: 199.73708pt x 91.76196pt.
+<graphs/db_public_key.jpg, id=54, 790.955pt x 260.975pt>
+File: graphs/db_public_key.jpg Graphic file (type jpg)
+<use graphs/db_public_key.jpg>
+Package pdftex.def Info: graphs/db_public_key.jpg  used on input line 115.
+(pdftex.def)             Requested size: 355.0919pt x 117.16289pt.
+ [3 <./graphs/generate_key_pairs.jpg> <./graphs/store_key_pairs.jpg> <./graphs/
+upload_public_key.jpg> <./graphs/insert_public_key.jpg>]
+<graphs/local_storage.jpg, id=61, 1308.89pt x 688.5725pt>
+File: graphs/local_storage.jpg Graphic file (type jpg)
+<use graphs/local_storage.jpg>
+Package pdftex.def Info: graphs/local_storage.jpg  used on input line 122.
+(pdftex.def)             Requested size: 355.0919pt x 186.79962pt.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
+27.
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-) [1{/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/map
-/pdftex/pdftex.map}
+)
+Overfull \hbox (62.34976pt too wide) in paragraph at lines 129--130
+\T1/pplj/m/n/12 age and the re-cip-i-ent's pub-lic key, pre-vi-ously ob-tained 
+through \T1/cmtt/m/n/12 getPublicKey(receiver);
+ []
 
-] [2 <./graphs/insert_user.jpg> <./graphs/hashed_passwd.jpg>] (main.aux)
+<graphs/front_join_room.jpg, id=67, 1413.28pt x 907.39pt>
+File: graphs/front_join_room.jpg Graphic file (type jpg)
+<use graphs/front_join_room.jpg>
+Package pdftex.def Info: graphs/front_join_room.jpg  used on input line 136.
+(pdftex.def)             Requested size: 355.0919pt x 227.98228pt.
+[4 <./graphs/db_public_key.jpg> <./graphs/local_storage.jpg>]
+<graphs/front_get_public_key.jpg, id=79, 1616.0375pt x 903.375pt>
+File: graphs/front_get_public_key.jpg Graphic file (type jpg)
+<use graphs/front_get_public_key.jpg>
+Package pdftex.def Info: graphs/front_get_public_key.jpg  used on input line 14
+3.
+(pdftex.def)             Requested size: 355.0919pt x 198.495pt.
+<graphs/back_get_public_key.jpg, id=80, 1545.775pt x 622.325pt>
+File: graphs/back_get_public_key.jpg Graphic file (type jpg)
+<use graphs/back_get_public_key.jpg>
+Package pdftex.def Info: graphs/back_get_public_key.jpg  used on input line 153
+.
+(pdftex.def)             Requested size: 208.61623pt x 83.98175pt.
+<graphs/db_get_public_key.jpg, id=81, 1720.4275pt x 505.89pt>
+File: graphs/db_get_public_key.jpg Graphic file (type jpg)
+<use graphs/db_get_public_key.jpg>
+Package pdftex.def Info: graphs/db_get_public_key.jpg  used on input line 159.
+(pdftex.def)             Requested size: 208.61623pt x 61.33714pt.
+<graphs/sign_message.jpg, id=82, 1198.4775pt x 289.08pt>
+File: graphs/sign_message.jpg Graphic file (type jpg)
+<use graphs/sign_message.jpg>
+Package pdftex.def Info: graphs/sign_message.jpg  used on input line 168.
+(pdftex.def)             Requested size: 355.0919pt x 85.64838pt.
+ [5 <./graphs/front_join_room.jpg> <./graphs/front_get_public_key.jpg> <./graph
+s/back_get_public_key.jpg> <./graphs/db_get_public_key.jpg>]
+<graphs/compute_shared_key.jpg, id=87, 1947.275pt x 973.6375pt>
+File: graphs/compute_shared_key.jpg Graphic file (type jpg)
+<use graphs/compute_shared_key.jpg>
+Package pdftex.def Info: graphs/compute_shared_key.jpg  used on input line 175.
+
+(pdftex.def)             Requested size: 355.0919pt x 177.53508pt.
+<graphs/encrypt_message.jpg, id=89, 1931.215pt x 477.785pt>
+File: graphs/encrypt_message.jpg Graphic file (type jpg)
+<use graphs/encrypt_message.jpg>
+Package pdftex.def Info: graphs/encrypt_message.jpg  used on input line 186.
+(pdftex.def)             Requested size: 355.0919pt x 87.84935pt.
+ [6 <./graphs/sign_message.jpg> <./graphs/compute_shared_key.jpg> <./graphs/enc
+rypt_message.jpg>]
+<graphs/processData.jpg, id=101, 1310.8975pt x 1246.6575pt>
+File: graphs/processData.jpg Graphic file (type jpg)
+<use graphs/processData.jpg>
+Package pdftex.def Info: graphs/processData.jpg  used on input line 196.
+(pdftex.def)             Requested size: 355.0919pt x 337.68631pt.
+<graphs/decrypt_message.jpg, id=102, 1427.3325pt x 439.6425pt>
+File: graphs/decrypt_message.jpg Graphic file (type jpg)
+<use graphs/decrypt_message.jpg>
+Package pdftex.def Info: graphs/decrypt_message.jpg  used on input line 203.
+(pdftex.def)             Requested size: 355.0919pt x 109.37367pt.
+<graphs/verify_signature.jpg, id=103, 1220.56pt x 222.8325pt>
+File: graphs/verify_signature.jpg Graphic file (type jpg)
+<use graphs/verify_signature.jpg>
+Package pdftex.def Info: graphs/verify_signature.jpg  used on input line 210.
+(pdftex.def)             Requested size: 355.0919pt x 64.82718pt.
+ [7 <./graphs/processData.jpg> <./graphs/decrypt_message.jpg>]
+<graphs/insert_user.jpg, id=111, 1296.845pt x 385.44pt>
+File: graphs/insert_user.jpg Graphic file (type jpg)
+<use graphs/insert_user.jpg>
+Package pdftex.def Info: graphs/insert_user.jpg  used on input line 226.
+(pdftex.def)             Requested size: 355.0919pt x 105.54051pt.
+<graphs/hashed_passwd.jpg, id=112, 1150.2975pt x 200.75pt>
+File: graphs/hashed_passwd.jpg Graphic file (type jpg)
+<use graphs/hashed_passwd.jpg>
+Package pdftex.def Info: graphs/hashed_passwd.jpg  used on input line 232.
+(pdftex.def)             Requested size: 355.0919pt x 61.96841pt.
+ [8 <./graphs/verify_signature.jpg> <./graphs/insert_user.jpg> <./graphs/hashed
+_passwd.jpg>] [9] (main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -1102,24 +1219,27 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 4522BF1081B224974276FAB06B3A2A45;352.
  ) 
 Here is how much of TeX's memory you used:
- 24001 strings out of 474436
- 458246 string characters out of 5731134
- 1939187 words of memory out of 5000000
- 45887 multiletter control sequences out of 15000+600000
- 577897 words of font info for 58 fonts, out of 8000000 for 9000
+ 25497 strings out of 474436
+ 489284 string characters out of 5731134
+ 1934187 words of memory out of 5000000
+ 47342 multiletter control sequences out of 15000+600000
+ 586835 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 126i,11n,135p,543b,603s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 126i,11n,135p,761b,734s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/pk/l
 jfour/jknappen/ec/dpi600/ectt1200.pk>{/Users/bamingyuan/Library/Application Sup
 port/MiKTeX/texmfs/install/fonts/enc/dvips/base/8r.enc}</Users/bamingyuan/Libra
 ry/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
 ></Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/typ
 e1/public/fpl/fplrc8a.pfb></Users/bamingyuan/Library/Application Support/MiKTeX
-/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb></Users/bamingyuan/Library/
-Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on main.pdf (2 pages, 217663 bytes).
+/texmfs/install/fonts/type1/public/fpl/fplrij8a.pfb></Users/bamingyuan/Library/
+Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb><
+/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1
+/urw/palatino/uplr8a.pfb></Users/bamingyuan/Library/Application Support/MiKTeX/
+texmfs/install/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on main.pdf (9 pages, 3037631 bytes).
 PDF statistics:
- 101 PDF objects out of 1000 (max. 8388607)
- 18 named destinations out of 1000 (max. 500000)
- 47 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 207 PDF objects out of 1000 (max. 8388607)
+ 42 named destinations out of 1000 (max. 500000)
+ 132 words of extra memory for PDF output out of 10000 (max. 10000000)
 

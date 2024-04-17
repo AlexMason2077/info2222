@@ -235,7 +235,6 @@ def get_public_key():
 
     if not username:
         return jsonify({"error": "Missing or empty username parameter"}), 400
-
     try:
         public_key = db.get_public_key(username)
         if public_key:

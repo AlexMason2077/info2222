@@ -111,6 +111,8 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/la
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/rerunfilecheck/rerunfilecheck.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/uniquecounter/uniquecounter.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/uniquecounter/uniquecounter.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/float/float.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/float/float.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/geometry/geometry.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/geometry/geometry.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/iftex/ifvtex.sty
@@ -260,6 +262,12 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/la
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/environ/environ.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/trimspaces/trimspaces.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/trimspaces/trimspaces.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/caption/subcaption.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/caption/subcaption.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/caption/caption.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/caption/caption.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/caption/caption3.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/caption/caption3.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/fourier/fourier-orns.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/fourier/fourier-orns.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/units/units.sty
@@ -268,11 +276,6 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/la
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/ifthen.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/units/nicefrac.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/units/nicefrac.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/subfigure/subfigure.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/subfigure/subfigure.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/subfigure/subfigure.cfg
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/subfigure/subfigure.cfg
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/subfigure/subfigure.cfg
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/fancyhdr/fancyhdr.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/fancyhdr/fancyhdr.sty
 INPUT ./main.aux
@@ -300,24 +303,6 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr9d.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplb9d.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplb9d.tfm
-INPUT ./graphs/insert_user.jpg
-INPUT ./graphs/insert_user.jpg
-INPUT ./graphs/insert_user.jpg
-INPUT ./graphs/insert_user.jpg
-INPUT ./graphs/insert_user.jpg
-INPUT ./graphs/insert_user.jpg
-INPUT ./graphs/insert_user.jpg
-INPUT ./graphs/hashed_passwd.jpg
-INPUT ./graphs/hashed_passwd.jpg
-INPUT ./graphs/hashed_passwd.jpg
-INPUT ./graphs/hashed_passwd.jpg
-INPUT ./graphs/hashed_passwd.jpg
-INPUT ./graphs/hashed_passwd.jpg
-INPUT ./graphs/hashed_passwd.jpg
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/t1cmtt.fd
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/t1cmtt.fd
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/t1cmtt.fd
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/jknappen/ec/ectt1200.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrc9d.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplrc9d.vf
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrc8r.tfm
@@ -338,6 +323,157 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplb8r.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmb.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplbj8r.tfm
+INPUT ./graphs/show_keys.jpg
+INPUT ./graphs/show_keys.jpg
+INPUT ./graphs/show_keys.jpg
+INPUT ./graphs/show_keys.jpg
+INPUT ./graphs/show_keys.jpg
+INPUT ./graphs/show_keys.jpg
+INPUT ./graphs/show_keys.jpg
+INPUT ./graphs/generate_key_pairs.jpg
+INPUT ./graphs/generate_key_pairs.jpg
+INPUT ./graphs/generate_key_pairs.jpg
+INPUT ./graphs/generate_key_pairs.jpg
+INPUT ./graphs/generate_key_pairs.jpg
+INPUT ./graphs/generate_key_pairs.jpg
+INPUT ./graphs/generate_key_pairs.jpg
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri9d.tfm
+INPUT ./graphs/store_key_pairs.jpg
+INPUT ./graphs/store_key_pairs.jpg
+INPUT ./graphs/store_key_pairs.jpg
+INPUT ./graphs/store_key_pairs.jpg
+INPUT ./graphs/store_key_pairs.jpg
+INPUT ./graphs/store_key_pairs.jpg
+INPUT ./graphs/store_key_pairs.jpg
+INPUT ./graphs/upload_public_key.jpg
+INPUT ./graphs/upload_public_key.jpg
+INPUT ./graphs/upload_public_key.jpg
+INPUT ./graphs/upload_public_key.jpg
+INPUT ./graphs/upload_public_key.jpg
+INPUT ./graphs/upload_public_key.jpg
+INPUT ./graphs/upload_public_key.jpg
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr9d.tfm
+INPUT ./graphs/insert_public_key.jpg
+INPUT ./graphs/insert_public_key.jpg
+INPUT ./graphs/insert_public_key.jpg
+INPUT ./graphs/insert_public_key.jpg
+INPUT ./graphs/insert_public_key.jpg
+INPUT ./graphs/insert_public_key.jpg
+INPUT ./graphs/insert_public_key.jpg
+INPUT ./graphs/db_public_key.jpg
+INPUT ./graphs/db_public_key.jpg
+INPUT ./graphs/db_public_key.jpg
+INPUT ./graphs/db_public_key.jpg
+INPUT ./graphs/db_public_key.jpg
+INPUT ./graphs/db_public_key.jpg
+INPUT ./graphs/db_public_key.jpg
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplri9d.vf
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri8r.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmri.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrij8r.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplr9d.vf
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr8r.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmr.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrc8r.tfm
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/t1cmtt.fd
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/t1cmtt.fd
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/t1cmtt.fd
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/jknappen/ec/ectt1200.tfm
+INPUT ./graphs/front_join_room.jpg
+INPUT ./graphs/front_join_room.jpg
+INPUT ./graphs/front_join_room.jpg
+INPUT ./graphs/front_join_room.jpg
+INPUT ./graphs/front_join_room.jpg
+INPUT ./graphs/front_join_room.jpg
+INPUT ./graphs/front_join_room.jpg
+INPUT ./graphs/front_get_public_key.jpg
+INPUT ./graphs/front_get_public_key.jpg
+INPUT ./graphs/front_get_public_key.jpg
+INPUT ./graphs/front_get_public_key.jpg
+INPUT ./graphs/front_get_public_key.jpg
+INPUT ./graphs/front_get_public_key.jpg
+INPUT ./graphs/back_get_public_key.jpg
+INPUT ./graphs/back_get_public_key.jpg
+INPUT ./graphs/back_get_public_key.jpg
+INPUT ./graphs/back_get_public_key.jpg
+INPUT ./graphs/back_get_public_key.jpg
+INPUT ./graphs/back_get_public_key.jpg
+INPUT ./graphs/back_get_public_key.jpg
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri9d.tfm
+INPUT ./graphs/db_get_public_key.jpg
+INPUT ./graphs/db_get_public_key.jpg
+INPUT ./graphs/db_get_public_key.jpg
+INPUT ./graphs/db_get_public_key.jpg
+INPUT ./graphs/db_get_public_key.jpg
+INPUT ./graphs/db_get_public_key.jpg
+INPUT ./graphs/db_get_public_key.jpg
+INPUT ./graphs/sign_message.jpg
+INPUT ./graphs/sign_message.jpg
+INPUT ./graphs/sign_message.jpg
+INPUT ./graphs/sign_message.jpg
+INPUT ./graphs/sign_message.jpg
+INPUT ./graphs/sign_message.jpg
+INPUT ./graphs/sign_message.jpg
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplri9d.vf
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri8r.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmri.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrij8r.tfm
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/processData.jpg
+INPUT ./graphs/processData.jpg
+INPUT ./graphs/processData.jpg
+INPUT ./graphs/processData.jpg
+INPUT ./graphs/processData.jpg
+INPUT ./graphs/processData.jpg
+INPUT ./graphs/processData.jpg
+INPUT ./graphs/decrypt_message.jpg
+INPUT ./graphs/decrypt_message.jpg
+INPUT ./graphs/decrypt_message.jpg
+INPUT ./graphs/decrypt_message.jpg
+INPUT ./graphs/decrypt_message.jpg
+INPUT ./graphs/decrypt_message.jpg
+INPUT ./graphs/decrypt_message.jpg
+INPUT ./graphs/verify_signature.jpg
+INPUT ./graphs/verify_signature.jpg
+INPUT ./graphs/verify_signature.jpg
+INPUT ./graphs/verify_signature.jpg
+INPUT ./graphs/verify_signature.jpg
+INPUT ./graphs/verify_signature.jpg
+INPUT ./graphs/verify_signature.jpg
+INPUT ./graphs/insert_user.jpg
+INPUT ./graphs/insert_user.jpg
+INPUT ./graphs/insert_user.jpg
+INPUT ./graphs/insert_user.jpg
+INPUT ./graphs/insert_user.jpg
+INPUT ./graphs/insert_user.jpg
+INPUT ./graphs/insert_user.jpg
+INPUT ./graphs/hashed_passwd.jpg
+INPUT ./graphs/hashed_passwd.jpg
+INPUT ./graphs/hashed_passwd.jpg
+INPUT ./graphs/hashed_passwd.jpg
+INPUT ./graphs/hashed_passwd.jpg
+INPUT ./graphs/hashed_passwd.jpg
+INPUT ./graphs/hashed_passwd.jpg
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
@@ -348,7 +484,11 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrij8a.pfb
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrij8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplr8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplr8a.pfb
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplri8a.pfb
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplri8a.pfb
