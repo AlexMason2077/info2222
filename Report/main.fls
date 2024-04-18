@@ -317,13 +317,6 @@ INPUT ./graphs/no_such_user_login.jpg
 INPUT ./graphs/no_such_user_login.jpg
 INPUT ./graphs/no_such_user_login.jpg
 INPUT ./graphs/no_such_user_login.jpg
-INPUT ./graphs/login_successful.png
-INPUT ./graphs/login_successful.png
-INPUT ./graphs/login_successful.png
-INPUT ./graphs/login_successful.png
-INPUT ./graphs/login_successful.png
-INPUT ./graphs/login_successful.png
-INPUT ./graphs/login_successful.png
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrc9d.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplrc9d.vf
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrc8r.tfm
@@ -344,6 +337,13 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplb8r.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmb.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplbj8r.tfm
+INPUT ./graphs/login_successful.png
+INPUT ./graphs/login_successful.png
+INPUT ./graphs/login_successful.png
+INPUT ./graphs/login_successful.png
+INPUT ./graphs/login_successful.png
+INPUT ./graphs/login_successful.png
+INPUT ./graphs/login_successful.png
 INPUT ./graphs/passwd_does_not_match.png
 INPUT ./graphs/passwd_does_not_match.png
 INPUT ./graphs/passwd_does_not_match.png
