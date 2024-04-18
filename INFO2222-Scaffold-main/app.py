@@ -134,11 +134,11 @@ def home():
         abort(403)  # Forbidden access
     return render_template("home.jinja", username=request.args.get("username"))
 
-@app.route("/api/sensitive_data")
-@login_required
-def sensitive_data():
-    #handling sensitive data requests
-    return jsonify({"data": "sensitive information"})
+
+
+
+
+
 
 
 #============================================================================
