@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  20 APR 2024 21:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  20 APR 2024 21:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1108,135 +1108,135 @@ Package pdftex.def Info: graphs/passwd_does_not_match.png  used on input line 8
 0.
 (pdftex.def)             Requested size: 355.0919pt x 113.63103pt.
  [2 <./graphs/no_such_user_login.jpg> <./graphs/login_successful.png>]
-Overfull \hbox (0.40079pt too wide) in paragraph at lines 88--89
+<zzrgraphs/models_friendship.png, id=51, 359.84438pt x 66.2475pt>
+File: zzrgraphs/models_friendship.png Graphic file (type png)
+<use zzrgraphs/models_friendship.png>
+Package pdftex.def Info: zzrgraphs/models_friendship.png  used on input line 90
+.
+(pdftex.def)             Requested size: 355.0919pt x 65.37799pt.
+<zzrgraphs/db_getfriendforuser.png, id=52, 576.65437pt x 241.40187pt>
+File: zzrgraphs/db_getfriendforuser.png Graphic file (type png)
+<use zzrgraphs/db_getfriendforuser.png>
+Package pdftex.def Info: zzrgraphs/db_getfriendforuser.png  used on input line 
+97.
+(pdftex.def)             Requested size: 355.0919pt x 148.65465pt.
+<zzrgraphs/home_fetchFriends.png, id=53, 599.74063pt x 432.61626pt>
+File: zzrgraphs/home_fetchFriends.png Graphic file (type png)
+<use zzrgraphs/home_fetchFriends.png>
+Package pdftex.def Info: zzrgraphs/home_fetchFriends.png  used on input line 10
+4.
+(pdftex.def)             Requested size: 355.0919pt x 256.14574pt.
+ [3 <./graphs/passwd_does_not_match.png> <./zzrgraphs/models_friendship.png> <.
+/zzrgraphs/db_getfriendforuser.png>]
+Overfull \hbox (0.40079pt too wide) in paragraph at lines 109--110
 \T1/pplj/m/n/12 The user can send a friend re-quest to the other user by en-ter
 -ing the user-name(shown
  []
 
-[3 <./graphs/passwd_does_not_match.png>]
-<zzrgraphs/models_friendship.png, id=79, 359.84438pt x 66.2475pt>
-File: zzrgraphs/models_friendship.png Graphic file (type png)
-<use zzrgraphs/models_friendship.png>
-Package pdftex.def Info: zzrgraphs/models_friendship.png  used on input line 99
-.
-(pdftex.def)             Requested size: 355.0919pt x 65.37799pt.
-<zzrgraphs/db_getfriendforuser.png, id=80, 576.65437pt x 241.40187pt>
-File: zzrgraphs/db_getfriendforuser.png Graphic file (type png)
-<use zzrgraphs/db_getfriendforuser.png>
-Package pdftex.def Info: zzrgraphs/db_getfriendforuser.png  used on input line 
-106.
-(pdftex.def)             Requested size: 355.0919pt x 148.65465pt.
-<zzrgraphs/home_fetchFriends.png, id=81, 599.74063pt x 432.61626pt>
-File: zzrgraphs/home_fetchFriends.png Graphic file (type png)
-<use zzrgraphs/home_fetchFriends.png>
-Package pdftex.def Info: zzrgraphs/home_fetchFriends.png  used on input line 11
-3.
-(pdftex.def)             Requested size: 355.0919pt x 256.14574pt.
- [4 <./zzrgraphs/models_friendship.png> <./zzrgraphs/db_getfriendforuser.png>]
-<zzrgraphs/enter_username.png, id=92, 215.80624pt x 66.2475pt>
+<zzrgraphs/enter_username.png, id=68, 215.80624pt x 66.2475pt>
 File: zzrgraphs/enter_username.png Graphic file (type png)
 <use zzrgraphs/enter_username.png>
-Package pdftex.def Info: zzrgraphs/enter_username.png  used on input line 120.
+Package pdftex.def Info: zzrgraphs/enter_username.png  used on input line 113.
 (pdftex.def)             Requested size: 177.54256pt x 54.50322pt.
-<zzrgraphs/models_friendrequest.png, id=93, 415.5525pt x 175.15437pt>
+<zzrgraphs/models_friendrequest.png, id=69, 415.5525pt x 175.15437pt>
 File: zzrgraphs/models_friendrequest.png Graphic file (type png)
 <use zzrgraphs/models_friendrequest.png>
 Package pdftex.def Info: zzrgraphs/models_friendrequest.png  used on input line
- 127.
+ 120.
 (pdftex.def)             Requested size: 355.0919pt x 149.67569pt.
-<zzrgraphs/db_send_friend_request.png, id=94, 817.55438pt x 456.20438pt>
+<zzrgraphs/db_send_friend_request.png, id=70, 817.55438pt x 456.20438pt>
 File: zzrgraphs/db_send_friend_request.png Graphic file (type png)
 <use zzrgraphs/db_send_friend_request.png>
 Package pdftex.def Info: zzrgraphs/db_send_friend_request.png  used on input li
-ne 134.
+ne 127.
 (pdftex.def)             Requested size: 355.0919pt x 198.14796pt.
- [5 <./zzrgraphs/home_fetchFriends.png> <./zzrgraphs/enter_username.png> <./zzr
-graphs/models_friendrequest.png>]
-<zzrgraphs/display_friendrequests.png, id=102, 185.69376pt x 86.3225pt>
+[4 <./zzrgraphs/home_fetchFriends.png> <./zzrgraphs/enter_username.png> <./zzrg
+raphs/models_friendrequest.png>]
+<zzrgraphs/display_friendrequests.png, id=86, 185.69376pt x 86.3225pt>
 File: zzrgraphs/display_friendrequests.png Graphic file (type png)
 <use zzrgraphs/display_friendrequests.png>
 Package pdftex.def Info: zzrgraphs/display_friendrequests.png  used on input li
-ne 141.
+ne 136.
 (pdftex.def)             Requested size: 177.54256pt x 82.53539pt.
-<zzrgraphs/db_update_request_status.png, id=103, 933.98938pt x 388.95313pt>
+<zzrgraphs/db_update_request_status.png, id=87, 933.98938pt x 388.95313pt>
 File: zzrgraphs/db_update_request_status.png Graphic file (type png)
 <use zzrgraphs/db_update_request_status.png>
 Package pdftex.def Info: zzrgraphs/db_update_request_status.png  used on input 
-line 148.
+line 143.
 (pdftex.def)             Requested size: 355.0919pt x 147.87494pt.
-<zzrgraphs/home_fetchfriendrequests.png, id=104, 873.2625pt x 429.10312pt>
+ [5 <./zzrgraphs/db_send_friend_request.png> <./zzrgraphs/display_friendrequest
+s.png>]
+<zzrgraphs/home_fetchfriendrequests.png, id=99, 873.2625pt x 429.10312pt>
 File: zzrgraphs/home_fetchfriendrequests.png Graphic file (type png)
 <use zzrgraphs/home_fetchfriendrequests.png>
 Package pdftex.def Info: zzrgraphs/home_fetchfriendrequests.png  used on input 
-line 155.
+line 150.
 (pdftex.def)             Requested size: 355.0919pt x 174.48639pt.
-
-[6 <./zzrgraphs/db_send_friend_request.png> <./zzrgraphs/display_friendrequests
-.png> <./zzrgraphs/db_update_request_status.png>]
-<zzrgraphs/socket_friend_request_sent.png, id=112, 610.28pt x 123.96312pt>
+<zzrgraphs/socket_friend_request_sent.png, id=100, 610.28pt x 123.96312pt>
 File: zzrgraphs/socket_friend_request_sent.png Graphic file (type png)
 <use zzrgraphs/socket_friend_request_sent.png>
 Package pdftex.def Info: zzrgraphs/socket_friend_request_sent.png  used on inpu
-t line 162.
+t line 157.
 (pdftex.def)             Requested size: 355.0919pt x 72.1313pt.
-<zzrgraphs/friend_list.png, id=113, 191.71625pt x 265.49188pt>
+<zzrgraphs/friend_list.png, id=104, 191.71625pt x 265.49188pt>
 File: zzrgraphs/friend_list.png Graphic file (type png)
 <use zzrgraphs/friend_list.png>
 Package pdftex.def Info: zzrgraphs/friend_list.png  used on input line 169.
 (pdftex.def)             Requested size: 88.77127pt x 122.9339pt.
-<zzrgraphs/models_get_users_in_room.png, id=114, 513.41812pt x 45.16875pt>
+ [6 <./zzrgraphs/db_update_request_status.png> <./zzrgraphs/home_fetchfriendreq
+uests.png> <./zzrgraphs/socket_friend_request_sent.png>]
+<zzrgraphs/models_get_users_in_room.png, id=116, 513.41812pt x 45.16875pt>
 File: zzrgraphs/models_get_users_in_room.png Graphic file (type png)
 <use zzrgraphs/models_get_users_in_room.png>
 Package pdftex.def Info: zzrgraphs/models_get_users_in_room.png  used on input 
 line 176.
 (pdftex.def)             Requested size: 355.0919pt x 31.2402pt.
-<zzrgraphs/socket_send.png, id=115, 568.1225pt x 286.06876pt>
+<zzrgraphs/socket_send.png, id=117, 568.1225pt x 286.06876pt>
 File: zzrgraphs/socket_send.png Graphic file (type png)
 <use zzrgraphs/socket_send.png>
 Package pdftex.def Info: zzrgraphs/socket_send.png  used on input line 184.
 (pdftex.def)             Requested size: 355.0919pt x 178.80562pt.
- [7 <./zzrgraphs/home_fetchfriendrequests.png> <./zzrgraphs/socket_friend_reque
-st_sent.png> <./zzrgraphs/friend_list.png> <./zzrgraphs/models_get_users_in_roo
-m.png>]
-<graphs/show_keys.jpg, id=131, 1206.5075pt x 319.1925pt>
+ [7 <./zzrgraphs/friend_list.png> <./zzrgraphs/models_get_users_in_room.png> <.
+/zzrgraphs/socket_send.png>]
+<graphs/show_keys.jpg, id=136, 1206.5075pt x 319.1925pt>
 File: graphs/show_keys.jpg Graphic file (type jpg)
 <use graphs/show_keys.jpg>
 Package pdftex.def Info: graphs/show_keys.jpg  used on input line 199.
 (pdftex.def)             Requested size: 355.0919pt x 93.94179pt.
-<graphs/generate_key_pairs.jpg, id=132, 1764.5925pt x 1128.215pt>
+<graphs/generate_key_pairs.jpg, id=137, 1764.5925pt x 1128.215pt>
 File: graphs/generate_key_pairs.jpg Graphic file (type jpg)
 <use graphs/generate_key_pairs.jpg>
 Package pdftex.def Info: graphs/generate_key_pairs.jpg  used on input line 206.
 
 (pdftex.def)             Requested size: 355.0919pt x 227.03343pt.
- [8 <./zzrgraphs/socket_send.png> <./graphs/show_keys.jpg>]
-<graphs/store_key_pairs.jpg, id=145, 1624.0675pt x 989.6975pt>
+<graphs/store_key_pairs.jpg, id=138, 1624.0675pt x 989.6975pt>
 File: graphs/store_key_pairs.jpg Graphic file (type jpg)
 <use graphs/store_key_pairs.jpg>
 Package pdftex.def Info: graphs/store_key_pairs.jpg  used on input line 213.
 (pdftex.def)             Requested size: 310.70287pt x 189.32811pt.
-<graphs/upload_public_key.jpg, id=146, 1722.435pt x 700.6175pt>
+ [8 <./graphs/show_keys.jpg> <./graphs/generate_key_pairs.jpg>]
+<graphs/upload_public_key.jpg, id=148, 1722.435pt x 700.6175pt>
 File: graphs/upload_public_key.jpg Graphic file (type jpg)
 <use graphs/upload_public_key.jpg>
 Package pdftex.def Info: graphs/upload_public_key.jpg  used on input line 222.
 (pdftex.def)             Requested size: 199.73708pt x 81.23747pt.
-<graphs/insert_public_key.jpg, id=147, 2105.8675pt x 967.615pt>
+<graphs/insert_public_key.jpg, id=149, 2105.8675pt x 967.615pt>
 File: graphs/insert_public_key.jpg Graphic file (type jpg)
 <use graphs/insert_public_key.jpg>
 Package pdftex.def Info: graphs/insert_public_key.jpg  used on input line 228.
 (pdftex.def)             Requested size: 199.73708pt x 91.76196pt.
-<graphs/db_public_key.jpg, id=148, 790.955pt x 260.975pt>
+<graphs/db_public_key.jpg, id=150, 790.955pt x 260.975pt>
 File: graphs/db_public_key.jpg Graphic file (type jpg)
 <use graphs/db_public_key.jpg>
 Package pdftex.def Info: graphs/db_public_key.jpg  used on input line 237.
 (pdftex.def)             Requested size: 355.0919pt x 117.16289pt.
- [9 <./graphs/generate_key_pairs.jpg> <./graphs/store_key_pairs.jpg> <./graphs/
-upload_public_key.jpg> <./graphs/insert_public_key.jpg>]
-<graphs/local_storage.jpg, id=155, 1308.89pt x 688.5725pt>
+<graphs/local_storage.jpg, id=151, 1308.89pt x 688.5725pt>
 File: graphs/local_storage.jpg Graphic file (type jpg)
 <use graphs/local_storage.jpg>
 Package pdftex.def Info: graphs/local_storage.jpg  used on input line 244.
 (pdftex.def)             Requested size: 355.0919pt x 186.79962pt.
+ [9 <./graphs/store_key_pairs.jpg> <./graphs/upload_public_key.jpg> <./graphs/i
+nsert_public_key.jpg> <./graphs/db_public_key.jpg>]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 2
 49.
 
@@ -1260,7 +1260,7 @@ File: graphs/front_join_room.jpg Graphic file (type jpg)
 <use graphs/front_join_room.jpg>
 Package pdftex.def Info: graphs/front_join_room.jpg  used on input line 258.
 (pdftex.def)             Requested size: 355.0919pt x 227.98228pt.
-[10 <./graphs/db_public_key.jpg> <./graphs/local_storage.jpg>]
+[10 <./graphs/local_storage.jpg>]
 <graphs/front_get_public_key.jpg, id=177, 1616.0375pt x 903.375pt>
 File: graphs/front_get_public_key.jpg Graphic file (type jpg)
 <use graphs/front_get_public_key.jpg>
@@ -1454,7 +1454,7 @@ Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb><
 /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1
 /urw/palatino/uplr8a.pfb></Users/bamingyuan/Library/Application Support/MiKTeX/
 texmfs/install/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on main.pdf (19 pages, 5423889 bytes).
+Output written on main.pdf (19 pages, 5424259 bytes).
 PDF statistics:
  371 PDF objects out of 1000 (max. 8388607)
  88 named destinations out of 1000 (max. 500000)

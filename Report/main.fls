@@ -464,6 +464,10 @@ INPUT ./graphs/store_key_pairs.jpg
 INPUT ./graphs/store_key_pairs.jpg
 INPUT ./graphs/store_key_pairs.jpg
 INPUT ./graphs/store_key_pairs.jpg
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplri9d.vf
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri8r.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmri.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrij8r.tfm
 INPUT ./graphs/upload_public_key.jpg
 INPUT ./graphs/upload_public_key.jpg
 INPUT ./graphs/upload_public_key.jpg
@@ -486,21 +490,17 @@ INPUT ./graphs/db_public_key.jpg
 INPUT ./graphs/db_public_key.jpg
 INPUT ./graphs/db_public_key.jpg
 INPUT ./graphs/db_public_key.jpg
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplri9d.vf
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri8r.tfm
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmri.tfm
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrij8r.tfm
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
+INPUT ./graphs/local_storage.jpg
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplr9d.vf
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr8r.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmr.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrc8r.tfm
-INPUT ./graphs/local_storage.jpg
-INPUT ./graphs/local_storage.jpg
-INPUT ./graphs/local_storage.jpg
-INPUT ./graphs/local_storage.jpg
-INPUT ./graphs/local_storage.jpg
-INPUT ./graphs/local_storage.jpg
-INPUT ./graphs/local_storage.jpg
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/t1cmtt.fd
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/t1cmtt.fd
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/t1cmtt.fd
