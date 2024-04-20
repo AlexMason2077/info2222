@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  18 APR 2024 19:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  20 APR 2024 21:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1255,128 +1255,130 @@ Overfull \hbox (62.34976pt too wide) in paragraph at lines 251--252
 through \T1/cmtt/m/n/12 getPublicKey(receiver);
  []
 
-[10 <./graphs/db_public_key.jpg> <./graphs/local_storage.jpg>]
-<graphs/front_join_room.jpg, id=172, 1413.28pt x 907.39pt>
+<graphs/front_join_room.jpg, id=163, 1413.28pt x 907.39pt>
 File: graphs/front_join_room.jpg Graphic file (type jpg)
 <use graphs/front_join_room.jpg>
 Package pdftex.def Info: graphs/front_join_room.jpg  used on input line 258.
 (pdftex.def)             Requested size: 355.0919pt x 227.98228pt.
-<graphs/front_get_public_key.jpg, id=173, 1616.0375pt x 903.375pt>
+[10 <./graphs/db_public_key.jpg> <./graphs/local_storage.jpg>]
+<graphs/front_get_public_key.jpg, id=177, 1616.0375pt x 903.375pt>
 File: graphs/front_get_public_key.jpg Graphic file (type jpg)
 <use graphs/front_get_public_key.jpg>
 Package pdftex.def Info: graphs/front_get_public_key.jpg  used on input line 26
 5.
 (pdftex.def)             Requested size: 355.0919pt x 198.495pt.
-<graphs/back_get_public_key.jpg, id=174, 1545.775pt x 622.325pt>
+<graphs/back_get_public_key.jpg, id=178, 1545.775pt x 622.325pt>
 File: graphs/back_get_public_key.jpg Graphic file (type jpg)
 <use graphs/back_get_public_key.jpg>
 Package pdftex.def Info: graphs/back_get_public_key.jpg  used on input line 275
 .
 (pdftex.def)             Requested size: 208.61623pt x 83.98175pt.
-<graphs/db_get_public_key.jpg, id=175, 1720.4275pt x 505.89pt>
+<graphs/db_get_public_key.jpg, id=179, 1720.4275pt x 505.89pt>
 File: graphs/db_get_public_key.jpg Graphic file (type jpg)
 <use graphs/db_get_public_key.jpg>
 Package pdftex.def Info: graphs/db_get_public_key.jpg  used on input line 281.
 (pdftex.def)             Requested size: 208.61623pt x 61.33714pt.
- [11 <./graphs/front_join_room.jpg> <./graphs/front_get_public_key.jpg>]
 <graphs/sign_message.jpg, id=180, 1198.4775pt x 289.08pt>
 File: graphs/sign_message.jpg Graphic file (type jpg)
 <use graphs/sign_message.jpg>
 Package pdftex.def Info: graphs/sign_message.jpg  used on input line 290.
 (pdftex.def)             Requested size: 355.0919pt x 85.64838pt.
-<graphs/compute_shared_key.jpg, id=181, 1947.275pt x 973.6375pt>
+ [11 <./graphs/front_join_room.jpg> <./graphs/front_get_public_key.jpg> <./grap
+hs/back_get_public_key.jpg> <./graphs/db_get_public_key.jpg>]
+<graphs/compute_shared_key.jpg, id=185, 1947.275pt x 973.6375pt>
 File: graphs/compute_shared_key.jpg Graphic file (type jpg)
 <use graphs/compute_shared_key.jpg>
 Package pdftex.def Info: graphs/compute_shared_key.jpg  used on input line 297.
 
 (pdftex.def)             Requested size: 355.0919pt x 177.53508pt.
-<graphs/encrypt_message.jpg, id=183, 1931.215pt x 477.785pt>
+<graphs/encrypt_message.jpg, id=187, 1931.215pt x 477.785pt>
 File: graphs/encrypt_message.jpg Graphic file (type jpg)
 <use graphs/encrypt_message.jpg>
 Package pdftex.def Info: graphs/encrypt_message.jpg  used on input line 308.
 (pdftex.def)             Requested size: 355.0919pt x 87.84935pt.
- [12 <./graphs/back_get_public_key.jpg> <./graphs/db_get_public_key.jpg> <./gra
-phs/sign_message.jpg> <./graphs/compute_shared_key.jpg>]
-<graphs/processData.jpg, id=194, 1310.8975pt x 1246.6575pt>
+ [12 <./graphs/sign_message.jpg> <./graphs/compute_shared_key.jpg> <./graphs/en
+crypt_message.jpg>]
+<graphs/processData.jpg, id=200, 1310.8975pt x 1246.6575pt>
 File: graphs/processData.jpg Graphic file (type jpg)
 <use graphs/processData.jpg>
 Package pdftex.def Info: graphs/processData.jpg  used on input line 318.
 (pdftex.def)             Requested size: 355.0919pt x 337.68631pt.
-<graphs/decrypt_message.jpg, id=195, 1427.3325pt x 439.6425pt>
+<graphs/decrypt_message.jpg, id=201, 1427.3325pt x 439.6425pt>
 File: graphs/decrypt_message.jpg Graphic file (type jpg)
 <use graphs/decrypt_message.jpg>
 Package pdftex.def Info: graphs/decrypt_message.jpg  used on input line 325.
 (pdftex.def)             Requested size: 355.0919pt x 109.37367pt.
- [13 <./graphs/encrypt_message.jpg> <./graphs/processData.jpg>]
-<graphs/verify_signature.jpg, id=206, 1220.56pt x 222.8325pt>
+<graphs/verify_signature.jpg, id=202, 1220.56pt x 222.8325pt>
 File: graphs/verify_signature.jpg Graphic file (type jpg)
 <use graphs/verify_signature.jpg>
 Package pdftex.def Info: graphs/verify_signature.jpg  used on input line 332.
 (pdftex.def)             Requested size: 355.0919pt x 64.82718pt.
-<graphs/encrypt_process_sender.jpg, id=207, 1230.5975pt x 216.81pt>
+ [13 <./graphs/processData.jpg> <./graphs/decrypt_message.jpg>]
+<graphs/encrypt_process_sender.jpg, id=211, 1230.5975pt x 216.81pt>
 File: graphs/encrypt_process_sender.jpg Graphic file (type jpg)
 <use graphs/encrypt_process_sender.jpg>
 Package pdftex.def Info: graphs/encrypt_process_sender.jpg  used on input line 
 341.
 (pdftex.def)             Requested size: 332.89738pt x 58.64865pt.
-<graphs/decrpt_process_receiver.jpg, id=208, 1232.605pt x 305.14pt>
+<graphs/decrpt_process_receiver.jpg, id=212, 1232.605pt x 305.14pt>
 File: graphs/decrpt_process_receiver.jpg Graphic file (type jpg)
 <use graphs/decrpt_process_receiver.jpg>
 Package pdftex.def Info: graphs/decrpt_process_receiver.jpg  used on input line
  347.
 (pdftex.def)             Requested size: 332.89738pt x 82.40752pt.
- [14 <./graphs/decrypt_message.jpg> <./graphs/verify_signature.jpg> <./graphs/e
-ncrypt_process_sender.jpg> <./graphs/decrpt_process_receiver.jpg>]
-<graphs/store_history_message.jpg, id=219, 871.255pt x 321.2pt>
+<graphs/store_history_message.jpg, id=218, 871.255pt x 321.2pt>
 File: graphs/store_history_message.jpg Graphic file (type jpg)
 <use graphs/store_history_message.jpg>
 Package pdftex.def Info: graphs/store_history_message.jpg  used on input line 3
 63.
 (pdftex.def)             Requested size: 355.0919pt x 130.90868pt.
-<graphs/join_room_get_history_message.jpg, id=220, 1816.7875pt x 295.1025pt>
+ [14 <./graphs/verify_signature.jpg> <./graphs/encrypt_process_sender.jpg> <./g
+raphs/decrpt_process_receiver.jpg>]
+<graphs/join_room_get_history_message.jpg, id=229, 1816.7875pt x 295.1025pt>
 File: graphs/join_room_get_history_message.jpg Graphic file (type jpg)
 <use graphs/join_room_get_history_message.jpg>
 Package pdftex.def Info: graphs/join_room_get_history_message.jpg  used on inpu
 t line 370.
 (pdftex.def)             Requested size: 355.0919pt x 57.67758pt.
-<graphs/return_history_message.jpg, id=221, 1624.0675pt x 588.1975pt>
+<graphs/return_history_message.jpg, id=230, 1624.0675pt x 588.1975pt>
 File: graphs/return_history_message.jpg Graphic file (type jpg)
 <use graphs/return_history_message.jpg>
 Package pdftex.def Info: graphs/return_history_message.jpg  used on input line 
 377.
 (pdftex.def)             Requested size: 355.0919pt x 128.60506pt.
-<graphs/show_history_message.jpg, id=222, 1487.5575pt x 266.9975pt>
+<graphs/show_history_message.jpg, id=231, 1487.5575pt x 266.9975pt>
 File: graphs/show_history_message.jpg Graphic file (type jpg)
 <use graphs/show_history_message.jpg>
 Package pdftex.def Info: graphs/show_history_message.jpg  used on input line 38
 5.
 (pdftex.def)             Requested size: 355.0919pt x 63.7344pt.
- [15 <./graphs/store_history_message.jpg> <./graphs/join_room_get_history_messa
-ge.jpg> <./graphs/return_history_message.jpg> <./graphs/show_history_message.jp
-g>]
-<graphs/insert_user.jpg, id=231, 1296.845pt x 385.44pt>
+<graphs/insert_user.jpg, id=232, 1296.845pt x 385.44pt>
 File: graphs/insert_user.jpg Graphic file (type jpg)
 <use graphs/insert_user.jpg>
 Package pdftex.def Info: graphs/insert_user.jpg  used on input line 396.
 (pdftex.def)             Requested size: 355.0919pt x 105.54051pt.
-<graphs/hashed_passwd.jpg, id=232, 1150.2975pt x 200.75pt>
+ [15 <./graphs/store_history_message.jpg> <./graphs/join_room_get_history_messa
+ge.jpg> <./graphs/return_history_message.jpg> <./graphs/show_history_message.jp
+g>]
+<graphs/hashed_passwd.jpg, id=239, 1150.2975pt x 200.75pt>
 File: graphs/hashed_passwd.jpg Graphic file (type jpg)
 <use graphs/hashed_passwd.jpg>
 Package pdftex.def Info: graphs/hashed_passwd.jpg  used on input line 402.
 (pdftex.def)             Requested size: 355.0919pt x 61.96841pt.
-<zzrgraphs/certificates.png, id=236, 124.96687pt x 148.05313pt>
+<zzrgraphs/certificates.png, id=243, 124.96687pt x 148.05313pt>
 File: zzrgraphs/certificates.png Graphic file (type png)
 <use zzrgraphs/certificates.png>
 Package pdftex.def Info: zzrgraphs/certificates.png  used on input line 412.
 (pdftex.def)             Requested size: 88.77127pt x 105.17491pt.
- [16 <./graphs/insert_user.jpg> <./graphs/hashed_passwd.jpg>]
-<zzrgraphs/connection_is_secure.png, id=249, 312.16624pt x 205.26688pt>
+<zzrgraphs/connection_is_secure.png, id=244, 312.16624pt x 205.26688pt>
 File: zzrgraphs/connection_is_secure.png Graphic file (type png)
 <use zzrgraphs/connection_is_secure.png>
 Package pdftex.def Info: zzrgraphs/connection_is_secure.png  used on input line
  419.
 (pdftex.def)             Requested size: 177.54256pt x 116.74649pt.
-<zzrgraphs/cookie_secure_https_only.png, id=250, 497.35812pt x 117.43875pt>
+ [16 <./graphs/insert_user.jpg> <./graphs/hashed_passwd.jpg> <./zzrgraphs/certi
+ficates.png>]
+<zzrgraphs/cookie_secure_https_only.png, id=256, 497.35812pt x 117.43875pt>
 File: zzrgraphs/cookie_secure_https_only.png Graphic file (type png)
 <use zzrgraphs/cookie_secure_https_only.png>
 Package pdftex.def Info: zzrgraphs/cookie_secure_https_only.png  used on input 
@@ -1388,44 +1390,44 @@ LaTeX Font Info:    Trying to load font information for TS1+pplj on input line
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 psnfss/ts1pplj.fd
 File: ts1pplj.fd 2004/09/06 font definitions for TS1/pplj.
-) [17 <./zzrgraphs/certificates.png> <./zzrgraphs/connection_is_secure.png> <./
-zzrgraphs/cookie_secure_https_only.png>]
-<graphs/session_settings.jpg, id=261, 1523.6925pt x 401.5pt>
+)
+<graphs/session_settings.jpg, id=258, 1523.6925pt x 401.5pt>
 File: graphs/session_settings.jpg Graphic file (type jpg)
 <use graphs/session_settings.jpg>
 Package pdftex.def Info: graphs/session_settings.jpg  used on input line 455.
 (pdftex.def)             Requested size: 355.0919pt x 93.56833pt.
-
+ [17 <./zzrgraphs/connection_is_secure.png> <./zzrgraphs/cookie_secure_https_on
+ly.png>]
 Overfull \hbox (30.65738pt too wide) in paragraph at lines 460--461
 []\T1/pplj/m/n/12 In ad-di-tion, we have de-fined the dec-o-ra-tors \T1/cmtt/m/
 n/12 authenticated_only \T1/pplj/m/n/12 and \T1/cmtt/m/n/12 login_required\T1/p
 plj/m/n/12 ,
  []
 
-<graphs/login_required.jpg, id=265, 1178.4025pt x 323.2075pt>
+<graphs/login_required.jpg, id=270, 1178.4025pt x 323.2075pt>
 File: graphs/login_required.jpg Graphic file (type jpg)
 <use graphs/login_required.jpg>
 Package pdftex.def Info: graphs/login_required.jpg  used on input line 466.
 (pdftex.def)             Requested size: 332.89738pt x 91.30629pt.
-<graphs/authenticated_only.jpg, id=266, 2192.19pt x 441.65pt>
+<graphs/authenticated_only.jpg, id=271, 2192.19pt x 441.65pt>
 File: graphs/authenticated_only.jpg Graphic file (type jpg)
 <use graphs/authenticated_only.jpg>
 Package pdftex.def Info: graphs/authenticated_only.jpg  used on input line 472.
 
 (pdftex.def)             Requested size: 332.89738pt x 67.06679pt.
-<graphs/forbidden_access.jpg, id=267, 1473.505pt x 477.785pt>
+<graphs/forbidden_access.jpg, id=272, 1473.505pt x 477.785pt>
 File: graphs/forbidden_access.jpg Graphic file (type jpg)
 <use graphs/forbidden_access.jpg>
 Package pdftex.def Info: graphs/forbidden_access.jpg  used on input line 481.
 (pdftex.def)             Requested size: 355.0919pt x 115.13733pt.
-[18 <./graphs/session_settings.jpg> <./graphs/login_required.jpg> <./graphs/aut
-henticated_only.jpg>]
-<graphs/home_session.jpg, id=275, 1541.76pt x 469.755pt>
+<graphs/home_session.jpg, id=273, 1541.76pt x 469.755pt>
 File: graphs/home_session.jpg Graphic file (type jpg)
 <use graphs/home_session.jpg>
 Package pdftex.def Info: graphs/home_session.jpg  used on input line 489.
 (pdftex.def)             Requested size: 355.0919pt x 108.1919pt.
- [19 <./graphs/forbidden_access.jpg> <./graphs/home_session.jpg>] (main.aux)
+[18 <./graphs/session_settings.jpg> <./graphs/login_required.jpg> <./graphs/aut
+henticated_only.jpg> <./graphs/forbidden_access.jpg>] (main.bbl) [19 <./graphs/
+home_session.jpg>] (main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -1434,13 +1436,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 4522BF1081B224974276FAB06B3A2A45;352.
  ) 
 Here is how much of TeX's memory you used:
- 25812 strings out of 474436
- 499275 string characters out of 5731134
+ 25823 strings out of 474436
+ 499507 string characters out of 5731134
  1935187 words of memory out of 5000000
- 47610 multiletter control sequences out of 15000+600000
+ 47615 multiletter control sequences out of 15000+600000
  587148 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 126i,11n,135p,1028b,733s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 126i,11n,135p,1028b,734s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/pk/l
 jfour/jknappen/ec/dpi600/ectt1200.pk>{/Users/bamingyuan/Library/Application Sup
 port/MiKTeX/texmfs/install/fonts/enc/dvips/base/8r.enc}</Users/bamingyuan/Libra
@@ -1452,9 +1454,9 @@ Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb><
 /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1
 /urw/palatino/uplr8a.pfb></Users/bamingyuan/Library/Application Support/MiKTeX/
 texmfs/install/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on main.pdf (19 pages, 5425540 bytes).
+Output written on main.pdf (19 pages, 5423889 bytes).
 PDF statistics:
- 376 PDF objects out of 1000 (max. 8388607)
- 85 named destinations out of 1000 (max. 500000)
+ 371 PDF objects out of 1000 (max. 8388607)
+ 88 named destinations out of 1000 (max. 500000)
  287 words of extra memory for PDF output out of 10000 (max. 10000000)
 

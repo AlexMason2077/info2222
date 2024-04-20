@@ -1,3 +1,13 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{elliptic_js}
+Tabnine.
+\newblock Elliptic javascript and node.js code examples.
+\newblock Online, 2024.
+
+\bibitem{gillis_diffie_hellman_2024}
+Alexander~S. Gillis.
+\newblock Diffie-hellman key exchange.
+\newblock Online, 2024.
 
 \end{thebibliography}

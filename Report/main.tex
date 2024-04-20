@@ -190,9 +190,9 @@ This project is to implement a messaging app for encrypted communication. Based 
         \begin{enumerate}
             \item When a user successfully logs in or signs up, they generate a pair of cryptographic keys: a public key and a private key as shown in Figure \ref{show_keys}.
 
-            As shown in Figure \ref{generate_key_pairs}, the process begins with hashing the password using the SHA-256 hash function to create a fixed-length seed. This enhances security by mitigating risks associated with using raw passwords and provides necessary entropy. The SHA-256 hash output, initially an ArrayBuffer, is then converted into a Uint8Array, and finally into a hexadecimal string to format the seed for key generation. Using this processed seed, the ec.genKeyPair function from the elliptic library is utilized to generate the ECC key pair, as demonstrated in the cryptographic process.
-
-            Subsequently, the frontend stores both the public key and the private key as shown in \ref{store_key_pairs}. The public key is uploaded to the server using an axios request and stored in a database called public\_keys, as shown in Figures \ref{Upload and Store public key} and \ref{db public_key}. Meanwhile, the private key is retained in the user's local storage, as shown in Figure \ref{local_storage}.. These keys are generated based on the user's password, ensuring that they are consistently the same each time they are generated.
+            As shown in Figure \ref{generate_key_pairs}, the process begins with hashing the password using the SHA-256 hash function to create a fixed-length seed. This enhances security by mitigating risks associated with using raw passwords and provides necessary entropy. The SHA-256 hash output, initially an ArrayBuffer, is then converted into a Uint8Array, and finally into a hexadecimal string to format the seed for key generation. Using this processed seed, the ec.genKeyPair function from the elliptic library is utilized to generate the  key pair.
+            
+            Subsequently, the frontend stores both the public key and the private key as shown in \ref{store_key_pairs}. The public key is uploaded to the server using an axios request and stored in a database called public\_keys, as shown in Figures \ref{Upload and Store public key} and \ref{db public_key}. Meanwhile, the private key is retained in the user's local storage, as shown in Figure \ref{local_storage}. These keys are generated based on the user's password, ensuring that they are consistently the same each time they are generated.
 
             \begin{figure}[H]
                 \centering
@@ -248,9 +248,9 @@ This project is to implement a messaging app for encrypted communication. Based 
 
             \item When a user enters a room shown in \ref{front join room}, the function \texttt{getPublicKey(receiver);} shown in \ref{get public key} called to request the public key of the conversing user from the server . The server retrieves the public key from the database and returns it shown in \ref{get and return public key}, storing it in a global variable \texttt{current\_receiver\_public\_key} in \texttt{home.jinja}. 
 
-            When a user sends a message using the \texttt{send} function, they first generate a digital signature, as shown in Figure \ref{sign message}, using their own private key in local storage and the recipient's public key, previously obtained through \texttt{getPublicKey(receiver);} and stored in the global variable in \texttt{home.jinja}. This process utilizes Elliptic Curve Cryptography (ECC) to ensure the message's integrity and authentication. The digital signature is then incorporated into the message itself before it is sent.
+            When a user sends a message using the \texttt{send} function, they first generate a digital signature, as shown in Figure \ref{sign message}, using their own private key in local storage and the recipient's public key, previously obtained through \texttt{getPublicKey(receiver);} and stored in the global variable in \texttt{home.jinja}. The digital signature is then incorporated into the message itself before it is sent.
 
-            Following this, the function computes a shared key between two users using Elliptic Curve Cryptography (ECC) from hexadecimal representations of a private key and a public key, as shown in Figure \ref{compute shared key}. It converts the private key into a key pair object and the public key into a public key object. A shared key is then derived using these keys, serving as a secure basis for encrypted communication between the two users. Despite the involvement of individual private keys and the corresponding public key, both parties arrive at the same shared secret key. Thus, we successfully obtain a shared key that can be used for encrypting and decrypting messages, having exchanged only the public keys.
+            Following this, the function computes a shared key between two users from hexadecimal representations of a private key and a public key, as shown in Figure \ref{compute shared key}. It converts the private key into a key pair object and the public key into a public key object\cite{elliptic_js}. A shared key is then derived using these keys, serving as a secure basis for encrypted communication between the two users. Despite the involvement of individual private keys and the corresponding public key, both parties arrive at the same shared secret key,also know as Diffie-Hellman key exchange \cite{gillis_diffie_hellman_2024}. Thus, we successfully obtain a shared key that can be used for encrypting and decrypting messages, having exchanged only the public keys.
 
 
             \begin{figure}[H]
@@ -351,12 +351,12 @@ This project is to implement a messaging app for encrypted communication. Based 
                 \label{encryption and decryption process}
             \end{figure}
 
-        \item The above process combines both symmetric and asymmetric encryption and utilizes digital signatures for message authentication. Through the ECC elliptic curve encryption algorithm, we enable two users to obtain the same shared key by only exchanging public keys. This shared key is then used to encrypt messages, with the server merely acting as an intermediary. Both encryption and decryption are completed on the client side.
+        \item The above process combines both symmetric and asymmetric encryption and utilizes digital signatures for message authentication. Through the Diffie-Hellman key exchange \cite{gillis_diffie_hellman_2024}, we enable two users to obtain the same shared key by only exchanging public keys. This shared key is then used to encrypt messages, with the server merely acting as an intermediary. Both encryption and decryption are completed on the client side.
 
         \end{enumerate}
 
         \subsubsection*{6}
-            As described in Section 5, the client sends an encrypted message to the server using a key derived from the sender's private key and the recipient's public key, calculated using the ECC algorithm to ensure both parties can compute the same key. The key pair is generated based on the user's password, and this process is executed on the frontend. Thus, the server never knows the shared key used for encryption/decryption, only storing the signed and encrypted messages, as shown in Figure~\ref{store history message}. Upon entering a room, users send a request to the server,as shown in figure \ref{get history message} which then retrieves the corresponding encrypted messages from the database \ref{return history message}. The frontend gets messages,computes the shared key, decrypts, and authenticates the signature, as shown in \ref{show history message}. If the verification is successful, the historical messages are displayed in the message box.
+            As described in Section 5, the client sends an encrypted message to the server using a key derived from the sender's private key and the recipient's public key. The key pair is generated based on the user's password, and this process is executed on the frontend. Thus, the server never knows the shared key used for encryption/decryption, only storing the signed and encrypted messages, as shown in Figure~\ref{store history message}. Upon entering a room, users send a request to the server,as shown in figure \ref{get history message} which then retrieves the corresponding encrypted messages from the database \ref{return history message}. The frontend gets messages,computes the shared key, decrypts, and authenticates the signature, as shown in \ref{show history message}. If the verification is successful, the historical messages are displayed in the message box.
 
             \begin{figure}[H]
                 \centering
@@ -501,8 +501,6 @@ This project is to implement a messaging app for encrypted communication. Based 
 \item \textbf{HTTPS}
 \end{itemize}
 
-
-
 \noindent Mingyuan Ba:
 \begin{itemize}
 \item \textbf{Chatroom}
@@ -511,6 +509,9 @@ This project is to implement a messaging app for encrypted communication. Based 
 \item \textbf{authentication}
 \end{itemize}
 
-       
+Based on the Marking description on Canvas
 
+       
+\bibliographystyle{unsrt}
+\bibliography{reference} 
 \end{document}

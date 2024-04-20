@@ -540,24 +540,24 @@ INPUT ./graphs/sign_message.jpg
 INPUT ./graphs/sign_message.jpg
 INPUT ./graphs/sign_message.jpg
 INPUT ./graphs/sign_message.jpg
-INPUT ./graphs/compute_shared_key.jpg
-INPUT ./graphs/compute_shared_key.jpg
-INPUT ./graphs/compute_shared_key.jpg
-INPUT ./graphs/compute_shared_key.jpg
-INPUT ./graphs/compute_shared_key.jpg
-INPUT ./graphs/compute_shared_key.jpg
-INPUT ./graphs/compute_shared_key.jpg
-INPUT ./graphs/encrypt_message.jpg
-INPUT ./graphs/encrypt_message.jpg
-INPUT ./graphs/encrypt_message.jpg
-INPUT ./graphs/encrypt_message.jpg
-INPUT ./graphs/encrypt_message.jpg
-INPUT ./graphs/encrypt_message.jpg
-INPUT ./graphs/encrypt_message.jpg
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplri9d.vf
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri8r.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmri.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrij8r.tfm
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/compute_shared_key.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
+INPUT ./graphs/encrypt_message.jpg
 INPUT ./graphs/processData.jpg
 INPUT ./graphs/processData.jpg
 INPUT ./graphs/processData.jpg
@@ -660,14 +660,14 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/la
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/psnfss/ts1pplj.fd
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/psnfss/ts1pplj.fd
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr9c.tfm
+INPUT ./graphs/session_settings.jpg
+INPUT ./graphs/session_settings.jpg
+INPUT ./graphs/session_settings.jpg
+INPUT ./graphs/session_settings.jpg
+INPUT ./graphs/session_settings.jpg
+INPUT ./graphs/session_settings.jpg
+INPUT ./graphs/session_settings.jpg
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplr9c.vf
-INPUT ./graphs/session_settings.jpg
-INPUT ./graphs/session_settings.jpg
-INPUT ./graphs/session_settings.jpg
-INPUT ./graphs/session_settings.jpg
-INPUT ./graphs/session_settings.jpg
-INPUT ./graphs/session_settings.jpg
-INPUT ./graphs/session_settings.jpg
 INPUT ./graphs/login_required.jpg
 INPUT ./graphs/login_required.jpg
 INPUT ./graphs/login_required.jpg
@@ -696,6 +696,9 @@ INPUT ./graphs/home_session.jpg
 INPUT ./graphs/home_session.jpg
 INPUT ./graphs/home_session.jpg
 INPUT ./graphs/home_session.jpg
+INPUT ./main.bbl
+INPUT ./main.bbl
+INPUT main.bbl
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
