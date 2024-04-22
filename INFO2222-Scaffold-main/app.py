@@ -11,6 +11,7 @@ import secrets
 from bcrypt import gensalt, hashpw, checkpw
 from functools import wraps
 from sqlalchemy.orm import aliased
+from bleach import clean
 
 # import logging
 
@@ -104,7 +105,7 @@ def signup():
 def signup_user():
     if not request.is_json:
         abort(404)
-    username = request.json.get("username")
+    username = clean(request.json.get("username"))
     hashedPassword = request.json.get("password")
 
     if db.get_user(username) is None:
@@ -252,9 +253,9 @@ if __name__ == '__main__':
     # db.print_all_friends()
     # db.get_all_messages()
     # db.print_table_names()
-    db.drop_all_tables("sqlite:///database/main.db")
+    # db.drop_all_tables("sqlite:///database/main.db")
 
-    # socketio.run(app, host='0.0.0.0', port=8999, debug=False, ssl_context=('./certs/server.crt', './certs/server.key'))
+    socketio.run(app, host='0.0.0.0', port=8999, debug=False, ssl_context=('./certs/server.crt', './certs/server.key'))
 
     # db.print_all_users()
     # print(db.get_messages_by_room_id(4))
