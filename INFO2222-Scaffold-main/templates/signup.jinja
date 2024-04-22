@@ -65,8 +65,28 @@ Sign up page, pretty much the same as login.
         // ^
         //========================================================================================
 
+        /**
+         * Validate the password to ensure it contains at least one letter, one number,
+         * and has a minimum length of 8 characters.
+         * @param {string} password - The password to validate.
+         * @returns {boolean} True if the password is valid, otherwise false.
+         */
+        function isValidPassword(password) {
+            const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+            return regex.test(password);
+        }
+
         // this function is identical to login(), see login.jinja
         async function signup() {
+
+            const password = $("#password").val();
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; 
+
+            if (!passwordRegex.test(password)) {
+                alert("password must has letter,number and at least 8 characters");
+                return; 
+            }
+
             let signupURL = "{{ url_for('signup_user') }}"; 
 
             // Use crypto-js to encrypt the password with SHA-256
