@@ -76,11 +76,25 @@ Sign up page, pretty much the same as login.
             return regex.test(password);
         }
 
+        function isValidUsername(username) {
+            const regex = /^[a-zA-Z0-9_]{1,9}$/; // 1到9个字符，字母、数字、下划线
+            return regex.test(username);
+        }
+
         // this function is identical to login(), see login.jinja
         async function signup() {
+            const username = $("#username").val(); 
 
             const password = $("#password").val();
+            
             const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; 
+
+
+            if (!isValidUsername(username)) {
+                console.log(username);
+                alert("The username must be fewer than 10 characters and can only contain letters, numbers, and underscores.");
+                return;
+            }
 
             if (!passwordRegex.test(password)) {
                 alert("password must has letter,number and at least 8 characters");
