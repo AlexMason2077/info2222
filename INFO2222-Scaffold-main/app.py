@@ -152,9 +152,11 @@ def send_request():
 
     sender = session['username']
     receiver = request.json.get('receiver')
-
+    
     if not receiver:
         return jsonify({"error": "Missing 'receiver' in data"}), 400
+    if not db.get_user(receiver):
+        return jsonify({"error": "User does not exist!"}), 404
     if sender == receiver:
         return jsonify({"error": "Cannot send friend request to yourself."}), 400
     if db.are_friends(sender, receiver):
@@ -255,7 +257,7 @@ if __name__ == '__main__':
     # db.print_table_names()
     # db.drop_all_tables("sqlite:///database/main.db")
 
-    socketio.run(app, host='0.0.0.0', port=8999, debug=False, ssl_context=('./certs/server.crt', './certs/server.key'))
+    socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/server.crt', './certs/server.key'))
 
     # db.print_all_users()
     # print(db.get_messages_by_room_id(4))

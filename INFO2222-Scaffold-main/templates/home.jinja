@@ -471,9 +471,17 @@
             .then(data => {
                 console.log(data);
                 // After successfully sending a friend request, emit a socket event
-                socket.emit('friend_request_sent', {sender: senderUsername, receiver: friendUsername});
+                if (data.error) {
+                    alert(data.error); 
+                } else {
+                    alert(data.message)
+                    socket.emit('friend_request_sent', {sender: senderUsername, receiver: friendUsername});
+                }
             })
-            .catch(error => console.error('There has been a problem with your fetch operation:', error));
+            .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+        alert('Failed to send friend request.');
+            });
         }
     }
 
