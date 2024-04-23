@@ -351,6 +351,13 @@ INPUT ./graphs/passwd_does_not_match.png
 INPUT ./graphs/passwd_does_not_match.png
 INPUT ./graphs/passwd_does_not_match.png
 INPUT ./graphs/passwd_does_not_match.png
+INPUT ./graphs/sign_up_xss.jpg
+INPUT ./graphs/sign_up_xss.jpg
+INPUT ./graphs/sign_up_xss.jpg
+INPUT ./graphs/sign_up_xss.jpg
+INPUT ./graphs/sign_up_xss.jpg
+INPUT ./graphs/sign_up_xss.jpg
+INPUT ./graphs/sign_up_xss.jpg
 INPUT ./zzrgraphs/models_friendship.png
 INPUT ./zzrgraphs/models_friendship.png
 INPUT ./zzrgraphs/models_friendship.png
@@ -456,7 +463,6 @@ INPUT ./graphs/generate_key_pairs.jpg
 INPUT ./graphs/generate_key_pairs.jpg
 INPUT ./graphs/generate_key_pairs.jpg
 INPUT ./graphs/generate_key_pairs.jpg
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri9d.tfm
 INPUT ./graphs/store_key_pairs.jpg
 INPUT ./graphs/store_key_pairs.jpg
 INPUT ./graphs/store_key_pairs.jpg
@@ -464,10 +470,6 @@ INPUT ./graphs/store_key_pairs.jpg
 INPUT ./graphs/store_key_pairs.jpg
 INPUT ./graphs/store_key_pairs.jpg
 INPUT ./graphs/store_key_pairs.jpg
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplri9d.vf
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri8r.tfm
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmri.tfm
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrij8r.tfm
 INPUT ./graphs/upload_public_key.jpg
 INPUT ./graphs/upload_public_key.jpg
 INPUT ./graphs/upload_public_key.jpg
@@ -540,6 +542,7 @@ INPUT ./graphs/sign_message.jpg
 INPUT ./graphs/sign_message.jpg
 INPUT ./graphs/sign_message.jpg
 INPUT ./graphs/sign_message.jpg
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri9d.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplri9d.vf
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri8r.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmri.tfm
@@ -558,6 +561,10 @@ INPUT ./graphs/encrypt_message.jpg
 INPUT ./graphs/encrypt_message.jpg
 INPUT ./graphs/encrypt_message.jpg
 INPUT ./graphs/encrypt_message.jpg
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplri9d.vf
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplri8r.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmri.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplrij8r.tfm
 INPUT ./graphs/processData.jpg
 INPUT ./graphs/processData.jpg
 INPUT ./graphs/processData.jpg
@@ -702,9 +709,9 @@ INPUT main.bbl
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1200.pk
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1200.pk
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/enc/dvips/base/8r.enc
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1200.pk
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1200.pk
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb

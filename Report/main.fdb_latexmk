@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1713614023.84508 "main.aux" "main.bbl" "main" 1713614026.75131 0
+["bibtex main"] 1713876965.16842 "main.aux" "main.bbl" "main" 1713877776.38303 0
   "./reference.bib" 1713612652.21759 490 90bba79b00925cec82af732a660a7434 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/bibtex/bst/bibtex/unsrt.bst" 1678856792.43594 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "main.aux" 1713614026.10632 12599 3637d6e615d47c01480567782a3a43da "pdflatex"
+  "main.aux" 1713877775.71033 12620 b7f20dd6419d7525466c56ff2b5564b7 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1713614024.07023 "main.tex" "main.pdf" "main" 1713614026.75149 0
+["pdflatex"] 1713877773.45797 "main.tex" "main.pdf" "main" 1713877776.38323 0
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/map/pdftex/pdftex.map" 1713185032.7656 84440 4cb442eb2b994e0c3de64aa9fad60308 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1200.pk" 1713286917.13409 24152 7d557621c19809b4b2118283ea3c6b02 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/miktex/data/le/pdftex/pdflatex.fmt" 1710507425.07267 24243819 9873b88c324e7d4c2fb47d8dfa8007a8 ""
@@ -190,8 +190,8 @@
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/xstring/xstring.sty" 1710564009.63973 123 a302f2c651a95033260db60e51527ae8 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/zref/zref-abspage.sty" 1713089312.52586 2269 4fe6fb3396214c91f164d45faf9bec45 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/zref/zref-base.sty" 1713089312.52596 20785 f7d1133a287929598a897c93f8f4c44b ""
-  "graphs/authenticated_only.jpg" 1713418818.06863 125298 4c2d45016b714324c2793cb6e77a59b2 ""
-  "graphs/back_get_public_key.jpg" 1713335471.45757 143142 163edddbcf3e7305d3c2ba964afbfcad ""
+  "graphs/authenticated_only.jpg" 1713877238.23538 83699 c8459eba3402073f07f811d08e55f8aa ""
+  "graphs/back_get_public_key.jpg" 1713877394.45678 174180 d451d954ab9ed90267e1db993dda0365 ""
   "graphs/compute_shared_key.jpg" 1713331155.29648 263872 3f538730da155d3456006de63b7b1621 ""
   "graphs/db_get_public_key.jpg" 1713335519.72509 125339 307bfbf345ed9f4cbe251442242fabc0 ""
   "graphs/db_public_key.jpg" 1713324837.38489 50177 ffb246cd94cbb23d4debeec8be24029a ""
@@ -205,7 +205,7 @@
   "graphs/front_login_hashed.jpg" 1713420714.26635 191255 01b5309a60970a98d9cdd3a01d28794b ""
   "graphs/generate_key_pairs.jpg" 1713289081.61128 268261 01e8801912389e99200f2bc91881edcc ""
   "graphs/hashed_passwd.jpg" 1713287508.96831 51609 647831ac1bf9683f1e72764ac4fba021 ""
-  "graphs/home_session.jpg" 1713419820.80524 134487 21f01dd08206a8893b97afaa67122619 ""
+  "graphs/home_session.jpg" 1713877680.618 160091 b8dfa24791c36a867328e6b6a493dded ""
   "graphs/insert_public_key.jpg" 1713324512.02938 243247 c1a2a9780eb93cc2076957fa079d617d ""
   "graphs/insert_user.jpg" 1713287194.67432 79284 116e6acc4e90dd3c792805f36fe91a7d ""
   "graphs/join_room_get_history_message.jpg" 1713414233.97256 65457 eef3fe1227be2d34a3d31c42f96aac75 ""
@@ -220,14 +220,15 @@
   "graphs/show_history_message.jpg" 1713414358.60503 71781 44d0f7c3a8f1df60d3fa4654ce371558 ""
   "graphs/show_keys.jpg" 1713329234.90761 119002 6c75714c3c6193dcf9710beb9b7d374c ""
   "graphs/sign_message.jpg" 1713331289.59397 76650 d42e72bc2d0772e979acb0271377f1a1 ""
+  "graphs/sign_up_xss.jpg" 1713872690.78015 122339 da8fbfceb4238346d2f4ade330d98f9f ""
   "graphs/store_history_message.jpg" 1713413752.84972 63703 52d949d671ed6f37e456901245a58e9c ""
   "graphs/store_key_pairs.jpg" 1713324132.80452 238081 04d89722349c3a0e965beaabe6815227 ""
   "graphs/upload_public_key.jpg" 1713324576.69177 185335 ff086554fdd9cf8c4f036de4f0dc054f ""
   "graphs/verify_signature.jpg" 1713331319.80196 70395 c18f1032705dd440fae74da135c4e145 ""
-  "main.aux" 1713614026.10632 12599 3637d6e615d47c01480567782a3a43da "pdflatex"
-  "main.bbl" 1713614024.04514 285 b3549d4b0de8b335a107fe06d81e1335 "bibtex main"
-  "main.out" 1713614026.10755 352 4522bf1081b224974276fab06b3a2a45 "pdflatex"
-  "main.tex" 1713614019.79014 28916 5881bd7ca97ce2f0df970a8adcfc6225 ""
+  "main.aux" 1713877775.71033 12620 b7f20dd6419d7525466c56ff2b5564b7 "pdflatex"
+  "main.bbl" 1713876965.37684 285 b3549d4b0de8b335a107fe06d81e1335 "bibtex main"
+  "main.out" 1713877775.71175 352 4522bf1081b224974276fab06b3a2a45 "pdflatex"
+  "main.tex" 1713877772.23857 29257 96706dc59dfb9b134e99e80d70342ac2 ""
   "zzrgraphs/certificates.png" 1713375132.21621 16947 0b27b8027a6735f5e6720e61971df9cc ""
   "zzrgraphs/connection_is_secure.png" 1713375132.21837 35647 49b3f29eb2e92fe257df55dde668760e ""
   "zzrgraphs/cookie_secure_https_only.png" 1713375132.2188 66254 d4dbcc30d36e71633050b5a93323100e ""

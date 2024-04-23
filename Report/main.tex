@@ -54,6 +54,9 @@ This project is to implement a messaging app for encrypted communication. Based 
     \subsection*{Part: Basic Functionality Requirements:}
         \subsubsection*{1} When a user attempts to log in, the frontend initially hashes the user's inputted password using SHA-256, as shown in figure \ref{Hashed Password in frontend}. Then, the username and hashed password are sent to the server. The server checks if the user exists; if not, an error message is displayed, as shown in figure \ref{No such user}. If the user exists, the server hashes the received hashed password again using a salt stored in the database, and then compares this double-hashed password with the hash value stored in the database. If they match, the login is successful, and the user is redirected to the home page, as shown in \ref{login successful}. If they do not match, an error message is displayed, as shown in figure \ref{password doesn't match}.
 
+
+        When users sign up, to prevent XSS attacks, we have imposed restrictions on the length of usernames and passwords, as well as on the characters that can be used, as shown in Figure \ref{signup xss}.
+
         \begin{figure}[H]
             \centering
             \includegraphics[width=0.8\textwidth]{graphs/front_login_hashed.jpg}
@@ -82,6 +85,12 @@ This project is to implement a messaging app for encrypted communication. Based 
             \label{password doesn't match}
         \end{figure}
 
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{graphs/sign_up_xss.jpg}
+            \caption{signup.jinja}
+            \label{signup xss}
+        \end{figure}
 
         \subsubsection*{2} Once user logs in successfully, a dynamic friend list can be shown bottom right the webpage. It displays all the users who this user is friend with as buttons. By clicking on the bottoms, the user can join in the chat room and chat with the friend. In order to implement this feature, we designed a class called friendship (shown in Figure \ref{friendshipClass}) , then we use a function called get friends for user, to get all the users who this user if friend with.(shown in Figure \ref{getfriends}) . Then we use a function called fetchfriends in the frontend to display all the friends as buttons. Once clicking the bottom, it will trigger join room function, which allows user to chat with friends(shown in Figure \ref{fetchfriends}).
 
@@ -161,7 +170,7 @@ This project is to implement a messaging app for encrypted communication. Based 
 
         \subsubsection*{5} 
 
-        All the friends of the user is displayed as buttons in the friend list (shown in Figure \ref{friendlist}).  Once clicking on the button, it will call the join room function which allows the user to join in their friend's chat room.  To ensure that both user and friend are currently online so they can communicate securely, we add a get users in room medthod for the room class, which checks whether both of them are in the room.(shown in Figure \ref{getusersinroom}). Then we use this method when trying to send messages (shown in Figure \ref{send}).
+        All the friends of the user is displayed as buttons in the friend list (shown in Figure \ref{friendlist}).  Once clicking on the button, it will call the join room function which allows the user to join in their friend's chat room.  To ensure that both user and friend are currently on so they can communicate securely, we add a get users in room medthod for the room class, which checks whether both of them are in the room.(shown in Figure \ref{getusersinroom}). Then we use this method when trying to send messages (shown in Figure \ref{send}).
 
 
         \begin{figure}[H]
@@ -177,7 +186,6 @@ This project is to implement a messaging app for encrypted communication. Based 
             \caption{models.py: check how many users are in the room}
             \label{getusersinroom}
         \end{figure} 
-
 
         \begin{figure}[H]
             \centering
@@ -204,14 +212,14 @@ This project is to implement a messaging app for encrypted communication. Based 
             \begin{figure}[H]
                 \centering{}
                 \includegraphics[width=0.8\textwidth]{graphs/generate_key_pairs.jpg}
-                \caption{login.jinja \textit{line 16-54} and same function in signup.jinja \textit{line 27 - 65}}
+                \caption{login.jinja and same function in signup.jinja }
                 \label{generate_key_pairs}
             \end{figure}
 
             \begin{figure}[H]
                 \centering{}
                 \includegraphics[width=0.7\textwidth]{graphs/store_key_pairs.jpg}
-                \caption{login.jinja \textit{line 95-129} and same process in signup.jinja \textit{line 84 - 118}}
+                \caption{login.jinja and same process in signup.jinja }
                 \label{store_key_pairs}
             \end{figure}
 
@@ -383,7 +391,7 @@ This project is to implement a messaging app for encrypted communication. Based 
             \begin{figure}[H]
                 \centering
                 \includegraphics[width=0.8\textwidth]{graphs/show_history_message.jpg}
-                \caption{\texttt{home.jin} invoke \texttt{processMessage} to decrypt and show messages}
+                \caption{\texttt{home.jinja} invoke \texttt{processMessage} to decrypt and show messages}
                 \label{show history message}
             \end{figure}
 
@@ -459,6 +467,7 @@ This project is to implement a messaging app for encrypted communication. Based 
 
         In addition, we have defined the decorators \texttt{authenticated\_only} and \texttt{login\_required}, as shown in \ref{wrappers}, to verify if user sessions in the Flask application have been authenticated. These decorators are applied to functions that require a user to be logged in before execution, such as \texttt{home} in \texttt{app.py} and \texttt{connect}, \texttt{send} in \texttt{socket\_routes.py}. Moreover, in the \texttt{home} function in \texttt{app.py}, we prevent attackers from accessing data of other users by altering the URL with \texttt{username=}. This is achieved by verifying the presence of the current user in the session, as illustrated in Figures \ref{forbidden access} and \ref{home session}.
 
+        
         \begin{figure}[H]
             \centering
             \begin{subfigure}[b]{0.75\textwidth}
