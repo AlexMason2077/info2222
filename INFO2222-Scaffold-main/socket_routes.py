@@ -13,7 +13,7 @@ try:
 except ImportError:
     from app import socketio
 
-from models import Room
+from models import Room,User
 
 import db
 
@@ -39,13 +39,21 @@ def authenticated_only(f):
 def connect():
     username = request.cookies.get("username")
     room_id = request.cookies.get("room_id")
-    
     if room_id is None or username is None:
         return
     # socket automatically leaves a room on client disconnect
     # so on client connect, the room needs to be rejoined
+    user = db.get_online_user(username)
+    if user is None:
+        emit('error', {'message': 'User not found'})
+        return
+    else:
+        user.set_online(True)
+        print(user.get_online())
+        print("111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
+        #session.commit()
     join_room(int(room_id))
-
+    
     emit("incoming", {"content": f"{username} has connected", "color": "green", "type": "system"}, to=int(room_id))
 
 # event when client disconnects
@@ -56,7 +64,14 @@ def disconnect():
     room_id = request.cookies.get("room_id")
     if room_id is None or username is None:
         return
-
+    user = db.get_online_user(username)
+    if user is None:
+        emit('error', {'message': 'User not found'})
+        return
+    else:
+        user.set_online(False)
+        print(user.get_online())
+        print("22222222222222222222222222222222222222222222222222222222222222222222222222")
     emit("incoming", {"content": f"{username} has disconnected", "color": "red", "type": "system"}, to=int(room_id))
 
 

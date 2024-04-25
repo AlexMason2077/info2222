@@ -10,7 +10,7 @@ Prisma docs also looks so much better in comparison
 or use SQLite, if you're not into fancy ORMs (but be mindful of Injection attacks :) )
 '''
 
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from typing import Dict
 from enum import Enum as PyEnum
@@ -34,7 +34,15 @@ class User(Base):
     salt: Mapped[str] = mapped_column(String)  # salt
     password: Mapped[str] = mapped_column(String) # hash(passwd) 
     
-
+class UserOnline(Base):
+    __tablename__ = "user_online"
+    username = Column(String, primary_key=True)
+    is_online = Column(Boolean, default=False,nullable=False)
+    def set_online(self, online: bool):
+        """Method to update user's online status."""
+        self.is_online = online
+    def get_online(self):
+        return self.is_online  
 # stateful counter used to generate the room id
 class Counter():
     def __init__(self):

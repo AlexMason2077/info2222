@@ -31,14 +31,19 @@ def insert_user(username: str, password: str):
         hashed_password = hashpw(password.encode('utf-8'), salt)
 
         user = User(username=username, password=hashed_password,salt=salt)
-
+        user_online = UserOnline(username=username,is_online=False)
         session.add(user)
+        session.add(user_online)
         session.commit()
 
 # gets a user from the database
 def get_user(username: str):
     with Session(engine) as session:
         return session.get(User, username)
+    
+def get_online_user(username: str):
+    with Session(engine) as session:
+        return session.get(UserOnline, username)
 
 # add roominfo record to the database
 def insert_room(room_id: int, user_a: str, user_b: str):
