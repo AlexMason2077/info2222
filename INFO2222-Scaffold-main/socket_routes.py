@@ -39,6 +39,7 @@ def authenticated_only(f):
 def connect():
     username = request.cookies.get("username")
     room_id = request.cookies.get("room_id")
+    
     if room_id is None or username is None:
         return
     # socket automatically leaves a room on client disconnect

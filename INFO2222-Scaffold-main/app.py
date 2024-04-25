@@ -92,7 +92,6 @@ def login_user():
 
     # after successful user login authentication
     session['username'] = username   # store user name into session 
-    session['is_online'] = True
     return url_for('home', username=request.json.get("username"))
 
 # handles a get request to the signup page
@@ -112,7 +111,6 @@ def signup_user():
         print(f"[DEBUG]: {username}'s password encrpted once at jinja: {hashedPassword}")
         db.insert_user(username, hashedPassword) # will be hashed again in this function
         session['username'] = username  # store user name into session 
-        session['is_online'] = True
         return url_for('home', username=username)
 
     return "Error: User already exists!"
