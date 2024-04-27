@@ -251,6 +251,24 @@ def get_public_key():
             return jsonify({"error": "Public key not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+#################################################################################
+@app.route('/remove_friend', methods=['POST'])
+@login_required
+def remove_friend():
+    data = request.get_json()
+    if not data or 'friend_username' not in data:
+        return jsonify({"error": "Missing friend_username"}), 400
+
+    user_username = session['username']
+    friend_username = data['friend_username']
+
+    if db.remove_friend(user_username, friend_username):
+        return jsonify({"message": "Friend removed successfully"})
+    else:
+        return jsonify({"error": "Friend could not be removed"}), 400
+
+    
 
 if __name__ == '__main__':
     # db.view_tables()

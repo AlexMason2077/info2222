@@ -287,6 +287,19 @@ def add_friend(user_username, friend_username):
         session.commit()
         return "Friend added successfully."
     
+
+def remove_friend(user_username, friend_username):
+    with Session(engine) as session:
+        friendship = session.query(Friendship).filter(
+            ((Friendship.user_username == user_username) & (Friendship.friend_username == friend_username)) |
+            ((Friendship.user_username == friend_username) & (Friendship.friend_username == user_username))
+        ).first()
+        if friendship:
+            session.delete(friendship)
+            session.commit()
+            return True
+        return False
+
 def can_join_chatroom(username1, username2):
     # use SQLALchemy session to query the friendship table
     with Session() as session:
