@@ -596,7 +596,13 @@
                 button.onclick = function() {
                     join_room(friend['username']);
                 };
+
+                const statusSpan = document.createElement('span');
+                statusSpan.textContent = friend['is_online'] ? ' (Online)' : ' (Offline)';
+                statusSpan.style.color = friend['is_online'] ? 'green' : 'red'; // 根据在线状态改变文本颜色
+
                 li.appendChild(button);
+                li.appendChild(statusSpan);
                 friendList.appendChild(li);
             });
         })

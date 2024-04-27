@@ -375,9 +375,9 @@ def get_friends_for_user(username: str):
         friends_usernames = [friendship.friend_username for friendship in friendships]
         friends = []
         for friend_username in friends_usernames:
-            friend = session.query(User).filter(User.username == friend_username).first()
+            friend = session.query(UserOnline).filter(UserOnline.username == friend_username).first()
             if friend:
-                friends.append({"username": friend.username})
+                friends.append({"username": friend.username,'is_online': friend.is_online})
         
         return friends
 
