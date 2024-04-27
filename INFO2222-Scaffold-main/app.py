@@ -209,6 +209,11 @@ def update_friend_request():
 @app.route("/get_friends")
 def get_friends():
     username = request.args.get("username")
+    user = db.get_online_user(username)
+    #user.set_online(True)
+    print(username)
+    print(user.get_online())
+    print(3333333333333333333333333333333333333333333333333)
     if not username:
         return jsonify({"error": "Missing username"}), 400
 

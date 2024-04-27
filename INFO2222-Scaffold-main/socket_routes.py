@@ -6,6 +6,7 @@ file containing all the routes related to socket.io
 from flask_socketio import join_room, emit, leave_room
 from functools import wraps
 from flask import request, session
+from sqlalchemy.orm import Session
 import time
 
 try:
@@ -37,42 +38,38 @@ def authenticated_only(f):
 @socketio.on('connect')
 @authenticated_only
 def connect():
-    username = request.cookies.get("username")
-    room_id = request.cookies.get("room_id")
-    if room_id is None or username is None:
-        return
-    # socket automatically leaves a room on client disconnect
-    # so on client connect, the room needs to be rejoined
-    user = db.get_online_user(username)
-    if user is None:
-        emit('error', {'message': 'User not found'})
-        return
-    else:
-        user.set_online(True)
-        print(user.get_online())
-        print("111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
-        #session.commit()
-    join_room(int(room_id))
-    
-    emit("incoming", {"content": f"{username} has connected", "color": "green", "type": "system"}, to=int(room_id))
-
+    with Session(db.engine) as session:
+        username = request.cookies.get("username")
+        room_id = request.cookies.get("room_id")
+        if room_id is None or username is None:
+            return
+        user = session.query(db.UserOnline).filter_by(username=username).first()
+        if user is None:
+            emit('error', {'message': 'User not found'})
+            return
+        user.is_online = True
+        session.commit()
+        join_room(int(room_id))
+        emit("incoming", {"content": f"{username} has connected", "color": "green", "type": "system"}, to=int(room_id))
 # event when client disconnects
 # quite unreliable use sparingly
 @socketio.on('disconnect')
+@authenticated_only
 def disconnect():
-    username = request.cookies.get("username")
-    room_id = request.cookies.get("room_id")
-    if room_id is None or username is None:
-        return
-    user = db.get_online_user(username)
-    if user is None:
-        emit('error', {'message': 'User not found'})
-        return
-    else:
-        user.set_online(False)
-        print(user.get_online())
-        print("22222222222222222222222222222222222222222222222222222222222222222222222222")
-    emit("incoming", {"content": f"{username} has disconnected", "color": "red", "type": "system"}, to=int(room_id))
+    with Session(db.engine) as session:
+        username = request.cookies.get("username")
+        room_id = request.cookies.get("room_id")
+        if room_id is None or username is None:
+            return
+        user = session.query(db.UserOnline).filter_by(username=username).first()
+        if user is None:
+            emit('error', {'message': 'User not found'})
+            return
+        user.is_online = False
+        session.commit()
+        leave_room(room_id)
+        emit("incoming", {"content": f"{username} has disconnected", "color": "red", "type": "system"}, to=int(room_id))
+
 
 
 @socketio.on("send")
