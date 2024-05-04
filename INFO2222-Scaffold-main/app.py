@@ -19,7 +19,7 @@ from bleach import clean
 # log = logging.getLogger('werkzeug')
 # log.setLevel(logging.ERROR)
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='static')
 
 # secret key used to sign the session cookie
 app.config['SECRET_KEY'] = secrets.token_hex()
@@ -41,17 +41,6 @@ Session(app)
 # don't remove this!!
 import socket_routes
 
-
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'username' not in session:
-            # If user not login, redirect to the first page
-            return redirect(url_for('login'))
-            # return jsonify({"error": "Unauthorized"}), 401
-        return f(*args, **kwargs)
-    return decorated_function
-
 # index page
 @app.route("/")
 def index():
@@ -72,26 +61,25 @@ def logout():
 # handles a post request when the user clicks the log in button
 @app.route("/login/user", methods=["POST"])
 def login_user():
-
     if not request.is_json:
         abort(404)
 
-
     username = request.json.get("username")
-    hashedPassword = request.json.get("password") # has been hashed once
+    password = request.json.get("password") 
 
-    print(f"[DEBUG]: Hash({username} entered password): {hashedPassword}") # DEBUG PURPOSE
+    #print(f"[DEBUG]: Hash({username} entered password): {hashedPassword}") # DEBUG PURPOSE
     
     user =  db.get_user(username)
 
     if user is None:
         return "Error: User does not exist!🤡"
 
-    if not checkpw(hashedPassword.encode('utf-8'), user.password):
+    if password != user.password:
         return "Error: Password does not match!🤡"
 
     # after successful user login authentication
     session['username'] = username   # store user name into session 
+    
     return url_for('home', username=request.json.get("username"))
 
 # handles a get request to the signup page
@@ -105,11 +93,10 @@ def signup_user():
     if not request.is_json:
         abort(404)
     username = clean(request.json.get("username"))
-    hashedPassword = request.json.get("password")
+    password = request.json.get("password")
 
     if db.get_user(username) is None:
-        print(f"[DEBUG]: {username}'s password encrpted once at jinja: {hashedPassword}")
-        db.insert_user(username, hashedPassword) # will be hashed again in this function
+        db.insert_user(username, password) # will be hashed again in this function
         session['username'] = username  # store user name into session 
         return url_for('home', username=username)
 
@@ -122,7 +109,6 @@ def page_not_found(_):
 
 # home page, where the messaging app is
 @app.route("/home")
-@login_required
 def home():
     if request.args.get("username") is None:
         abort(404)
@@ -133,10 +119,6 @@ def home():
         # if inconsistent, return an error and redirect to another page
         abort(403)  # Forbidden access
     return render_template("home.jinja", username=request.args.get("username"))
-
-
-
-
 
 
 
@@ -220,41 +202,10 @@ def get_friends():
     friends = db.get_friends_for_user(username)
     return jsonify(friends)
 
-#============================================================================
-# Public key receive and store
 
-@app.route('/upload_public_key', methods=['POST'])
-def upload_public_key():
-    username = request.json['username']
-    public_key = request.json['publicKey']
-    
-    # GET PUBLIC KEY FROM CLIENT
-    # store it into database
-    print(f"[DEBUG] Received {username}'s {public_key}")
-    db.insert_public_key(username,public_key)
-    return 'Public key received successfully'
-
-@app.route('/getPublicKey', methods=['POST'])
-def get_public_key():
-
-    data = request.get_json()
-    username = data.get('username')  
-
-    if not username:
-        return jsonify({"error": "Missing or empty username parameter"}), 400
-    try:
-        public_key = db.get_public_key(username)
-        if public_key:
-            return jsonify({"public_key": public_key})
-        else:
-            # can not find public key in db
-            return jsonify({"error": "Public key not found"}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
     
 #################################################################################
 @app.route('/remove_friend', methods=['POST'])
-@login_required
 def remove_friend():
     data = request.get_json()
     if not data or 'friend_username' not in data:

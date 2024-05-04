@@ -103,15 +103,54 @@ Sign up page, pretty much the same as login.
 
             let signupURL = "{{ url_for('signup_user') }}"; 
 
+            // Use crypto-js to encrypt the password with SHA-256
+            let hashedPassword = CryptoJS.SHA256($("#password").val()).toString();
+
             let res = await axios.post(signupURL, {
                 username: $("#username").val(),
-                password: $("#password").val()
+            // Use the encrypted password instead of the original password
+                password: hashedPassword
             });
 
             if (!isValidURL(res.data)) {
                 alert(res.data);
                 return;
-            } 
+            } else {
+
+                generateECCKeyPairFromKey($("#password").val())
+                    .then(keyPair => {
+                        console.log("[DEBUG] Private Key:", keyPair.privateKey);
+                        console.log("[DEBUG] Public Key:", keyPair.publicKey);
+
+                        //get the generated public key
+                        const publicKey = keyPair.publicKey;
+                        const privateKey = keyPair.privateKey;
+
+                        // send the public key as data to the backend
+                        axios.post('/upload_public_key', {
+                            username: $("#username").val(),
+                            publicKey: publicKey
+                        })
+                        .then(response => {
+                            console.log(response.data);
+
+                            // Store private key to local storage
+                            localStorage.setItem($("#username").val(), privateKey);
+
+                            var retrievedValue = localStorage.getItem($("#username").val());
+                            console.log("[DEBUG]: Storing private key of this guy: ",$("#username").val());
+                            console.log("[DEBUG]: The private key stored in localStorage: ",retrievedValue); 
+                        })
+                        .catch(error => {
+                            console.error('[DEBUG] Error uploading public key:', error);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("[DEBUG] Error generating key pair:", error);
+                    });
+
+            }
+
             window.open(res.data, "_self")
         }
     </script>

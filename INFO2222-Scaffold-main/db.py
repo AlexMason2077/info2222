@@ -27,10 +27,8 @@ Base.metadata.create_all(engine)
 # inserts a user to the database
 def insert_user(username: str, password: str):
     with Session(engine) as session:
-        salt = gensalt()
-        hashed_password = hashpw(password.encode('utf-8'), salt)
 
-        user = User(username=username, password=hashed_password,salt=salt)
+        user = User(username=username, password=password)
         user_online = UserOnline(username=username,is_online=False)
         session.add(user)
         session.add(user_online)
@@ -132,41 +130,6 @@ def get_messages_by_room_id(room_id: int) -> list:
 
         # messages is already a list containing many tuples, each tuple containing (sender, content)
         return messages
-
-def insert_public_key(username: str, public_key: str):
-    with Session(engine) as session:
-        # create a message instance
-        PublicKey = PublicKeys(user_name = username, public_key = public_key)
-        
-        # add the instance to session
-        session.add(PublicKey)
-        
-        # commit the session to the database
-        try:
-            session.commit()
-            print(f"[DEBUG]: PublicKey added: {username}: {public_key}")
-        except Exception as e:
-            # if error, rollback
-            session.rollback()
-            print(f"[DEBUG]: Failed to insert PublicKey: {e}")
-        finally:
-            # close the session
-            session.close()
-
-def get_public_key(username: str):
-    with Session(engine) as session:
-        try:
-            # query the database to retrieve the public key for the given username
-            public_key = session.query(PublicKeys).filter_by(user_name=username).first()
-            if public_key:
-                return public_key.public_key
-            else:
-                return None
-        except Exception as e:
-            print(f"[DEBUG]: Failed to retrieve PublicKey: {e}")
-            return None
-        finally:
-            session.close()
 
 
 #################################################################################

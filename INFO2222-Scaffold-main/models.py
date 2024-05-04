@@ -31,8 +31,7 @@ class User(Base):
     # then accessing john.username -> will give me some data of type string
     # in other words we've mapped the username Python object property to an SQL column of type String 
     username: Mapped[str] = mapped_column(String, primary_key=True)
-    salt: Mapped[str] = mapped_column(String)  # salt
-    password: Mapped[str] = mapped_column(String) # hash(passwd) 
+    password: Mapped[str] = mapped_column(String) 
     
 class UserOnline(Base):
     __tablename__ = "user_online"

@@ -108,7 +108,7 @@
 <script>
 
     let room_id = 0;
- 
+    let current_receiver_public_key = null;
 
     // when the user presses the "Enter" key inside of the "message box", 
     // the message is sent to the server
@@ -151,37 +151,257 @@
 
     // invoke processMessage() when receive message
     socket.on("incoming", (data) => {
-        add_message(data);
+        processMessage(data);
     });
 
     function logoutAndClearStorage() {
+        // Clear a specific record from localStorage, assuming the key name is 'userToken'
+        localStorage.removeItem(username);
+        
         // Redirect to the logout page
         window.location.href = '/logout';
     }
+
 
     socket.on('error', function(data) {
         alert(data.message);
     });
 
+    // an incoming message arrives, we'll add the message to the message box
+    function processMessage(data) {
+
+        var privateKeyHex = localStorage.getItem(username); // get private key from local storage
+
+        const {content, type, color = "black"} = data;
+
+        let displayColor;
+        switch (type) {
+            case "text":
+                try{
+                    displayColor = color; 
+
+                    // compute shared public key
+                    var sharedKeyHex = computeSharedKeyFromHex(privateKeyHex,current_receiver_public_key);
+
+                    console.log("[DEBUG] The content: ",content);
+                    console.log("[DEBUG] Shared key ",sharedKeyHex);
+
+                    const pattern = /(\w+):\s(.+?)(?=\s\w+:|$)/g;
+
+                    // Match the string and extract the username and text content.
+                    let match;
+                    while ((match = pattern.exec(content)) !== null) {
+                        // match[1] corresponds to the matched username, match[2] corresponds to the matched text content.
+                        const username_message = match[1];
+                        const text = match[2];
+
+                        // console.log("User who sent this message:", username_message);
+                        // console.log("Text:", text);
+                      
+                        const decryptedMessage = decryptMessage(text, sharedKeyHex);
+
+                        console.log("[DEBUG] Decrypted message: ",decryptedMessage);
+
+                        const { message, signature } = JSON.parse(decryptedMessage);
+
+                        if (! (username === username_message)) {
+                            if (!verifySignature(message, signature, current_receiver_public_key)) {
+                                // console.error("Failed to pass digital signature");
+                            }else{
+                                // console.log("[DEBUG] Digital signature passed");
+                            }
+                        }
+                        add_message(username_message + ": " + message, displayColor);
+                    }
+                    
+                }catch (error){
+                    console.error('[DEBUG] Error decrypting or verifying message:', error);
+                    return; // Interrupt execution
+                }
+                break;
+            case "system":
+                displayColor = color; //red represents system messages
+                add_message(content, displayColor);
+                break;
+
+            default:
+                displayColor = "gray"; // gray represents unknown messages
+        
+    }
+    }
+
+    //===========================================================================
+    const ec = new elliptic.ec('p256');
+
+    /**
+     * Calculate shared key
+     * 
+     * @param {String} privateKeyHex Private key of the current user(in hexadecimal string)
+     * @param {String} publicKeyHex Public key of another user(hexadecimal string)
+     * @returns {String} Hexadecimal string of the shared key
+     */
+
+    function computeSharedKeyFromHex(privateKeyHex, publicKeyHex) {
+        // Convert the private key of the current user from a hexadecimal string to a key pair
+        const ownKeyPair = ec.keyFromPrivate(privateKeyHex, 'hex');
+        
+        
+        // Convert the public key of another user from a hexadecimal string to a public key object
+        // Note: The public key needs to start with '04', indicating it is an uncompressed public key
+        const otherPublicKey = ec.keyFromPublic(publicKeyHex, 'hex').getPublic();
+        
+        // calculate sharedKey
+        const sharedKey = ownKeyPair.derive(otherPublicKey).toString(16);
+        
+        // print the sharedKey
+        console.log('[DEBUG]: Shared Key:', sharedKey);
+    
+    return sharedKey;
+    }
 
     //===========================================================================
 
+    function hexStringToArrayBuffer(hexString) {
+        const result = new Uint8Array(hexString.length / 2);
+        for (let i = 0; i < hexString.length; i += 2) {
+            result[i / 2] = parseInt(hexString.substring(i, i + 2), 16);
+        }
+        return result.buffer;
+    }
+
+    function encryptMessage(message, sharedKeyHex) {
+        // Convert the shared key from a hexadecimal string to a WordArray, as required by crypto-js
+        const key = CryptoJS.enc.Hex.parse(sharedKeyHex);
+        
+        // encrypt the messages
+        const encrypted = CryptoJS.AES.encrypt(message, key, {
+            mode: CryptoJS.mode.ECB, 
+            padding: CryptoJS.pad.Pkcs7
+        });
+        
+        // Return the string representation of the ciphertext
+        return encrypted.toString();
+    }
+
+    function decryptMessage(encryptedMessage, sharedKeyHex) {
+        const key = CryptoJS.enc.Hex.parse(sharedKeyHex);
+        
+        // decrypt the messages
+        const decrypted = CryptoJS.AES.decrypt(encryptedMessage, key, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        
+        // Return the decrypted original message
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    }
+
+    // sign the message
+    function signMessage(message, privateKey) {
+        const key = ec.keyFromPrivate(privateKey, 'hex');
+        const msgHash = CryptoJS.SHA256(message).toString();
+        const signature = key.sign(msgHash, 'hex');
+        return signature.toDER('hex');
+    }
+
+    // verify the signature
+    function verifySignature(message, signature, publicKey) {
+        const key = ec.keyFromPublic(publicKey, 'hex');
+        const msgHash = CryptoJS.SHA256(message).toString();
+        return key.verify(msgHash, signature);
+    }
 
         
     // we'll send the message to the server by emitting a "send" event
     async function send() {
         let message = $("#message").val();
+        var privateKeyHex = localStorage.getItem(username); 
+
+        console.log('[DEBUG]: local stored private key', privateKeyHex, 'USER: ', username);
+
+        if (!privateKeyHex) {
+            console.error('[DEBUG] Missing private key');
+            return; // Interrupt execution
+        }
+
+        if (!current_receiver_public_key) {
+            console.error('[DEBUG] Missing public key');
+            return; // Interrupt execution
+        }
+
+        let encryptedMessage; // Declare outside of the try block for later use
+        try {
+            //generate signature
+            const signature = signMessage(message, privateKeyHex);
+
+            // append the signature to the message
+            const messageWithSignature = JSON.stringify({ message: message, signature: signature });
+
+            // calculate the sharedkey
+            const sharedKeyHex = computeSharedKeyFromHex(privateKeyHex, current_receiver_public_key);
+
+            // Encrypt th message and the signature
+            encryptedMessage = encryptMessage(messageWithSignature, sharedKeyHex); 
+            console.log("[DEBUG] Encrypted message with signature:", encryptedMessage);
+
+
+        } catch (error) {
+            console.error('Error computing shared key, signing, or encrypting message:', error);
+            return; // interrupt execution
+        }
+
         $("#message").val("");
-        socket.emit("send", username, message,room_id);
+        socket.emit("send", username, encryptedMessage, room_id);
     }
 
+
+    function getPublicKey(username) {
+        axios.post('/getPublicKey', {
+            username: username  
+        })
+        .then(function (response) {
+            if (response.data.public_key) {
+                //console.log('[DEBUG]: Get Receiver ', username,' public key: ',response.data.public_key);
+                current_receiver_public_key = response.data.public_key;
+            } else if (response.data.error) {
+                // The backend returned an error message
+                console.error('[DEBUG]: Error:', response.data.error);
+            } else {
+                // The backend response format does not match the expected format
+                console.error('[DEBUG]: Unexpected response format:', response.data);
+            }
+        })
+        .catch(function (error) {
+            if (error.response) {
+                // The request has been sent, amnd the server responded with a status code
+                console.error('Error:', error.response.data);
+                console.error('Status:', error.response.status);
+            } else if (error.request) {
+                //No response received
+                console.error('No response received:', error.request);
+            } else {
+                // Something happend while setting up the request, triggering an error
+                console.error('Error:', error.message);
+            }
+        });
+    }
+
+    // Listen for the history message list from the server
+    socket.on("incoming_messages_list", function(data) {
+        data.messages.forEach(message => {
+            // Call the processMessage function for each historical message
+            processMessage(message);
+        });
+    });
 
 
     // we emit a join room event to the server to join a room
     function join_room(receiverUsername) {
         let receiver = receiverUsername || $("#receiver").val();
-        //leave();
-
+        leave();
+        // pass in the receiver of our message to the server
+        // as well as the current user's username
+        getPublicKey(receiver);
 
         socket.emit("join", username, receiver, (res) => {
             console.log('in joining a room')
@@ -200,6 +420,7 @@
             $("#chat_box").hide();
             $("#input_box").show();
 
+            socket.emit("GetHistoryMessages", username, receiver); // get the history message
         });
 
 
@@ -209,6 +430,10 @@
     // emits a "leave" event, telling the server that we want to leave the room
     function leave() {
         Cookies.remove("room_id");
+
+        // Set the public key of the current interlocutor back to null
+        current_receiver_public_key = null;
+
         socket.emit("leave", username, room_id);
         $("#message_box").html('');
         $("#input_box").hide();

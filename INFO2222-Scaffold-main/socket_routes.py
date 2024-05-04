@@ -21,22 +21,12 @@ import db
 room = Room()
 
 
-def authenticated_only(f):
-    @wraps(f)
-    def wrapped(*args, **kwargs):
 
-        if 'username' not in session:
-            disconnect() 
-            return  
-        else:
-            return f(*args, **kwargs)  
-    return wrapped
 
 
 # when the client connects to a socket
 # this event is emitted when the io() function is called in JS
 @socketio.on('connect')
-@authenticated_only
 def connect():
     with Session(db.engine) as session:
         username = request.cookies.get("username")
@@ -50,11 +40,11 @@ def connect():
         user.is_online = True
         session.commit()
         join_room(int(room_id))
-        emit("incoming", {"content": f"{username} has connected", "color": "green", "type": "system"}, to=int(room_id))
+        emit("incoming", (f"{username} has connected","green"), to=int(room_id))
+
 # event when client disconnects
 # quite unreliable use sparingly
 @socketio.on('disconnect')
-@authenticated_only
 def disconnect():
     with Session(db.engine) as session:
         username = request.cookies.get("username")
@@ -68,12 +58,11 @@ def disconnect():
         user.is_online = False
         session.commit()
         leave_room(room_id)
-        emit("incoming", {"content": f"{username} has disconnected", "color": "red", "type": "system"}, to=int(room_id))
+        emit("incoming", (f"{username} has disconnected", "red"), to=int(room_id))
 
 
 
 @socketio.on("send")
-@authenticated_only
 def send(username, message, room_id):
     users_in_room = room.get_users_in_room(room_id)
 
@@ -81,11 +70,7 @@ def send(username, message, room_id):
         emit("error", {"message": "2 users both need to be online"}, to=request.sid)
         return 
 
-    emit("incoming", {
-        "content": f"{username}: {message}", 
-        "color": "black", 
-        "type": "text"
-    }, to=room_id)
+    emit("incoming", (f"{username}: {message}", "black"), to=room_id)
     
     # include the message type when inserting a message into the database
     db.insert_message(room_id, username, message)
@@ -95,7 +80,6 @@ def send(username, message, room_id):
 # join room event handler
 # sent when the user joins a room
 @socketio.on("join")
-@authenticated_only
 def join(sender_name, receiver_name):
     #print("start join_room")
 
@@ -124,10 +108,10 @@ def join(sender_name, receiver_name):
 
         join_room(room_id_current)
         # emit to everyone in the room except the sender
-        emit("incoming", {"content": f"{sender_name} has joined the room.", "color": "green", "type": "system"}, to=room_id_current, include_self=False)
+        emit("incoming", (f"{sender_name} has joined the room.","green"), to=room_id_current, include_self=False)
         
         # emit only to the sender
-        emit("incoming", {"content": f"{sender_name} has joined the room. Now talking to {receiver_name}.", "color": "green", "type": "system"})
+        emit("incoming", (f"{sender_name} has joined the room. Now talking to {receiver_name}.", "green"))
 
         return room_id_current
 
@@ -135,7 +119,6 @@ def join(sender_name, receiver_name):
     # if the user isn't inside of any room, 
     # perhaps this user has recently left a room
     # or is simply a new user looking to chat with someone
-
     # it will not create if the room exists
 
     room_id_current = room.create_room(sender_name, receiver_name)
@@ -146,7 +129,6 @@ def join(sender_name, receiver_name):
     return room_id_current
 
 @socketio.on("GetHistoryMessages")
-@authenticated_only
 def GetHisoryMessages(sender_name, receiver_name):
     room_id_stored = db.find_room_id_by_users(sender_name, receiver_name)
     if room_id_stored:
@@ -156,8 +138,7 @@ def GetHisoryMessages(sender_name, receiver_name):
             message_content = f"{e[0]}: {e[1]}"
             messages_list.append({
                 "content": message_content, 
-                "color": "black", 
-                "type": "text"
+                "color": "black"
             })
 
         emit("incoming_messages_list", {"messages": messages_list}, to=request.sid)
@@ -165,9 +146,8 @@ def GetHisoryMessages(sender_name, receiver_name):
 
 # leave room event handler
 @socketio.on("leave")
-@authenticated_only
 def leave(username, room_id):
-    emit("incoming", {"content": f"{username} has left the room.", "color": "red", "type": "system"}, to=room_id)
+    emit("incoming", (f"{username} has left the room.", "red"), to=room_id)
     leave_room(room_id)
     room.leave_room(username)
 
