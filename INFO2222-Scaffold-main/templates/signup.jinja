@@ -1,118 +1,128 @@
-<!-- 
-Sign up page, pretty much the same as login.
--->
 {% extends 'base.jinja' %}
 
+{% block content %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(to right, #6e6e6e, #5036a4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    form {
+        background: white;
+        padding: 50px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-{% block content %} 
+    input[type="text"], input[type="password"] {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #4029a0;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        margin-top: 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+        transition: 0.3s;
+        border-radius: 20px;
+    }
+    button:hover {
+        opacity: 0.75;
+        transform: scale(1.02);
+        transition: 0.3s;
+    }
+    button:active {
+        transform: scale(0.97);
+        transition: 0.3s;
+        opacity: 1;
+    }
+    h1 {
+        color: white;
+        margin-bottom: 20px; /* 为标题和表单之间增加一些间距 */
+    }
+</style>
+
+<div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
     <h1>Sign Up</h1>
-    <p>Username</p>
-    <input id="username"/>
-    <p>Password</p>
-    <input id="password" type="password"/>
-    <button onclick="signup()">Sign up</button>
+    <form onsubmit="signup(event)">
+        <p>Username</p>
+        <input type="text" id="username" class="username"/>
+        <p>Password</p>
+        <input type="password" id="password" class="password"/>
+        <button type="submit">Sign up</button>
+    </form>
+</div>
 
-    <script>
-        function isValidURL(string) {
-        if (string.length == 0) {
-            return false;
-        }
-        if (string[0] == "/") {
-            return true;
-        }
-        return false;
-        }
+<script>
+    function isValidURL(string) {
+        return string.length > 0 && string.startsWith("/");
+    }
 
-        //========================================================================================
-        //_
+    function isValidPassword(password) {
+        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        return regex.test(password);
+    }
 
-        // create a new elliptic curve instance using the p256 curve
-        const ec = new elliptic.ec('p256');
+    function isValidUsername(username) {
+        const regex = /^[a-zA-Z0-9_]{1,9}$/;
+        return regex.test(username);
+    }
 
-        
-        /**
-        Function to generate ECC key pair from a specific key.
-        @param {string} key - The key provided by the user, can be a password or any arbitrary string.
-        @returns {object} An object containing the hex format public and private keys.
-        */
-        function generateECCKeyPairFromKey(key) {
-            // Process the key using the SHA-256 hash function to generate a fixed-length seed
-            return window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(key))
-                .then(hash => {
-                    //convert ArrayBuffer to Uint8Array
-                    const hashArray = Array.from(new Uint8Array(hash));
-                    // convert the hash value to a hexadecimal string
-                    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-                    
-                    // use the hash value as a random number to generate key pairs
-                    const keyPair = ec.genKeyPair({
-                        entropy: hashHex,
-                        entropyEnc: 'hex',
-                    });
+    async function signup(event) {
+        event.preventDefault(); 
 
-                    // get and return the public and private keys in hexadecimal format
-                    const privateKey = keyPair.getPrivate('hex');
-                    const publicKey = keyPair.getPublic('hex');
-                    //console.log("Private Key:", privateKey);
-                    //console.log("Public Key:", publicKey);
-                    return {
-                        privateKey: privateKey,
-                        publicKey: publicKey
-                    };
-                });
-        }
-        
-        // ^
-        //========================================================================================
+        const username = $("#username").val();
+        const password = $("#password").val();
 
-        /**
-         * Validate the password to ensure it contains at least one letter, one number,
-         * and has a minimum length of 8 characters.
-         * @param {string} password - The password to validate.
-         * @returns {boolean} True if the password is valid, otherwise false.
-         */
-        function isValidPassword(password) {
-            const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-            return regex.test(password);
+        if (!isValidUsername(username)) {
+            alert("The username must be fewer than 10 characters and can only contain letters, numbers, and underscores.");
+            return;
         }
 
-        function isValidUsername(username) {
-            const regex = /^[a-zA-Z0-9_]{1,9}$/; 
-            return regex.test(username);
+        if (!isValidPassword(password)) {
+            alert("Password must have a letter, number and at least 8 characters.");
+            return;
         }
 
-        // this function is identical to login(), see login.jinja
-        async function signup() {
-            const username = $("#username").val(); 
+        let signupURL = "{{ url_for('signup_user') }}";
 
-            const password = $("#password").val();
-            
-            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; 
-
-
-            if (!isValidUsername(username)) {
-                console.log(username);
-                alert("The username must be fewer than 10 characters and can only contain letters, numbers, and underscores.");
-                return;
-            }
-
-            if (!passwordRegex.test(password)) {
-                alert("password must has letter,number and at least 8 characters");
-                return; 
-            }
-
-            let signupURL = "{{ url_for('signup_user') }}"; 
-
+        try {
             let res = await axios.post(signupURL, {
-                username: $("#username").val(),
-                password: $("#password").val()
+                username: username,
+                password: password
             });
 
             if (!isValidURL(res.data)) {
                 alert(res.data);
                 return;
-            } 
-            window.open(res.data, "_self")
+            }
+            window.location.href = res.data;
+        } catch (error) {
+            alert("Signup failed: " + error);
         }
-    </script>
+    }
+</script>
+
 {% endblock %}
+

@@ -1,13 +1,55 @@
-<!-- 
-Index page, the "default" page when you visit "http://localhost/" 
- without any URL parameters at the end
- -->
 {% extends 'base.jinja' %}
 
+{% block content %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(to right, #6e6e6e, #5036a4); 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    div.container {
+        background: white;
+        padding: 40px 60px; 
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* 添加阴影以增加深度感 */
+        text-align: center; /* 确保文字居中显示 */
+    }
 
-{% block content %} 
+    h1 {
+        color: #5036a4; /* 标题使用暗紫色以增加视觉焦点 */
+        margin-bottom: 20px; /* 增加间距 */
+    }
+
+    a {
+        display: inline-block;
+        background-color: #4029a0; /* 按钮使用深紫色 */
+        color: white;
+        padding: 12px 20px;
+        text-decoration: none; /* 去除下划线 */
+        font-size: 16px; /* 统一字体大小 */
+        border-radius: 20px; /* 圆角按钮 */
+        transition: background-color 0.3s, transform 0.3s;
+        width: 120px; /* 设置固定宽度 */
+        text-align: center; /* 文字居中 */
+    }
+    a:hover {
+        background-color: #604fb0; /* 鼠标悬停时变化颜色 */
+        transform: scale(1.05); /* 轻微放大 */
+    }
+    a:active {
+        transform: scale(0.95); /* 点击时缩小 */
+    }
+</style>
+
+<div class="container">
     <h1>Hello! Welcome to the site!</h1>
-    <p><a href={{ url_for('signup') }}> Sign Up</a></p>
-    <p><a href={{ url_for('login') }}> Login</a></p>
-    
+    <p><a href={{ url_for('signup') }}>Sign Up</a></p>
+    <p><a href={{ url_for('login') }}>Login</a></p>
+</div>
+
 {% endblock %}
+

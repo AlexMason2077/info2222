@@ -5,20 +5,27 @@
 
 
 {% block content %} 
-   <style>
+<style>
+    body {
+        font-family: 'Arial', sans-serif; /* 统一字体 */
+        background: linear-gradient(to right, #6e6e6e, #5036a4); /* 统一渐变背景 */
+    }
 
     nav {
-        border-bottom: 1px solid black;
-        overflow: auto
+        border-bottom: 2px solid #4029a0; /* 使边界颜色与按钮颜色一致 */
+        padding: 10px 0; /* 增加一些内边距 */
+        background-color: rgba(255, 255, 255, 0.8); /* 轻微透明的白色背景 */
     }
-    
 
     #message_box {
-        border: 1px solid black; 
-        height: 400px; 
-        width: 800px; 
+        border: 1px solid #ccc; /* 更柔和的边框颜色 */
+        height: 400px;
+        width: 800px;
         overflow: auto;
-        padding: 2px;
+        padding: 10px;
+        background-color: white; /* 白色背景 */
+        border-radius: 10px; /* 圆角边框 */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* 添加阴影 */
     }
 
     #friend_list_box {
@@ -27,21 +34,22 @@
         right: 10px;
         width: 200px;
         height: 300px;
-        border: 1px solid black;
+        border: 1px solid #ccc; /* 更柔和的边框颜色 */
         background-color: white;
         overflow: auto;
         padding: 10px;
-        display: block; /* Remove 'display: none;' to make it visible */
+        border-radius: 10px; /* 圆角边框 */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+        display: block;
     }
 
-
-    .text  {
+    .text {
         margin-top: 2px;
         margin-bottom: 2px;
+        color: #333; /* 暗灰色文字 */
     }
-
-
 </style>
+
 
 <!--Navbar, you'll see the username here-->
 <nav style="border-bottom: 1px solid black;">

@@ -49,6 +49,7 @@ def index():
 # login page
 @app.route("/login")
 def login():    
+    print("Hi?")
     return render_template("login.jinja")
 
 @app.route('/logout')
@@ -76,10 +77,11 @@ def login_user():
 
     if password != user.password:
         return "Error: Password does not match!🤡"
-
+    print("Hi1?")
     # after successful user login authentication
     session['username'] = username   # store user name into session 
-    
+    print("Hi2?")
+
     return url_for('home', username=request.json.get("username"))
 
 # handles a get request to the signup page
@@ -230,8 +232,8 @@ if __name__ == '__main__':
     # db.print_table_names()
     # db.drop_all_tables("sqlite:///database/main.db")
 
-    socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/server.crt', './certs/server.key'))
-
+    # socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/server.crt', './certs/server.key'))
+    socketio.run(app, host='0.0.0.0', port=8999, debug=True)
     # db.print_all_users()
     # print(db.get_messages_by_room_id(4))
     # print(db.get_messages_by_room_id(4))
