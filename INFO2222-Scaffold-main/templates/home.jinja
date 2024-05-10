@@ -48,19 +48,68 @@
         margin-bottom: 2px;
         color: #333; /* 暗灰色文字 */
     }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 10px; /* 减少内边距 */
+        background-color: rgba(255, 255, 255, 0.9);
+        font-size: 14px; /* 调整字体大小 */
+    }
+
+    .nav-link {
+        padding: 5px 10px; /* 减少链接的内边距 */
+        color: #4029a0;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .nav-link:hover {
+        background-color: #e0d1f2;
+        border-radius: 5px;
+    }
+
+    html, body {
+        height: 100%; /* 确保 html 和 body 元素占满整个视窗高度 */
+        margin: 0; /* 移除默认边距 */
+        padding: 0; /* 移除默认内边距 */
+        overflow-y: scroll; /* 总是显示垂直滚动条 */
+    }
+
+    body {
+        min-height: 100vh; /* 设置最小高度为视窗的100% */
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1; /* 让 main 元素填充所有可用空间 */
+    }
 </style>
 
 
-<!--Navbar, you'll see the username here-->
-<nav style="border-bottom: 1px solid black;">
-    <ol style="float: right">
-        <li style="display:inline-block">Username:  {{ username }} </li>
-        <!-- logout button -->
-            <li style="display:inline-block; margin-left: 10px;">
+<nav>
+    <!-- Left-aligned items -->
+    <div>
+        <a href="/home?username={{ username }}" class="nav-link">Home</a>
+        <a href="/knowledge" class="nav-link">Knowledge</a>
+        <a href="#about" class="nav-link">About</a>
+    </div>
+
+    <!-- Right-aligned items -->
+    <div>
+        <ol style="list-style: none; padding: 0;">
+            <li style="display: inline-block; margin-right: 10px;">
+                Username: {{ username }}
+            </li>
+            <li style="display: inline-block;">
                 <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn">Logout</a>
             </li>
-    </ol>
+        </ol>
+    </div>
 </nav>
+
 
 <h1>Messaging App </h1>
 <main>

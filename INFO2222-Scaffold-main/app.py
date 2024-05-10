@@ -116,11 +116,17 @@ def home():
         abort(404)
     requested_username = request.args.get("username")
     
-    # Verify the user name in session , if it same as the request one 
-    if requested_username != session.get('username'):
-        # if inconsistent, return an error and redirect to another page
-        abort(403)  # Forbidden access
+    # # Verify the user name in session , if it same as the request one 
+    # if requested_username != session.get('username'):
+    #     # if inconsistent, return an error and redirect to another page
+    #     abort(403)  # Forbidden access
     return render_template("home.jinja", username=request.args.get("username"))
+
+# home page, where the messaging app is
+@app.route("/knowledge")
+def knowledge():
+
+    return render_template("knowledge.jinja")
 
 
 
