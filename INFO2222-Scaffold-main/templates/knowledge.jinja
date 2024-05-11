@@ -1,53 +1,75 @@
 {% extends 'base.jinja' %}
 
-{% block content %} 
-
+{% block content %}
 <style>
     body {
         font-family: 'Arial', sans-serif;
         background: linear-gradient(to right, #6e6e6e, #5036a4);
+        display: flex;
+        flex-direction: row; /* 主轴为水平方向 */
+        height: 100vh;
+        margin: 0;
     }
 
-    nav {
+    .top-nav {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding:5px 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 5px 10px; /* 减少内边距 */
-        background-color: rgba(255, 255, 255, 0.9);
-        font-size: 14px; /* 调整字体大小 */
-    }
-
-    .nav-link {
-        padding: 5px 10px; /* 减少链接的内边距 */
-        color: #4029a0;
-        text-decoration: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        font-size: 14px; 
         font-weight: bold;
     }
 
-    .nav-link:hover {
+    .side-nav {
+        width: 120px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        height: 100%;
+        overflow-y: auto;
+        position: fixed;
+        top: 54px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .content-area {
+        margin-left: 200px; /* Same width as the side nav */
+        margin-top: 40px; /* Same height as the top nav */
+        flex-grow: 1;
+        padding: 20px;
+        overflow-y: auto;
+    }
+    
+    .search-bar {
+        padding: 10px;
+        width: calc(100% - 200px);
+        margin-bottom: 20px;
+        border: 2px solid #4029a0;
+        border-radius: 5px;
+        color: #4029a0;
+    }
+
+    .nav-link, .btn {
+        padding: 10px;
+        margin-right: 10px;
+        color: #4029a0;
+        text-decoration: none;
+    }
+
+    .nav-link:hover, .btn:hover {
         background-color: #e0d1f2;
         border-radius: 5px;
     }
-
-    html, body {
-        height: 100%; /* 确保 html 和 body 元素占满整个视窗高度 */
-        margin: 0; /* 移除默认边距 */
-        padding: 0; /* 移除默认内边距 */
-        overflow-y: scroll; /* 总是显示垂直滚动条 */
-    }
-
-    body {
-        min-height: 100vh; /* 设置最小高度为视窗的100% */
-        display: flex;
-        flex-direction: column;
-    }
-
-    main {
-        flex: 1; /* 让 main 元素填充所有可用空间 */
-    }
 </style>
 
-<nav>
+<nav class="top-nav">
     <!-- Left-aligned items -->
     <div>
         <a href="/home?username={{ username }}" class="nav-link">Home</a>
@@ -68,18 +90,20 @@
     </div>
 </nav>
 
+<nav class="side-nav">
+    <p><strong>Username:</strong> {{ username }}</p>
+    <hr>
+    <p><strong>Articles:</strong></p>
+    <!-- Dynamically add article links here -->
+    <a href="#" class="nav-link">Article 1</a>
+    <a href="#" class="nav-link">Article 2</a>
+    <a href="#" class="nav-link">Article 3</a>
+</nav>
 
-<h1>Knowledge repo</h1>
-
-<main>
-    <!-- Content area where you can add new elements as needed -->
-</main>
-
-
-<script src="/static/js/libs/socket.io.min.js"></script>
-<script>
-
-
-</script>
+<div class="content-area">
+    <h1>Welcome to the Knowledge Base</h1>
+    <input type="text" placeholder="Search articles..." class="search-bar">
+    <p>This is the area where you can add more dynamic content, articles, and other information.</p>
+</div>
 
 {% endblock %}

@@ -239,7 +239,7 @@ if __name__ == '__main__':
     # db.drop_all_tables("sqlite:///database/main.db")
 
     # socketio.run(app, host='0.0.0.0', port=8999, debug=True, ssl_context=('./certs/server.crt', './certs/server.key'))
-    socketio.run(app, host='0.0.0.0', port=8999, debug=True)
+    socketio.run(app, host='0.0.0.0', port=8998, debug=True)
     # db.print_all_users()
     # print(db.get_messages_by_room_id(4))
     # print(db.get_messages_by_room_id(4))
