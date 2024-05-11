@@ -26,6 +26,19 @@
         font-weight: bold;
     }
 
+
+    .user-avatar {
+        width: 100px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 50px;
+        margin-right: 0px;
+    }
+
     .side-nav {
         width: 120px;
         background-color: rgba(255, 255, 255, 0.9);
@@ -91,6 +104,7 @@
 </nav>
 
 <nav class="side-nav">
+    <div class="user-avatar">🤓</div> 
     <p><strong>Username:</strong> {{ username }}</p>
     <hr>
     <p><strong>Articles:</strong></p>
