@@ -5,9 +5,11 @@ database file, containing all the logic to interface with the sql database
 
 from sqlalchemy import and_, create_engine, MetaData, or_, Table
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
 from models import *  
 from pathlib import Path
 from sqlalchemy.exc import SQLAlchemyError
+from datetime import datetime
 
 # for hash and salt
 from bcrypt import gensalt, hashpw, checkpw
@@ -303,6 +305,7 @@ def print_all_friend_requests():
         print("All Friend Requests:")
         for request in friend_requests:
             print(f"ID: {request.id}, Sender: {request.sender_id}, Receiver: {request.receiver_id}, Status: {request.status}")
+
 from sqlalchemy.engine.reflection import Inspector
 
 def print_table_names():
@@ -311,7 +314,6 @@ def print_table_names():
     print("All table names in the database:")
     for name in table_names:
         print(name)
-
 
 def update_friend_request_status(request_id: int, new_status: str):
     with Session(engine) as session:
@@ -380,3 +382,62 @@ def print_all_friends():
                 print("  - No friends")
             print("\n")
 
+
+#=================================
+def insert_article(title: str, content: str, author: str, publish_date: datetime):
+    with Session(engine) as session:
+        # 创建 Article 实例
+        article = Article(title=title, content=content, author=author, publish_date=publish_date)
+        session.add(article)
+        try:
+            session.commit()
+            print(f"Article '{title}' by {author} added successfully.")
+        except SQLAlchemyError as e:
+            session.rollback()  # 回滚事务
+            print(f"Failed to insert article: {e}")
+        finally:
+            session.close()  # 确保会话正确关闭
+
+def get_all_articles():
+    with Session(engine) as session:  # 确保使用了正确的 engine 对象
+        return session.query(Article).all()
+
+def get_article_by_id(article_id):
+    with Session(engine) as session:  # 确保使用了正确的 engine 对象
+        article = session.query(Article).get(article_id)
+        if article is None:
+            # 这里我们返回 None, 由调用者决定如何处理
+            return None
+        return article
+
+def delete_article(article_id: int):
+    with Session(engine) as session:
+        try:
+            # 查找并删除指定 ID 的文章
+            article = session.query(Article).filter_by(id=article_id).one()
+            session.delete(article)
+            session.commit()
+            print(f"Article ID {article_id} deleted successfully.")
+        except SQLAlchemyError as e:
+            session.rollback()  # 回滚事务
+            print(f"Failed to delete article: {e}")
+        finally:
+            session.close()  # 确保会话正确关闭
+
+# 修改数据库操作函数
+def edit_article(article_id: int, title: str, content: str, username: str):
+    with Session(engine) as session:
+        try:
+            article = session.query(Article).filter_by(id=article_id).one_or_none()
+            if article is None or article.author != username:
+                return {'error': 'Unauthorized or article not found', 'status': 404}
+
+            article.title = title
+            article.content = content
+            session.commit()
+            return {'success': 'Article updated', 'status': 200}
+        except SQLAlchemyError as e:
+            session.rollback()
+            return {'error': str(e), 'status': 500}
+        finally:
+            session.close()

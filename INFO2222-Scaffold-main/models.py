@@ -10,8 +10,11 @@ Prisma docs also looks so much better in comparison
 or use SQLite, if you're not into fancy ORMs (but be mindful of Injection attacks :) )
 '''
 
-from sqlalchemy import Boolean, Column, Integer, String, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, String, Text, DateTime, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.ext.declarative import declarative_base
+
+
 from typing import Dict
 from enum import Enum as PyEnum
 import db
@@ -97,10 +100,29 @@ class Message(Base):
     sender = Column(String)
     content = Column(String)
 
-class PublicKeys(Base):
-    __tablename__ = "public_keys"
-    user_name = Column(String, primary_key=True)
-    public_key = Column(String)
+
+class Article(Base):
+    __tablename__ = "articles"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String(255), nullable=False)
+    content = Column(Text, nullable=False)
+    author = Column(String(100), nullable=False)
+    publish_date = Column(DateTime, nullable=False)
+    
+    # 正确位置在类定义内部
+    comments = relationship("Comment", order_by="Comment.id", back_populates="article")
+
+class Comment(Base):
+    __tablename__ = "comments"
+
+    id = Column(Integer, primary_key=True)
+    article_id = Column(Integer, ForeignKey('articles.id'), nullable=False)
+    commenter = Column(String(100), nullable=False)
+    content = Column(Text, nullable=False)
+    comment_date = Column(DateTime, nullable=False)
+
+    article = relationship("Article", back_populates="comments")
     
 ##############################################################################
 # friend request

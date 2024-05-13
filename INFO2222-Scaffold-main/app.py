@@ -6,6 +6,7 @@ the socket event handlers are inside of socket_routes.py
 
 from flask import Flask, jsonify, render_template, request, abort, url_for ,redirect, session
 from flask_socketio import SocketIO
+from datetime import datetime
 import db
 import secrets
 from bcrypt import gensalt, hashpw, checkpw
@@ -122,13 +123,101 @@ def home():
     #     abort(403)  # Forbidden access
     return render_template("home.jinja", username=request.args.get("username"))
 
-# home page, where the messaging app is
-@app.route("/knowledge")
-def knowledge():
 
-    return render_template("knowledge.jinja")
+@app.route('/knowledge')
+def show_knowledge():
+    username = session.get('username')
+    if not username:
+        return redirect(url_for('login'))
+    
+    articles = db.get_all_articles()  # 使用封装的函数获取所有文章
+    return render_template('knowledge.jinja', username=username, articles=articles)
+
+@app.route('/knowledge/new_article')
+def new_article_form():
+    username = session.get('username')  # 从会话获取用户名
+    if not username:
+        # 如果没有找到用户名，重定向到登录页面
+        return redirect(url_for('login'))
+    return render_template('new_article.jinja', username=username)
+
+@app.route("/knowledge/new_article", methods=["POST"])
+def submit_article():
+    title = request.form['title']
+    content = request.form['content']
+    author = request.form['author']
+    publish_date = datetime.now()  # 使用当前时间作为发布日期
+
+    # 调用之前定义的插入文章的函数
+    db.insert_article(title, content, author, publish_date)
+
+    # 重定向到知识库页面或其他适当的地方
+    return redirect(url_for('show_knowledge'))
 
 
+@app.route('/article/<int:article_id>')
+def article_detail(article_id):
+    article = db.get_article_by_id(article_id)
+    if article is None:
+        abort(404)  
+    return render_template('article_detail.jinja', article=article)
+
+@app.route('/api/article/<int:article_id>')
+def api_article_detail(article_id):
+    article = db.get_article_by_id(article_id)
+    if article is None:
+        return jsonify({'error': 'Article not found'}), 404
+    return jsonify({
+        'title': article.title,
+        'content': article.content,
+        'author': article.author  # 确保包含作者信息
+    })
+
+@app.route('/api/articles')
+def api_articles_list():
+    articles = db.get_all_articles()  # 假设这个函数返回数据库中所有文章的列表
+    articles_data = [{
+        'id': article.id,
+        'title': article.title
+    } for article in articles]
+    return jsonify(articles_data)
+
+@app.route('/api/delete_article/<int:article_id>', methods=['POST'])
+def delete_article(article_id):
+    article = db.get_article_by_id(article_id)
+    if article is None:
+        return jsonify({'error': 'Article not found'}), 404
+    print(session.get('username'))
+    print(article.author)
+
+
+    if article.author != session.get('username'):
+        return jsonify({'error': 'Unauthorized'}), 403
+
+    db.delete_article(article_id)  # 假设这是删除文章的函数
+    return jsonify({'success': 'Article deleted'}), 200
+
+@app.route('/api/edit_article/<int:article_id>', methods=['POST'])
+def edit_article_route(article_id):
+    current_user = session.get('username')
+    if current_user is None:
+        return jsonify({'error': 'Unauthorized'}), 403
+
+    try:
+        new_title = request.json.get('title')
+        new_content = request.json.get('content')
+        if not new_title or not new_content:
+            return jsonify({'error': 'Title or content cannot be empty'}), 400
+
+        result = db.edit_article(article_id, new_title, new_content, current_user)
+        if 'success' in result:
+            return jsonify(result), 200
+        else:
+            return jsonify(result), result.get('status', 400)
+    except SQLAlchemyError as e:
+        return jsonify({'error': str(e)}), 500
+    except Exception as e:
+        return jsonify({'error': 'An unexpected error occurred'}), 500
 
 
 #============================================================================
@@ -175,7 +264,6 @@ def get_friend_requests():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 @app.route("/update_friend_request", methods=["POST"])
 def update_friend_request():
     data = request.get_json()
@@ -195,7 +283,6 @@ def update_friend_request():
         print(f"Error: {e}") 
         return jsonify({"error": str(e)}), 500
 
-
 @app.route("/get_friends")
 def get_friends():
     username = request.args.get("username")
@@ -209,8 +296,6 @@ def get_friends():
 
     friends = db.get_friends_for_user(username)
     return jsonify(friends)
-
-
     
 #################################################################################
 @app.route('/remove_friend', methods=['POST'])
@@ -227,7 +312,7 @@ def remove_friend():
     else:
         return jsonify({"error": "Friend could not be removed"}), 400
 
-    
+
 
 if __name__ == '__main__':
     # db.view_tables()
