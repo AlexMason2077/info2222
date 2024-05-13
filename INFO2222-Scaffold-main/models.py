@@ -11,9 +11,10 @@ or use SQLite, if you're not into fancy ORMs (but be mindful of Injection attack
 '''
 
 from sqlalchemy import Boolean, Column, Integer, String, Text, DateTime, ForeignKey
+
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.ext.declarative import declarative_base
-
+from datetime import datetime  # 导入 datetime
 
 from typing import Dict
 from enum import Enum as PyEnum
@@ -44,7 +45,8 @@ class UserOnline(Base):
         """Method to update user's online status."""
         self.is_online = online
     def get_online(self):
-        return self.is_online  
+        return self.is_online
+
 # stateful counter used to generate the room id
 class Counter():
     def __init__(self):
@@ -114,16 +116,16 @@ class Article(Base):
     comments = relationship("Comment", order_by="Comment.id", back_populates="article")
 
 class Comment(Base):
-    __tablename__ = "comments"
+    __tablename__ = 'comments'
 
     id = Column(Integer, primary_key=True)
     article_id = Column(Integer, ForeignKey('articles.id'), nullable=False)
     commenter = Column(String(100), nullable=False)
     content = Column(Text, nullable=False)
-    comment_date = Column(DateTime, nullable=False)
+    comment_date = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     article = relationship("Article", back_populates="comments")
-    
+
 ##############################################################################
 # friend request
 ##############################################################################

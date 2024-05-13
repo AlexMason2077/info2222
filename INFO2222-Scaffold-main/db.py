@@ -441,3 +441,21 @@ def edit_article(article_id: int, title: str, content: str, username: str):
             return {'error': str(e), 'status': 500}
         finally:
             session.close()
+
+def add_comment(article_id: int, commenter: str, content: str):
+    with Session(engine) as session:
+        comment = Comment(article_id=article_id, commenter=commenter, content=content, comment_date=datetime.utcnow())
+        session.add(comment)
+        try:
+            session.commit()
+            print(f"Comment added by {commenter} to article {article_id}")
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Failed to add comment: {e}")
+        finally:
+            session.close()
+
+def get_comments_by_article_id(article_id: int):
+    with Session(engine) as session:
+        comments = session.query(Comment).filter(Comment.article_id == article_id).all()
+        return comments

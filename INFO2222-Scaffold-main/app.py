@@ -219,6 +219,28 @@ def edit_article_route(article_id):
     except Exception as e:
         return jsonify({'error': 'An unexpected error occurred'}), 500
 
+@app.route('/api/add_comment', methods=['POST'])
+def add_comment_route():
+    data = request.get_json()
+    article_id = data.get('article_id')
+    commenter = data.get('commenter')
+    content = data.get('content')
+
+    if not article_id or not commenter or not content:
+        return jsonify({'error': 'Missing data'}), 400
+
+    db.add_comment(article_id, commenter, content)
+    return jsonify({'success': 'Comment added'}), 201
+
+@app.route('/api/comments/<int:article_id>')
+def get_comments(article_id):
+    comments = db.get_comments_by_article_id(article_id)
+    return jsonify([{
+        'commenter': comment.commenter,
+        'content': comment.content,
+        'comment_date': comment.comment_date.strftime("%Y-%m-%d %H:%M:%S")
+    } for comment in comments])
+
 
 #============================================================================
 # FRIEND
