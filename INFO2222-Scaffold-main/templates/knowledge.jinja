@@ -358,6 +358,7 @@
     </ul>
 </nav>
 
+
 <div class="content-area">
     <h1>Welcome to the Knowledge Base</h1>
     <p>This is the area where you can add more dynamic content, articles, and other information.</p>
@@ -366,6 +367,8 @@
 
 <script>
     let currentArticleId = null; // 用于保存当前文章的 ID
+    const currentUser = '{{ username }}';
+    const canDeleteComments = {{ can_delete_comments|tojson }};
 
     function loadArticle(articleId) {
         currentArticleId = articleId; // 保存当前文章的 ID
@@ -381,7 +384,7 @@
 
                 titleElem.textContent = data.title;
                 contentElem.innerHTML = data.content;
-                authorElem.textContent = 'Author: ' + data.author;
+                authorElem.textContent = 'Author: ' + data.author + ' (' + data.author_role + ')';  // 显示作者和角色
                 authorElem.classList.add('author');
 
                 contentArea.appendChild(titleElem);
@@ -397,7 +400,9 @@
                     buttonContainer.innerHTML = ''; // 清空按钮容器
                 }
 
-                if (data.author === '{{ username }}') {
+                const canEdit = data.author === currentUser || canDeleteComments;
+
+                if (canEdit) {
                     let editButton = document.createElement('button');
                     editButton.textContent = 'Edit';
                     editButton.classList.add('edit-button');
@@ -420,6 +425,74 @@
     }
 
 
+    function loadComments(articleId) {
+        fetch('/api/comments/' + articleId)
+            .then(response => response.json())
+            .then(comments => {
+                const commentList = document.getElementById('comment-list');
+                commentList.innerHTML = '';
+
+                comments.forEach(comment => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <strong>${comment.commenter} (${comment.commenter_role}):</strong> ${comment.content} <br><small>${comment.comment_date}</small>
+                        ${(canDeleteComments || comment.commenter === currentUser) ? `<button onclick="deleteComment(${comment.id})">Delete</button>` : ''}
+                    `;
+                    commentList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error loading comments:', error));
+    }
+
+    function submitComment() {
+        const commentText = document.getElementById('comment-text').value;
+        const articleId = currentArticleId; // 获取当前文章的 ID
+        const commenter = currentUser; // 获取当前用户
+
+        if (commentText && articleId) { // 确保文章 ID 存在
+            fetch('/api/add_comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ article_id: articleId, commenter: commenter, content: commentText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const commentList = document.getElementById('comment-list');
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<strong>${commenter}:</strong> ${commentText} <br><small>Now</small> ${(canDeleteComments || commenter === currentUser) ? `<button onclick="deleteComment(${data.comment_id})">Delete</button>` : ''}`;
+                    commentList.appendChild(listItem);
+                    document.getElementById('comment-text').value = ''; // 清空输入框
+                } else {
+                    alert('Failed to post comment');
+                }
+            })
+            .catch(error => console.error('Error posting comment:', error));
+        }
+    }
+
+
+    function deleteComment(commentId) {
+        fetch(`/api/delete_comment/${commentId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                loadComments(currentArticleId);  // Reload comments after deletion
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => console.error('Error deleting comment:', error));
+    }
+
+    
     function submitEdit(articleId) {
         const title = document.getElementById('edit-title').value;
         const content = document.getElementById('edit-content').value;
@@ -448,8 +521,6 @@
 
 
 
-
-
     function editArticle(articleId, title, content) {
         const contentArea = document.querySelector('.content-area');
         contentArea.innerHTML = `
@@ -461,8 +532,6 @@
             </form>
         `;
     }
-
-
 
     function deleteArticle(articleId) {
         fetch('/api/delete_article/' + articleId, { method: 'POST' })
@@ -476,32 +545,6 @@
                 }
             })
             .catch(error => console.error('Error deleting the article:', error));
-    }
-
-    function submitComment() {
-        const commentText = document.getElementById('comment-text').value;
-        if (commentText) {
-            // 假设有一个用于提交评论的 API
-            fetch('/api/add_comment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: commentText })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // 添加评论到列表
-                    const listItem = document.createElement('li');
-                    listItem.textContent = commentText;
-                    document.getElementById('comment-list').appendChild(listItem);
-                    document.getElementById('comment-text').value = ''; // 清空输入框
-                } else {
-                    alert('Failed to post comment.Muted');
-                }
-            });
-        }
     }
 
     function updateArticleList() {
@@ -524,57 +567,5 @@
         })
         .catch(error => console.error('Error loading articles:', error));  // 处理可能的错误
     }
-
-
-
-    function loadComments(articleId) {
-        fetch('/api/comments/' + articleId)
-            .then(response => response.json())
-            .then(comments => {
-                const commentList = document.getElementById('comment-list');
-                commentList.innerHTML = '';
-
-                comments.forEach(comment => {
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `<strong>${comment.commenter}:</strong> ${comment.content} <br><small>${comment.comment_date}</small>`;
-                    commentList.appendChild(listItem);
-                });
-            })
-            .catch(error => console.error('Error loading comments:', error));
-    }
-
-
-   function submitComment() {
-        const commentText = document.getElementById('comment-text').value;
-        const articleId = currentArticleId; // 获取当前文章的 ID
-        const commenter = '{{ username }}'; // 获取当前用户
-
-        if (commentText && articleId) { // 确保文章 ID 存在
-            fetch('/api/add_comment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ article_id: articleId, commenter: commenter, content: commentText })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `<strong>${commenter}:</strong> ${commentText} <br><small>Now</small>`;
-                    document.getElementById('comment-list').appendChild(listItem);
-                    document.getElementById('comment-text').value = ''; // 清空输入框
-                } else {
-                    alert('Failed to post comment');
-                }
-            })
-            .catch(error => console.error('Error posting comment:', error));
-        }
-    }
-
-
-
 </script>
 {% endblock %}
-
-

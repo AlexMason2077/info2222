@@ -39,6 +39,7 @@ def get_user(username: str):
     with Session(engine) as session:
         return session.get(User, username)
 
+
 def get_all_users():
     with Session(engine) as session:
         return session.query(User).all()
@@ -140,6 +141,7 @@ def get_messages_by_room_id(room_id: int) -> list:
 
         # messages is already a list containing many tuples, each tuple containing (sender, content)
         return messages
+
 
 
 #################################################################################
@@ -426,37 +428,37 @@ def delete_article(article_id: int):
             session.close()  # 确保会话正确关闭
 
 # 修改数据库操作函数
-def edit_article(article_id: int, title: str, content: str, username: str):
+def edit_article(article_id: int, title: str, content: str):
     with Session(engine) as session:
-        try:
-            article = session.query(Article).filter_by(id=article_id).one_or_none()
-            if article is None or article.author != username:
-                return {'error': 'Unauthorized or article not found', 'status': 404}
-
+        article = session.get(Article, article_id)
+        if article:
             article.title = title
             article.content = content
             session.commit()
-            return {'success': 'Article updated', 'status': 200}
-        except SQLAlchemyError as e:
-            session.rollback()
-            return {'error': str(e), 'status': 500}
-        finally:
-            session.close()
 
-def add_comment(article_id: int, commenter: str, content: str):
+def add_comment(article_id: int, commenter: str, content: str) -> int:
     with Session(engine) as session:
-        comment = Comment(article_id=article_id, commenter=commenter, content=content, comment_date=datetime.utcnow())
+        comment = Comment(article_id=article_id, commenter=commenter, content=content, comment_date=datetime.now())
         session.add(comment)
-        try:
-            session.commit()
-            print(f"Comment added by {commenter} to article {article_id}")
-        except SQLAlchemyError as e:
-            session.rollback()
-            print(f"Failed to add comment: {e}")
-        finally:
-            session.close()
+        session.commit()
+        return comment.id  # 返回新添加的评论ID
+
 
 def get_comments_by_article_id(article_id: int):
     with Session(engine) as session:
         comments = session.query(Comment).filter(Comment.article_id == article_id).all()
         return comments
+
+
+def get_comment_by_id(comment_id: int):
+    with Session(engine) as session:
+        return session.get(Comment, comment_id)
+
+def delete_comment(comment_id: int):
+    with Session(engine) as session:
+        comment = session.get(Comment, comment_id)
+        if comment:
+            session.delete(comment)
+            session.commit()
+
+

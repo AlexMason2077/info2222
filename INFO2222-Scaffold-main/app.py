@@ -131,8 +131,14 @@ def show_knowledge():
     if not username:
         return redirect(url_for('login'))
     
-    articles = db.get_all_articles()  # 使用封装的函数获取所有文章
-    return render_template('knowledge.jinja', username=username, articles=articles)
+    user = db.get_user(username)
+    if not user:
+        return redirect(url_for('login'))
+    
+    articles = db.get_all_articles()
+    can_delete_comments = user.role in ['admin', 'staff']
+    return render_template('knowledge.jinja', username=username, articles=articles, can_delete_comments=can_delete_comments)
+
 
 @app.route('/knowledge/new_article')
 def new_article_form():
@@ -178,11 +184,15 @@ def api_article_detail(article_id):
     article = db.get_article_by_id(article_id)
     if article is None:
         return jsonify({'error': 'Article not found'}), 404
+    
+    author = db.get_user(article.author)
     return jsonify({
         'title': article.title,
         'content': article.content,
-        'author': article.author  # 确保包含作者信息
+        'author': article.author,
+        'author_role': author.role  # 添加作者的角色信息
     })
+
 
 @app.route('/api/articles')
 def api_articles_list():
@@ -206,8 +216,7 @@ def delete_article(article_id):
     db.delete_article(article_id)
     return jsonify({"success": True})
 
-# 编辑文章的 API 路由
-@app.route("/api/edit_article/<article_id>", methods=["POST"])
+@app.route("/api/edit_article/<int:article_id>", methods=["POST"])
 def edit_article(article_id):
     if 'username' not in session:
         abort(403)
@@ -220,8 +229,16 @@ def edit_article(article_id):
     title = data.get('title')
     content = data.get('content')
 
-    db.edit_article(article_id, title, content)
-    return jsonify({"success": True})
+    article = db.get_article_by_id(article_id)
+    if article:
+        if username == article.author or db.get_user(username).role in ['admin', 'staff']:
+            db.edit_article(article_id, title, content)
+            return jsonify({"success": True})
+        else:
+            return jsonify({"error": "Permission denied"}), 403
+    else:
+        return jsonify({"error": "Article not found"}), 404
+
 
 
 @app.route("/api/add_comment", methods=["POST"])
@@ -237,17 +254,26 @@ def add_comment():
     article_id = data.get('article_id')
     content = data.get('content')
     
-    db.add_comment(article_id, username, content)
-    return jsonify({"success": True})
+    comment_id = db.add_comment(article_id, username, content)
+    return jsonify({"success": True, "comment_id": comment_id})
+
 
 @app.route('/api/comments/<int:article_id>')
 def get_comments(article_id):
     comments = db.get_comments_by_article_id(article_id)
-    return jsonify([{
-        'commenter': comment.commenter,
-        'content': comment.content,
-        'comment_date': comment.comment_date.strftime("%Y-%m-%d %H:%M:%S")
-    } for comment in comments])
+    comments_data = []
+    for comment in comments:
+        commenter = db.get_user(comment.commenter)
+        comments_data.append({
+            'id': comment.id,
+            'commenter': comment.commenter,
+            'commenter_role': commenter.role,  # 添加评论者的角色信息
+            'content': comment.content,
+            'comment_date': comment.comment_date.strftime("%Y-%m-%d %H:%M:%S")
+        })
+    return jsonify(comments_data)
+
+
 
 @app.route("/api/get_user_status", methods=["GET"])
 def get_user_status():
@@ -260,6 +286,32 @@ def get_user_status():
         return jsonify({"is_muted": user.is_muted})
     else:
         return jsonify({"is_muted": True})
+
+@app.route("/api/delete_comment/<int:comment_id>", methods=["POST"])
+def delete_comment(comment_id):
+    if 'username' not in session:
+        abort(403)
+
+    current_user = db.get_user(session['username'])
+    if current_user:
+        try:
+            comment = db.get_comment_by_id(comment_id)
+            if comment:
+                if current_user.role in ['admin', 'staff'] or current_user.username == comment.commenter:
+                    db.delete_comment(comment_id)
+                    return jsonify({"success": True})
+                else:
+                    return jsonify({"error": "Permission denied"}), 403
+            else:
+                return jsonify({"error": "Comment not found"}), 404
+        except Exception as e:
+            print(f"Error deleting comment: {e}")
+            return jsonify({"error": "An error occurred"}), 500
+    else:
+        abort(403)
+
+
+
 #============================================================================
 # FRIEND
 
