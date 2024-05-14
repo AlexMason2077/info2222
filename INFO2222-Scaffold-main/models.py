@@ -150,3 +150,31 @@ class Friendship(Base):
     user_username = Column(String,primary_key=True)
     friend_username = Column(String,primary_key=True)
 
+##############################################################################
+# group chat
+##############################################################################
+class GroupChat(Base):
+    __tablename__ = "group_chats"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    users = relationship("GroupUser", back_populates="group_chat")
+
+class GroupUser(Base):
+    __tablename__ = "group_users"
+
+    id = Column(Integer, primary_key=True)
+    group_id = Column(Integer, ForeignKey("group_chats.id"), nullable=False)
+    username = Column(String, ForeignKey("user.username"), nullable=False)
+    joined_at = Column(DateTime, default=datetime.utcnow)
+    group_chat = relationship("GroupChat", back_populates="users")
+
+class GroupMessage(Base):
+    __tablename__ = "group_messages"
+
+    id = Column(Integer, primary_key=True)
+    group_id = Column(Integer, ForeignKey("group_chats.id"), nullable=False)
+    sender = Column(String, nullable=False)
+    content = Column(Text, nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow)

@@ -14,7 +14,7 @@ from functools import wraps
 from sqlalchemy.orm import aliased
 from bleach import clean
 from sqlalchemy.orm import Session
-from models import  User, Friendship
+from models import  User, Friendship,GroupChat,GroupMessage,GroupUser
 from db import engine
 
 # import logging
@@ -507,27 +507,48 @@ def remove_friend():
         print("Failed to remove friend")
         return jsonify({"error": "Friend could not be removed"}), 400
     
-@app.route('/print_friendships', methods=['GET'])
-def print_friendships():
-    username = request.args.get('username')
-    if not username:
-        return jsonify({"error": "Missing username parameter"}), 400
+##############################################################################
+# group chat
+##############################################################################
+@app.route('/create_group', methods=['POST'])
+def create_group_route():
+    data = request.get_json()
+    group_name = data.get('name')
+    usernames = data.get('usernames')
+
+    if not group_name or not usernames:
+        return jsonify({"error": "Group name and usernames are required"}), 400
+
+    result = db.create_group(group_name, usernames)
+    if "error" in result:
+        return jsonify(result), 500
+    return jsonify(result), 200
+
+
+@app.route('/join_group', methods=['POST'])
+def join_group():
+    data = request.get_json()
+    group_id = data.get('group_id')
+    username = data.get('username')
+
+    if not group_id or not username:
+        return jsonify({"error": "Group ID and username are required"}), 400
 
     with Session(engine) as session:
-        user = session.query(User).filter_by(username=username).first()
-        if not user:
-            return jsonify({"error": f"User '{username}' not found."}), 404
+        group_user = GroupUser(group_id=group_id, username=username)
+        session.add(group_user)
+        session.commit()
+    
+    return jsonify({"message": "Joined group successfully"})
 
-        friendships = session.query(Friendship).filter(
-            (Friendship.user_username == username) | (Friendship.friend_username == username)
-        ).all()
+@app.route('/get_groups', methods=['GET'])
+def get_groups_route():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
 
-        friend_list = []
-        for friendship in friendships:
-            friend_username = friendship.friend_username if friendship.user_username == username else friendship.user_username
-            friend_list.append({"friend_username": friend_username})
-
-        return jsonify({"user": username, "friendships": friend_list})
+    groups = db.get_groups_for_user(username)
+    return jsonify(groups)
 
 if __name__ == '__main__':
     # db.view_tables()

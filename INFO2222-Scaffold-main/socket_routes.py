@@ -14,7 +14,7 @@ try:
 except ImportError:
     from app import socketio
 
-from models import Room,User
+from models import Room,User,GroupUser,GroupMessage,GroupChat
 
 import db
 
@@ -64,11 +64,11 @@ def disconnect():
 
 @socketio.on("send")
 def send(username, message, room_id):
-    users_in_room = room.get_users_in_room(room_id)
+    # users_in_room = room.get_users_in_room(room_id)
 
-    if len(users_in_room) < 2:
-        emit("error", {"message": "2 users both need to be online"}, to=request.sid)
-        return 
+    # if len(users_in_room) < 2:
+    #     emit("error", {"message": "2 users both need to be online"}, to=request.sid)
+    #     return 
 
     emit("incoming", (f"{username}: {message}", "black"), to=room_id)
     
@@ -158,3 +158,21 @@ def handle_friend_request_sent(data):
     # Here you can broadcast to specific rooms or globally as needed
     print("Emitting friend_request_update event")
     socketio.emit('friend_request_update', {'message': 'Update your friend requests list'})
+
+
+##############################################################################
+# group chat
+##############################################################################
+
+@socketio.on("send_group_message")
+def handle_group_message(data):
+    group_id = data.get('group_id')
+    sender = data.get('sender')
+    message = data.get('message')
+
+    with Session(engine) as session:
+        group_message = GroupMessage(group_id=group_id, sender=sender, content=message)
+        session.add(group_message)
+        session.commit()
+
+    emit("incoming_group_message", {"sender": sender, "message": message}, room=f"group_{group_id}")

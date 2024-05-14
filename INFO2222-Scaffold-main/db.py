@@ -4,7 +4,7 @@ database file, containing all the logic to interface with the sql database
 '''
 
 from sqlalchemy import and_, create_engine, MetaData, or_, Table
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session,sessionmaker, scoped_session
 from sqlalchemy.exc import SQLAlchemyError
 from models import *  
 from pathlib import Path
@@ -22,7 +22,6 @@ Path("database") \
 # change it if you wish
 # turn echo = True to display the sql output
 engine = create_engine("sqlite:///database/main.db", echo=False)
-
 # initializes the database
 Base.metadata.create_all(engine)
 
@@ -499,4 +498,38 @@ def delete_comment(comment_id: int):
             session.delete(comment)
             session.commit()
 
+##########
+#group chat
+##########
 
+def create_group(group_name, usernames):
+    try:
+        with Session(engine) as session:
+            group_chat = GroupChat(name=group_name)
+            session.add(group_chat)
+            session.commit()
+
+            for username in usernames:
+                group_user = GroupUser(group_id=group_chat.id, username=username)
+                session.add(group_user)
+            
+            session.commit()
+            return {"message": "Group created successfully", "group_id": group_chat.id}
+    except Exception as e:
+        session.rollback()
+        print(f"Error in create_group: {e}")
+        return {"error": str(e)}
+    finally:
+        session.close()
+
+def get_groups_for_user(username):
+    try:
+        session = Session(engine)
+        groups = session.query(GroupChat).join(GroupUser).filter(GroupUser.username == username).all()
+        group_list = [{"id": group.id, "name": group.name} for group in groups]
+        return group_list
+    except Exception as e:
+        print(f"Error in get_groups_for_user: {e}")
+        return []
+    finally:
+        session.close()
