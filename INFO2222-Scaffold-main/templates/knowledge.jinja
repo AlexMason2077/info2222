@@ -14,7 +14,7 @@
     .top-nav {
         width: 100%;
         background-color: rgba(255, 255, 255, 0.9);
-        padding:5px 10px;
+        padding: 5px 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -42,7 +42,6 @@
         max-width: 500px; /* 最大宽度，防止过长 */
         /* 其他样式保持不变 */
     }
-
 
     .user-avatar {
         width: 100px;
@@ -109,6 +108,7 @@
         top: 54px; /* 顶部位置 */
         bottom: 0; /* 延伸到底部 */
         overflow-y: auto; /* 超出内容可滚动 */
+        display: none; /* 默认隐藏 */
     }
 
     /* 可能需要为响应式设计调整 */
@@ -126,7 +126,6 @@
     .content-area * {
         white-space: pre-wrap; /* 保持空格和换行符，并自动换行 */
     }
-
 
     .search-bar {
         padding: 10px;
@@ -189,7 +188,6 @@
         background-color: #6747cc;
     }
 
-
     /* 样式调整以增加编辑表单的输入框尺寸 */
     #edit-title {
         width: 100%; /* 使用全部可用宽度 */
@@ -238,7 +236,6 @@
     .delete-button:hover {
         background-color: #da190b;  /* 鼠标悬停时的背景颜色 */
     }
-
 
     .comment-section {
         width: 300px;
@@ -302,6 +299,7 @@
         cursor: pointer;
         margin-top: 10px;
         font-size: 16px;
+        transition: background-color 0.3s ease;
     }
 
     .comment-form button:hover {
@@ -314,7 +312,7 @@
     <div class="nav-group">
         <a href="/home?username={{ username }}" class="nav-link">Home</a>
         <a href="/knowledge" class="nav-link">Knowledge</a>
-        <a href="#about" class="nav-link">About</a>
+        <a href="/settings" class="nav-link">settings</a>
     </div>
 
     <!-- Search Bar -->
@@ -335,18 +333,16 @@
     </div>
 </nav>
 
-<div class="comment-section">
+<div class="comment-section" id="comment-section">
     <h2>Comments</h2>
     <ul id="comment-list">
         <!-- 评论列表 -->
     </ul>
-    <form id="comment-form">
+    <form id="comment-form" class="comment-form">
         <textarea id="comment-text" placeholder="Add a comment..."></textarea>
         <button type="button" onclick="submitComment()">Post Comment</button>
     </form>
 </div>
-
-
 
 <nav class="side-nav">
     <div class="user-avatar">🤓</div>
@@ -360,17 +356,17 @@
             <li><a href="javascript:void(0);" onclick="loadArticle({{ article.id }})" class="nav-link">{{ article.title }}</a></li>
         {% endfor %}
     </ul>
-
 </nav>
-
 
 <div class="content-area">
     <h1>Welcome to the Knowledge Base</h1>
     <p>This is the area where you can add more dynamic content, articles, and other information.</p>
 </div>
 
+
 <script>
     let currentArticleId = null; // 用于保存当前文章的 ID
+
     function loadArticle(articleId) {
         currentArticleId = articleId; // 保存当前文章的 ID
         fetch('/api/article/' + articleId)
@@ -415,12 +411,13 @@
                     buttonContainer.appendChild(deleteButton);
                 }
 
+                // 显示评论区域
+                document.getElementById('comment-section').style.display = 'block';
                 // 加载评论
                 loadComments(articleId);
             })
             .catch(error => console.error('Error loading the article:', error));
     }
-
 
 
     function submitEdit(articleId) {
@@ -501,7 +498,7 @@
                     document.getElementById('comment-list').appendChild(listItem);
                     document.getElementById('comment-text').value = ''; // 清空输入框
                 } else {
-                    alert('Failed to post comment');
+                    alert('Failed to post comment.Muted');
                 }
             });
         }
@@ -529,6 +526,7 @@
     }
 
 
+
     function loadComments(articleId) {
         fetch('/api/comments/' + articleId)
             .then(response => response.json())
@@ -546,8 +544,7 @@
     }
 
 
-
-    function submitComment() {
+   function submitComment() {
         const commentText = document.getElementById('comment-text').value;
         const articleId = currentArticleId; // 获取当前文章的 ID
         const commenter = '{{ username }}'; // 获取当前用户
@@ -574,6 +571,7 @@
             .catch(error => console.error('Error posting comment:', error));
         }
     }
+
 
 
 </script>

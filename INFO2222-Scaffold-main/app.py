@@ -99,11 +99,12 @@ def signup_user():
     password = request.json.get("password")
 
     if db.get_user(username) is None:
-        db.insert_user(username, password) # will be hashed again in this function
-        session['username'] = username  # store user name into session 
+        db.insert_user(username, password)  # 默认角色为 student，is_muted 默认为 False
+        session['username'] = username  # 将用户名存储到 session 中
         return url_for('home', username=username)
 
     return "Error: User already exists!"
+
 
 # handler when a "404" error happens
 @app.errorhandler(404)
@@ -143,16 +144,26 @@ def new_article_form():
 
 @app.route("/knowledge/new_article", methods=["POST"])
 def submit_article():
-    title = request.form['title']
-    content = request.form['content']
-    author = request.form['author']
+    if 'username' not in session:
+        abort(403)  # 用户未登录
+
+    username = session['username']
+    
+    # 检查用户是否被禁言
+    if is_user_muted(username):
+        return jsonify({"success": False, "error": "User is muted and cannot post articles."})
+
+    data = request.json
+    title = data['title']
+    content = data['content']
+    author = data['author']
     publish_date = datetime.now()  # 使用当前时间作为发布日期
 
     # 调用之前定义的插入文章的函数
     db.insert_article(title, content, author, publish_date)
 
-    # 重定向到知识库页面或其他适当的地方
-    return redirect(url_for('show_knowledge'))
+    # 返回成功消息
+    return jsonify({"success": True})
 
 
 @app.route('/article/<int:article_id>')
@@ -182,55 +193,52 @@ def api_articles_list():
     } for article in articles]
     return jsonify(articles_data)
 
-@app.route('/api/delete_article/<int:article_id>', methods=['POST'])
+# 删除文章的 API 路由
+@app.route("/api/delete_article/<article_id>", methods=["POST"])
 def delete_article(article_id):
-    article = db.get_article_by_id(article_id)
-    if article is None:
-        return jsonify({'error': 'Article not found'}), 404
-    print(session.get('username'))
-    print(article.author)
+    if 'username' not in session:
+        abort(403)
 
+    username = session['username']
+    if is_user_muted(username):
+        return jsonify({"success": False, "error": "User is muted"})
 
-    if article.author != session.get('username'):
-        return jsonify({'error': 'Unauthorized'}), 403
+    db.delete_article(article_id)
+    return jsonify({"success": True})
 
-    db.delete_article(article_id)  # 假设这是删除文章的函数
-    return jsonify({'success': 'Article deleted'}), 200
+# 编辑文章的 API 路由
+@app.route("/api/edit_article/<article_id>", methods=["POST"])
+def edit_article(article_id):
+    if 'username' not in session:
+        abort(403)
 
-@app.route('/api/edit_article/<int:article_id>', methods=['POST'])
-def edit_article_route(article_id):
-    current_user = session.get('username')
-    if current_user is None:
-        return jsonify({'error': 'Unauthorized'}), 403
+    username = session['username']
+    if is_user_muted(username):
+        return jsonify({"success": False, "error": "User is muted"})
 
-    try:
-        new_title = request.json.get('title')
-        new_content = request.json.get('content')
-        if not new_title or not new_content:
-            return jsonify({'error': 'Title or content cannot be empty'}), 400
-
-        result = db.edit_article(article_id, new_title, new_content, current_user)
-        if 'success' in result:
-            return jsonify(result), 200
-        else:
-            return jsonify(result), result.get('status', 400)
-    except SQLAlchemyError as e:
-        return jsonify({'error': str(e)}), 500
-    except Exception as e:
-        return jsonify({'error': 'An unexpected error occurred'}), 500
-
-@app.route('/api/add_comment', methods=['POST'])
-def add_comment_route():
-    data = request.get_json()
-    article_id = data.get('article_id')
-    commenter = data.get('commenter')
+    data = request.json
+    title = data.get('title')
     content = data.get('content')
 
-    if not article_id or not commenter or not content:
-        return jsonify({'error': 'Missing data'}), 400
+    db.edit_article(article_id, title, content)
+    return jsonify({"success": True})
 
-    db.add_comment(article_id, commenter, content)
-    return jsonify({'success': 'Comment added'}), 201
+
+@app.route("/api/add_comment", methods=["POST"])
+def add_comment():
+    if 'username' not in session:
+        abort(403)
+    
+    username = session['username']
+    if is_user_muted(username):
+        return jsonify({"success": False, "error": "User is muted"})
+
+    data = request.json
+    article_id = data.get('article_id')
+    content = data.get('content')
+    
+    db.add_comment(article_id, username, content)
+    return jsonify({"success": True})
 
 @app.route('/api/comments/<int:article_id>')
 def get_comments(article_id):
@@ -241,7 +249,17 @@ def get_comments(article_id):
         'comment_date': comment.comment_date.strftime("%Y-%m-%d %H:%M:%S")
     } for comment in comments])
 
+@app.route("/api/get_user_status", methods=["GET"])
+def get_user_status():
+    if 'username' not in session:
+        return jsonify({"is_muted": True})
 
+    username = session['username']
+    user = db.get_user(username)
+    if user:
+        return jsonify({"is_muted": user.is_muted})
+    else:
+        return jsonify({"is_muted": True})
 #============================================================================
 # FRIEND
 
@@ -319,6 +337,95 @@ def get_friends():
     friends = db.get_friends_for_user(username)
     return jsonify(friends)
     
+# 根据用户名获取用户角色
+@app.route("/get_role/<username>", methods=["GET"])
+def get_role(username):
+    user = db.get_user(username)
+    if user:
+        return {"username": user.username, "role": user.role, "is_muted": user.is_muted}
+    else:
+        return {"error": "User not found"}, 404
+
+# 获取所有用户信息
+@app.route("/get_all_users", methods=["GET"])
+def get_all_users():
+    if 'username' not in session:
+        abort(403)
+
+    current_user = db.get_user(session['username'])
+    if current_user and current_user.role in ['admin', 'staff']:
+        all_users = db.get_all_users()
+        return jsonify([{"username": user.username, "role": user.role, "is_muted": user.is_muted} for user in all_users])
+    else:
+        abort(403)
+
+# 渲染设置页面
+@app.route("/settings", methods=["GET"])
+def settings():
+    if 'username' not in session:
+        abort(403)
+    
+    username = session['username']
+    user = db.get_user(username)
+    
+    if user:
+        if user.role in ['admin', 'staff']:
+            all_users = db.get_all_users()
+        else:
+            all_users = []
+        return render_template('settings.jinja', user=user, username=username, all_users=all_users)
+    else:
+        return "Error: User not found", 404
+
+@app.route("/toggle_mute/<username>", methods=["POST"])
+def toggle_mute(username):
+    if 'username' not in session:
+        abort(403)
+
+    current_user = db.get_user(session['username'])
+    if current_user and current_user.role in ['admin', 'staff']:
+        user = db.get_user(username)
+        if user:
+            if current_user.role == 'staff' and user.role != 'student':
+                return jsonify({"error": "Staff can only mute students"}), 403
+
+            mute = request.json.get('mute')
+            user.is_muted = mute
+            db.update_user(user)
+            return jsonify({"success": True})
+        else:
+            return jsonify({"error": "User not found"}), 404
+    else:
+        abort(403)
+
+
+
+@app.route("/toggle_role/<username>", methods=["POST"])
+def toggle_role(username):
+    if 'username' not in session:
+        abort(403)
+
+    current_user = db.get_user(session['username'])
+    if current_user and current_user.role == 'admin':
+        user = db.get_user(username)
+        if user:
+            new_role = request.json.get('role')
+            if new_role in ['student', 'staff']:  # 确保角色为 student 或 staff
+                user.role = new_role
+                db.update_user(user)
+                return jsonify({"success": True})
+            else:
+                return jsonify({"error": "Invalid role"}), 400
+        else:
+            return jsonify({"error": "User not found"}), 404
+    else:
+        abort(403)
+
+def is_user_muted(username):
+    user = db.get_user(username)
+    return user.is_muted if user else False
+
+
 #################################################################################
 @app.route('/remove_friend', methods=['POST'])
 def remove_friend():

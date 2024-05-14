@@ -10,7 +10,7 @@ Prisma docs also looks so much better in comparison
 or use SQLite, if you're not into fancy ORMs (but be mindful of Injection attacks :) )
 '''
 
-from sqlalchemy import Boolean, Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, String, Text, DateTime, ForeignKey ,CheckConstraint
 
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -29,13 +29,16 @@ class Base(DeclarativeBase):
 class User(Base):
     __tablename__ = "user"
     
-    # looks complicated but basically means
-    # I want a username column of type string,
-    # and I want this column to be my primary key
-    # then accessing john.username -> will give me some data of type string
-    # in other words we've mapped the username Python object property to an SQL column of type String 
     username: Mapped[str] = mapped_column(String, primary_key=True)
-    password: Mapped[str] = mapped_column(String) 
+    password: Mapped[str] = mapped_column(String)
+    role: Mapped[str] = mapped_column(String, nullable=False, default='student')
+    is_muted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    
+    __table_args__ = (
+        CheckConstraint(role.in_(['staff', 'student', 'admin']), name='role_check'),
+    )
+
+
     
 class UserOnline(Base):
     __tablename__ = "user_online"

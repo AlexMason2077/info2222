@@ -1,0 +1,252 @@
+{% extends 'base.jinja' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(to right, #6e6e6e, #5036a4);
+    }
+
+    nav {
+        border-bottom: 2px solid #4029a0;
+        padding: 10px 0;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    #message_box {
+        border: 1px solid #ccc;
+        height: 400px;
+        width: 800px;
+        overflow: auto;
+        padding: 10px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    #friend_list_box {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        width: 200px;
+        height: 300px;
+        border: 1px solid #ccc;
+        background-color: white;
+        overflow: auto;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        display: block;
+    }
+
+    .text {
+        margin-top: 2px;
+        margin-bottom: 2px;
+        color: #333;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        font-size: 14px;
+    }
+
+    .nav-link {
+        padding: 5px 10px;
+        color: #4029a0;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .nav-link:hover {
+        background-color: #e0d1f2;
+        border-radius: 5px;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1;
+    }
+
+    .settings-container {
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    .user-info p {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #5036a4;
+        color: white;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        color: white;
+        background-color: #5036a4;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #6e6e6e;
+    }
+
+    .role-btn {
+        padding: 5px 10px;
+        color: white;
+        background-color: #5036a4;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+
+    .role-btn:hover {
+        background-color: #6e6e6e;
+    }
+</style>
+
+<nav>
+    <!-- Left-aligned items -->
+    <div>
+        <a href="/home?username={{ username }}" class="nav-link">Home</a>
+        <a href="/knowledge" class="nav-link">Knowledge</a>
+        <a href="/settings" class="nav-link">Settings</a>
+    </div>
+
+    <!-- Right-aligned items -->
+    <div>
+        <ol style="list-style: none; padding: 0;">
+            <li style="display: inline-block; margin-right: 10px;">
+                Username: {{ username }}
+            </li>
+            <li style="display: inline-block;">
+                <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn">Logout</a>
+            </li>
+        </ol>
+    </div>
+</nav>
+
+<main>
+    <div class="settings-container">
+        <h2>Settings</h2>
+        <div class="user-info">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Role:</strong> {{ user.role }}</p>
+            <p><strong>Muted:</strong> {{ 'Yes' if user.is_muted else 'No' }}</p>
+        </div>
+
+        {% if user.role in ['admin', 'staff'] %}
+        <h2>All Users</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Muted</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in all_users %}
+                <tr>
+                    <td>{{ u.username }}</td>
+                    <td>{{ u.role }}</td>
+                    <td>{{ 'Yes' if u.is_muted else 'No' }}</td>
+                    <td>
+                        {% if user.role == 'admin' or (user.role == 'staff' and u.role == 'student') %}
+                        <button class="btn" onclick="toggleMute('{{ u.username }}', {{ 'false' if u.is_muted else 'true' }})">
+                            {{ 'Unmute' if u.is_muted else 'Mute' }}
+                        </button>
+                        {% endif %}
+                        {% if user.role == 'admin' %}
+                        <button class="role-btn" onclick="toggleRole('{{ u.username }}', '{{ 'staff' if u.role == 'student' else 'student' }}')">
+                            {{ 'Make Staff' if u.role == 'student' else 'Make Student' }}
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</main>
+
+<script>
+    function toggleMute(username, mute) {
+        fetch(`/toggle_mute/${username}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ mute: mute }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        });
+    }
+
+    function toggleRole(username, role) {
+        fetch(`/toggle_role/${username}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ role: role }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        });
+    }
+</script>
+{% endblock %}

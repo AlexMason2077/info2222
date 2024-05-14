@@ -26,21 +26,29 @@ engine = create_engine("sqlite:///database/main.db", echo=False)
 # initializes the database
 Base.metadata.create_all(engine)
 
-# inserts a user to the database
-def insert_user(username: str, password: str):
+def insert_user(username: str, password: str, role: str = 'student', is_muted: bool = False):
     with Session(engine) as session:
-
-        user = User(username=username, password=password)
-        user_online = UserOnline(username=username,is_online=False)
+        user = User(username=username, password=password, role=role, is_muted=is_muted)
+        user_online = UserOnline(username=username, is_online=False)
         session.add(user)
         session.add(user_online)
         session.commit()
 
-# gets a user from the database
+
 def get_user(username: str):
     with Session(engine) as session:
         return session.get(User, username)
-    
+
+def get_all_users():
+    with Session(engine) as session:
+        return session.query(User).all()
+
+def update_user(user):
+    with Session(engine) as session:
+        session.merge(user)
+        session.commit()
+
+
 def get_online_user(username: str):
     with Session(engine) as session:
         return session.get(UserOnline, username)
@@ -386,17 +394,10 @@ def print_all_friends():
 #=================================
 def insert_article(title: str, content: str, author: str, publish_date: datetime):
     with Session(engine) as session:
-        # 创建 Article 实例
         article = Article(title=title, content=content, author=author, publish_date=publish_date)
         session.add(article)
-        try:
-            session.commit()
-            print(f"Article '{title}' by {author} added successfully.")
-        except SQLAlchemyError as e:
-            session.rollback()  # 回滚事务
-            print(f"Failed to insert article: {e}")
-        finally:
-            session.close()  # 确保会话正确关闭
+        session.commit()
+
 
 def get_all_articles():
     with Session(engine) as session:  # 确保使用了正确的 engine 对象
