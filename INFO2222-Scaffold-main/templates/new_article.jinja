@@ -1,6 +1,70 @@
 {% extends 'base.jinja' %}
 
 {% block content %}
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #5036a4;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        resize: vertical;
+        height: 200px;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #5036a4;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #6e6e6e;
+    }
+
+    .error-message {
+        color: red;
+        margin-bottom: 10px;
+        display: none;
+    }
+
+    .success-message {
+        color: green;
+        margin-bottom: 10px;
+        display: none;
+    }
+</style>
+
 <div class="form-container">
     <h2>Create New Article</h2>
     <form id="new-article-form">
@@ -15,6 +79,8 @@
         <div>
             <input type="hidden" id="author" name="author" value="{{ username }}" required>
         </div>
+        <div class="error-message" id="error-message">Error submitting the article.</div>
+        <div class="success-message" id="success-message">Article submitted successfully.</div>
         <div>
             <button type="submit">Submit Article</button>
         </div>
@@ -40,13 +106,23 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Article submitted successfully.');
-                window.location.href = '/knowledge';  // 重定向到知识库页面
+                document.getElementById('success-message').style.display = 'block';
+                document.getElementById('error-message').style.display = 'none';
+                setTimeout(() => {
+                    window.location.href = '/knowledge';  // 重定向到知识库页面
+                }, 2000);
             } else {
-                alert('Error: ' + data.error);
+                document.getElementById('error-message').textContent = 'Error: ' + data.error;
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('success-message').style.display = 'none';
             }
         })
-        .catch(error => console.error('Error submitting the article:', error));
+        .catch(error => {
+            console.error('Error submitting the article:', error);
+            document.getElementById('error-message').textContent = 'Error submitting the article.';
+            document.getElementById('error-message').style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+        });
     });
 </script>
 {% endblock %}

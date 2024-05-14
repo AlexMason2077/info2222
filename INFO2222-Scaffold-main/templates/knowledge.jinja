@@ -10,6 +10,11 @@
         height: 100vh;
         margin: 0;
     }
+    
+    .author {
+        font-style: italic;
+        color: #6e6e6e;
+    }
 
     .top-nav {
         width: 100%;
@@ -379,17 +384,22 @@
                 contentArea.innerHTML = ''; // 清空之前的内容
 
                 let titleElem = document.createElement('h1');
+                let authorElem = document.createElement('p'); // 创建作者元素
                 let contentElem = document.createElement('p');
-                let authorElem = document.createElement('p');
 
                 titleElem.textContent = data.title;
-                contentElem.innerHTML = data.content;
-                authorElem.textContent = 'Author: ' + data.author + ' (' + data.author_role + ')';  // 显示作者和角色
+
+                // 设置作者信息和样式
+                authorElem.textContent = 'Author: ' + data.author + ' (' + data.author_role + ')';
                 authorElem.classList.add('author');
+                authorElem.style.fontStyle = 'italic'; // 设置字体样式为斜体
+                authorElem.style.color = '#6e6e6e'; // 设置字体颜色
+
+                contentElem.innerHTML = data.content;
 
                 contentArea.appendChild(titleElem);
+                contentArea.appendChild(authorElem); // 将作者信息添加到标题下方
                 contentArea.appendChild(contentElem);
-                contentArea.appendChild(authorElem);
 
                 let buttonContainer = contentArea.querySelector('.button-container');
                 if (!buttonContainer) {
