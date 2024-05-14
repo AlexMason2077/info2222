@@ -149,3 +149,4 @@ class Friendship(Base):
     __tablename__ = 'friendship'
     user_username = Column(String,primary_key=True)
     friend_username = Column(String,primary_key=True)
+

@@ -26,6 +26,23 @@ engine = create_engine("sqlite:///database/main.db", echo=False)
 # initializes the database
 Base.metadata.create_all(engine)
 
+
+def print_user_friendships(username):
+    with Session(engine) as session:
+        user = session.query(User).filter_by(username=username).first()
+        if not user:
+            print(f"User '{username}' not found.")
+            return
+
+        print(f"Friendships for user '{username}':")
+        friendships = session.query(Friendship).filter(
+            (Friendship.user_username == username) | (Friendship.friend_username == username)
+        ).all()
+
+        for friendship in friendships:
+            friend_username = friendship.friend_username if friendship.user_username == username else friendship.user_username
+            print(f"Friend Username: {friend_username}")
+
 def insert_user(username: str, password: str, role: str = 'student', is_muted: bool = False):
     with Session(engine) as session:
         user = User(username=username, password=password, role=role, is_muted=is_muted)
@@ -262,15 +279,31 @@ def add_friend(user_username, friend_username):
         session.commit()
         return "Friend added successfully."
     
-
-def remove_friend(user_username, friend_username):
+def db_remove_friend(user_username, friend_username):
     with Session(engine) as session:
-        friendship = session.query(Friendship).filter(
-            ((Friendship.user_username == user_username) & (Friendship.friend_username == friend_username)) |
-            ((Friendship.user_username == friend_username) & (Friendship.friend_username == user_username))
-        ).first()
-        if friendship:
-            session.delete(friendship)
+        # 查找并删除双方的好友关系
+        friendships = session.query(Friendship).filter(
+            or_(
+                (Friendship.user_username == user_username) & (Friendship.friend_username == friend_username),
+                (Friendship.user_username == friend_username) & (Friendship.friend_username == user_username)
+            )
+        ).all()
+
+        if friendships:
+            for friendship in friendships:
+                session.delete(friendship)
+            
+            # 删除相关的 FriendRequest 记录
+            friend_requests = session.query(FriendRequest).filter(
+                or_(
+                    (FriendRequest.sender_id == user_username) & (FriendRequest.receiver_id == friend_username),
+                    (FriendRequest.sender_id == friend_username) & (FriendRequest.receiver_id == user_username)
+                )
+            ).all()
+            
+            for request in friend_requests:
+                session.delete(request)
+
             session.commit()
             return True
         return False
@@ -335,16 +368,21 @@ def update_friend_request_status(request_id: int, new_status: str):
 
             # update the status
             friend_request.status = new_status
-            if new_status == "approved":
-                # check a friendship
-                exists = session.query(Friendship).filter_by(user_username=friend_request.sender_id, friend_username=friend_request.receiver_id).first()
+            if new_status == RequestStatus.APPROVED.value:
+                # check if a friendship exists
+                exists = session.query(Friendship).filter(
+                    or_(
+                        (Friendship.user_username == friend_request.sender_id) & (Friendship.friend_username == friend_request.receiver_id),
+                        (Friendship.user_username == friend_request.receiver_id) & (Friendship.friend_username == friend_request.sender_id)
+                    )
+                ).first()
                 if not exists:
                     new_friendship1 = Friendship(user_username=friend_request.sender_id, friend_username=friend_request.receiver_id)
                     new_friendship2 = Friendship(user_username=friend_request.receiver_id, friend_username=friend_request.sender_id)
                     session.add(new_friendship1)
                     session.add(new_friendship2)
-                    print(f"We are friends!!!!!!!: {new_friendship1.user_username} <--> {new_friendship2.user_username}")
-            
+                    print(f"We are friends: {new_friendship1.user_username} <--> {new_friendship2.user_username}")
+
             session.commit()
             return True, "Friend request status updated successfully."
         except SQLAlchemyError as e:
@@ -384,7 +422,7 @@ def print_all_friends():
             print(f"User {user.username}'s friends:")
             # call the get_friends_for_user function to retrieve the list of friends
             friends = get_friends_for_user(user.username)
-            print(friends)
+            #print(friends)
             if friends:
                 for friend in friends:
                     print(f"  - {friend['username']} ")

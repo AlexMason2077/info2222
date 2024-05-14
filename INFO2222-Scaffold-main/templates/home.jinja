@@ -320,51 +320,86 @@
 
     //////////////////////////////////////////////////////////////////////////////
     // Function to update a friend request's status
-    function updateFriendRequest(requestId, status) {
-        fetch('/update_friend_request', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ request_id: requestId, status: status }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            // might need to retrieve and display the latest friend request list again
-            fetchFriendRequests();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to update friend request.');
-        });
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+    const socket = io();
 
-    function fetchFriendRequests() {
-        console.log('Fetching friend requests...');
-        let currentUsername = "{{ username }}"; // Retrieve the current username from server-side rendering variables or from another source
+    // Log socket connection events
+    socket.on('connect', () => {
+        console.log('Connected to WebSocket');
+    });
 
-        fetch(`/get_friend_requests?username=${currentUsername}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch friend requests');
-            }
-            return response.json();
-        })
-        .then(friendRequests => {
-            // get the container element for the friend request list
-            const friendRequestsList = document.getElementById('friend_requests');
-            // clear the current list content
-            friendRequestsList.innerHTML = '';
+    socket.on('disconnect', () => {
+        console.log('Disconnected from WebSocket');
+    });
 
-            // iterate through all friend requests and add them to the list
-            friendRequests.forEach(request => {
-                // create a new list item
-                const listItem = document.createElement('li');
-                 if (request.sender === currentUsername) {
+    // Initial fetch of friend requests and friends
+    fetchFriendRequests();
+    fetchFriends();
+
+    // Listen for WebSocket updates
+    socket.on('update_friend_list', function(data) {
+        console.log('Received update notification:', data.message);
+        fetchFriends();
+    });
+
+    socket.on('friend_request_update', function(data) {
+        console.log('Received friend request update notification:', data.message);
+        fetchFriendRequests();
+        fetchFriends();
+    });
+
+    socket.on('friend_removed', function(data) {
+        console.log('Received friend removed notification:', data.message);
+        alert(data.message);
+        fetchFriends();
+    });
+});
+
+function updateFriendRequest(requestId, status) {
+    fetch('/update_friend_request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ request_id: requestId, status: status }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        fetchFriendRequests(); // Re-fetch the friend request list to update UI
+        fetchFriends(); // Re-fetch the friend list to update UI
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update friend request.');
+    });
+}
+
+function fetchFriendRequests() {
+    console.log('Fetching friend requests...');
+    let currentUsername = "{{ username }}"; // Retrieve the current username from server-side rendering variables or from another source
+
+    fetch(`/get_friend_requests?username=${currentUsername}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch friend requests');
+        }
+        return response.json();
+    })
+    .then(friendRequests => {
+        // get the container element for the friend request list
+        const friendRequestsList = document.getElementById('friend_requests');
+        // clear the current list content
+        friendRequestsList.innerHTML = '';
+
+        // iterate through all friend requests and add them to the list
+        friendRequests.forEach(request => {
+            // create a new list item
+            const listItem = document.createElement('li');
+            if (request.sender === currentUsername) {
                 // if the current user is the sender
                 listItem.textContent = `To: ${request.receiver}`;
-                 } else {
+            } else {
                 // if the current user is the receiver
                 listItem.textContent = `From: ${request.sender}`;
 
@@ -384,68 +419,54 @@
                 listItem.appendChild(acceptButton);
                 listItem.appendChild(rejectButton);
             }
-                // add the listitem to the list
-                friendRequestsList.appendChild(listItem);
-            });
-        })
-        .catch(error => console.error('Error fetching friend requests:', error));
-    }
+            // add the listitem to the list
+            friendRequestsList.appendChild(listItem);
+        });
+    })
+    .catch(error => console.error('Error fetching friend requests:', error));
+}
 
-    socket.on('friend_request_update', function(data) {
-        console.log('Received update notification:', data.message);
-        // Call the function to update friend requests
-        fetchFriendRequests();
-        fetchFriends();
-    });
-    
-    // retrieve the friend request list when the page finishes loading
-    document.addEventListener('DOMContentLoaded', function() {
-    const socket = io();
-    fetchFriendRequests();
-    fetchFriends();
-    });
+function fetchFriends() {
+    let currentUsername = "{{ username }}"; // Read the current username from server-side rendering variables or from another source
 
-    function fetchFriends() {
-        // Read the current username from the data-username attribute of the body element
-        let currentUsername = "{{ username }}";
+    fetch(`/get_friends?username=${currentUsername}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch friends');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const friendList = document.getElementById('friend_list');
+        friendList.innerHTML = ''; // clear the existing friend list
 
-        fetch(`/get_friends?username=${currentUsername}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch friends');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const friendList = document.getElementById('friend_list');
-            friendList.innerHTML = ''; // clear the existing friendlist
+        // iterate through the returned friend data and create a list item for each friend
+        data.forEach(friend => {
+            const li = document.createElement('li');
+            const chatButton = document.createElement('button');
+            chatButton.textContent = friend['username'];
+            chatButton.onclick = function() {
+                join_room(friend['username']);
+            };
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.onclick = function() {
+                removeFriend(friend['username']);
+            };
+            const statusSpan = document.createElement('span');
+            statusSpan.textContent = friend['is_online'] ? ' (Online)' : ' (Offline)';
+            statusSpan.style.color = friend['is_online'] ? 'green' : 'red'; // Change text color based on online status
 
-            // iterate through the returned friend data and create a list item for each friend   
-            data.forEach(friend => {
-                const li = document.createElement('li');
-                const chatbutton = document.createElement('button');
-                chatbutton.textContent = friend['username'];
-                chatbutton.onclick = function() {
-                    join_room(friend['username']);
-                };
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Remove';
-                removeButton.onclick = function() {
-                    removeFriend(friend['username']);
-                };
-                const statusSpan = document.createElement('span');
-                statusSpan.textContent = friend['is_online'] ? ' (Online)' : ' (Offline)';
-                statusSpan.style.color = friend['is_online'] ? 'green' : 'red'; // 根据在线状态改变文本颜色
+            li.appendChild(chatButton);
+            li.appendChild(removeButton);
+            li.appendChild(statusSpan);
+            friendList.appendChild(li);
+        });
+    })
+    .catch(error => console.error('Error fetching friends:', error));
+}
 
-                li.appendChild(chatbutton);
-                li.appendChild(removeButton);
-                li.appendChild(statusSpan);
-                friendList.appendChild(li);
-            });
-        })
-        .catch(error => console.error('Error fetching friends:', error));
-    }
-    function removeFriend(friendUsername) {
+function removeFriend(friendUsername) {
     fetch('/remove_friend', {
         method: 'POST',
         headers: {
@@ -469,8 +490,6 @@
         alert('Error removing friend.');
     });
 }
-    // Retrieve the friend list when the page finishes loading
-    document.addEventListener('DOMContentLoaded', fetchFriends);
 
 
 ////////////////////////////////////////////////////////////////////////////////

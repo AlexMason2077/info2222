@@ -13,6 +13,9 @@ from bcrypt import gensalt, hashpw, checkpw
 from functools import wraps
 from sqlalchemy.orm import aliased
 from bleach import clean
+from sqlalchemy.orm import Session
+from models import  User, Friendship
+from db import engine
 
 # import logging
 
@@ -31,10 +34,10 @@ from flask_session import Session  #Session
 app.config['SESSION_TYPE'] = 'filesystem'  # session store in session_files
 app.config['SESSION_FILE_DIR'] = 'session_files'  
 app.config['SESSION_PERMANENT'] = False  
-app.config['SESSION_USE_SIGNER'] = True  # signature of session
-app.config['SESSION_COOKIE_SECURE'] = True  # can only send cookie in HTTPS 
-app.config['SESSION_COOKIE_HTTPONLY'] = True  # JavaScript cannot visit cookie
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # CSRF Protection
+# app.config['SESSION_USE_SIGNER'] = True  # signature of session
+# app.config['SESSION_COOKIE_SECURE'] = True  # can only send cookie in HTTPS 
+# app.config['SESSION_COOKIE_HTTPONLY'] = True  # JavaScript cannot visit cookie
+# app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # CSRF Protection
 
 Session(app)  
 
@@ -481,25 +484,56 @@ def is_user_muted(username):
 #################################################################################
 @app.route('/remove_friend', methods=['POST'])
 def remove_friend():
+    if 'username' not in session:
+        return jsonify({"error": "User not logged in"}), 401
+
     data = request.get_json()
     if not data or 'friend_username' not in data:
         return jsonify({"error": "Missing friend_username"}), 400
 
     user_username = session['username']
     friend_username = data['friend_username']
+    print(f"Removing friend: {friend_username} for user: {user_username}")
 
-    if db.remove_friend(user_username, friend_username):
+    if db.db_remove_friend(user_username, friend_username):
+        print("Friend removed successfully")
+        # Emit update event to both users
+        socketio.emit('update_friend_list', {'message': 'Friend list updated'})
+        socketio.emit('update_friend_list', {'message': 'Friend list updated'})
+        #socketio.emit('friend_removed', {'message': 'You have been removed as a friend by ' + user_username})
+        print(f"Emitted update_friend_list and friend_removed event to {user_username} and {friend_username}")
         return jsonify({"message": "Friend removed successfully"})
     else:
+        print("Failed to remove friend")
         return jsonify({"error": "Friend could not be removed"}), 400
+    
+@app.route('/print_friendships', methods=['GET'])
+def print_friendships():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Missing username parameter"}), 400
 
+    with Session(engine) as session:
+        user = session.query(User).filter_by(username=username).first()
+        if not user:
+            return jsonify({"error": f"User '{username}' not found."}), 404
 
+        friendships = session.query(Friendship).filter(
+            (Friendship.user_username == username) | (Friendship.friend_username == username)
+        ).all()
+
+        friend_list = []
+        for friendship in friendships:
+            friend_username = friendship.friend_username if friendship.user_username == username else friendship.user_username
+            friend_list.append({"friend_username": friend_username})
+
+        return jsonify({"user": username, "friendships": friend_list})
 
 if __name__ == '__main__':
     # db.view_tables()
     # db.print_all_friend_requests()
     # db.approve_friend_request(2)
-    # db.print_all_friends()
+    #db.print_all_friends()
     # db.get_all_messages()
     # db.print_table_names()
     # db.drop_all_tables("sqlite:///database/main.db")
