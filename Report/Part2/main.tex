@@ -1,0 +1,73 @@
+\documentclass[12pt]{article}
+
+
+\newcommand{\GroupId}{CC09-7}
+\newcommand{\assignment}{project-security}
+
+\NeedsTeXFormat{LaTeX2e}
+\usepackage[osf]{mathpazo}
+\usepackage[svgnames]{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,mathtools}
+\usepackage{hyperref,url}
+\usepackage{float}
+\usepackage[margin=2.7cm,a4paper]{geometry}
+\usepackage{tasks}
+\usepackage{xstring}
+\usepackage[tikz]{mdframed}
+\usepackage{environ}
+\usepackage{subcaption}
+\usepackage{etoolbox}
+\usepackage{fourier-orns}
+\usepackage{kvoptions}
+\usepackage[]{units}
+\usepackage{url}%
+%\usepackage[normal]{subfigure}
+
+% math config
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\set{\{}{\}}
+
+
+% headers
+
+\usepackage{fancyhdr}
+\addtolength{\headheight}{2.5pt}
+\pagestyle{fancy}
+\fancyhead{} 
+\fancyhead[L]{\sc info2222} 
+\renewcommand{\headrulewidth}{0.75pt}
+
+% update these headers
+\fancyhead[C]{\sc Group Id: \GroupId}
+\fancyhead[R]{Assignment \assignment}
+
+\begin{document}
+
+\section*{User Investigation}
+    \subsection*{PACT Analysis}
+
+        \subsubsection*{People}
+            The vast majority (98\%) of respondents are students at the University of Sydney, with only one staff member participating. Students primarily use the platform for academic-related activities, such as discussions and posting questions or exchanges. They also wish to communicate with friends. Among the respondents, 55.7\% are currently using WeChat, and 24.5\% are using Instagram, indicating that a design similar to these platforms would be more familiar and appealing to them. While most respondents are computer science majors, there are also students from economics and architecture fields, and their diverse needs must be considered in the platform design.
+
+        \subsubsection*{Activities}
+            The platform's primary use cases include participating in discussions, accessing study materials, sharing academic experiences, and asking questions. Additionally, the platform should support students in communicating with friends or alumni. In terms of functionality, 61.2\% of users primarily engage in group chats or private chats with friends, and 28.6\% chat with schoolmates. Users prefer that only group owners can invite friends to join group chats (63.3\%) and wish to retain chat history. Both staff and students can post articles and comment on them, with staff having the authority to manage posts and comments. Compared to other features, users highly prefer a friendly interface (71.4\%). Regarding additional features, 54.5\% of users want support for multiple languages (English, Spanish, Chinese). Given the real-time nature of chatting and commenting, the platform needs to handle high usage frequency efficiently.
+
+
+        \subsubsection*{Contexts}
+            Students might use the platform both on and off-campus, including at home or during commutes. They can access the site anytime, with peak usage times during the day and evening. Teachers and staff need to be able to access the site at any time to manage student posts, requiring the platform to function reliably across different times and locations, providing a consistent user experience.
+
+
+        \subsubsection*{Technologies}
+            Considering the usage patterns of university students, the platform must operate seamlessly on various devices, including laptops, tablets, and smartphones. Given the diverse usage environments, the platform needs strong responsiveness and adaptive design to ensure a consistent and smooth user experience across all devices.
+
+\section{Contribution}
+
+
+
+       
+\bibliographystyle{unsrt}
+\bibliography{reference} 
+\end{document}
