@@ -62,20 +62,10 @@ def disconnect():
 
 
 
-@socketio.on("send")
-def send(username, message, room_id):
-    # users_in_room = room.get_users_in_room(room_id)
-
-    # if len(users_in_room) < 2:
-    #     emit("error", {"message": "2 users both need to be online"}, to=request.sid)
-    #     return 
-
-    emit("incoming", (f"{username}: {message}", "black"), to=room_id)
-    
-    # include the message type when inserting a message into the database
-    db.insert_message(room_id, username, message)
-    return
-    
+@socketio.on('send')
+def handle_send_message(sender, message, room_id):
+    db.insert_message(room_id, sender, message)
+    emit('incoming', {'sender': sender, 'message': message}, room=room_id)
 # join room event handler
 # sent when the user joins a room
 @socketio.on("join")
@@ -131,17 +121,9 @@ def join(sender_name, receiver_name):
 def GetHisoryMessages(sender_name, receiver_name):
     room_id_stored = db.find_room_id_by_users(sender_name, receiver_name)
     if room_id_stored:
-        messages_list = [] 
-
-        for e in db.get_messages_by_room_id(room_id_stored):
-            message_content = f"{e[0]}: {e[1]}"
-            messages_list.append({
-                "content": message_content, 
-                "color": "black"
-            })
+        messages_list = db.get_messages_by_room_id(room_id_stored)
+        emit("incoming_messages_list", {"messages": [{"sender": msg.sender, "content": msg.content} for msg in messages_list]}, to=request.sid)
         print(messages_list)
-        emit("incoming_messages_list", {"messages": messages_list}, to=request.sid)
-
 
 # leave room event handler
 @socketio.on("leave")
