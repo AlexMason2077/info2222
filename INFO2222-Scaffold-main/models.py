@@ -168,6 +168,7 @@ class GroupUser(Base):
     group_id = Column(Integer, ForeignKey("group_chats.id"), nullable=False)
     username = Column(String, ForeignKey("user.username"), nullable=False)
     joined_at = Column(DateTime, default=datetime.utcnow)
+    is_owner = Column(Boolean, default=False) 
     group_chat = relationship("GroupChat", back_populates="users")
 
 class GroupMessage(Base):

@@ -502,16 +502,19 @@ def delete_comment(comment_id: int):
 #group chat
 ##########
 
-def create_group(group_name, usernames):
+def create_group(group_name,creator_username, usernames):
     try:
         with Session(engine) as session:
             group_chat = GroupChat(name=group_name)
             session.add(group_chat)
             session.commit()
 
+            group_owner = GroupUser(group_id=group_chat.id, username=creator_username, is_owner=True)
+            session.add(group_owner)
             for username in usernames:
-                group_user = GroupUser(group_id=group_chat.id, username=username)
-                session.add(group_user)
+                if username != creator_username:
+                    group_user = GroupUser(group_id=group_chat.id, username=username)
+                    session.add(group_user)
             
             session.commit()
             return {"message": "Group created successfully", "group_id": group_chat.id}
@@ -526,10 +529,114 @@ def get_groups_for_user(username):
     try:
         session = Session(engine)
         groups = session.query(GroupChat).join(GroupUser).filter(GroupUser.username == username).all()
-        group_list = [{"id": group.id, "name": group.name} for group in groups]
+        group_list = []
+        for group in groups:
+            owner = session.query(GroupUser).filter_by(group_id=group.id, is_owner=True).first()
+            group_list.append({
+                "id": group.id,
+                "name": group.name,
+                "is_owner": owner.username == username  # 当前用户是否是群主
+            })
         return group_list
     except Exception as e:
         print(f"Error in get_groups_for_user: {e}")
         return []
+    finally:
+        session.close()
+
+def create_group_message(group_id, sender, message):
+    try:
+        session = Session(engine)
+        group_message = GroupMessage(group_id=group_id, sender=sender, content=message)
+        session.add(group_message)
+        session.commit()
+    except Exception as e:
+        session.rollback()
+        print(f"Error in create_group_message: {e}")
+    finally:
+        session.close()
+
+def get_group_messages(group_id):
+    with Session(engine) as session:
+        messages = session.query(GroupMessage).filter_by(group_id=group_id).all()
+        return messages
+
+
+def insert_group_message(group_id: int, sender: str, content: str):
+    with Session(engine) as session:
+        group_message = GroupMessage(group_id=group_id, sender=sender, content=content)
+        session.add(group_message)
+        try:
+            session.commit()
+            print(f"Group message added: {sender}: {content} in group {group_id}")
+        except Exception as e:
+            session.rollback()
+            print(f"Failed to insert group message: {e}")
+        finally:
+            session.close()
+
+def is_user_in_group(username, group_id):
+    with Session(engine) as session:
+        group_user = session.query(GroupUser).filter_by(username=username, group_id=group_id).first()
+        return group_user is not None
+    
+def add_member_to_group(group_id, owner_username, new_member_username):
+    if not is_user_owner_of_group(owner_username, group_id):
+        return {"error": "Only group owners can add new members"}
+
+    try:
+        with Session(engine) as session:
+             # 检查新成员是否存在
+            new_member = session.query(User).filter_by(username=new_member_username).first()
+            if not new_member:
+                return {"error": "User does not exist"}
+            
+            # 检查新成员是否已经在群中
+            existing_member = session.query(GroupUser).filter_by(group_id=group_id, username=new_member_username).first()
+            if existing_member:
+                return {"error": "User is already a member of the group"}
+
+            # 添加新成员
+            new_member = GroupUser(group_id=group_id, username=new_member_username)
+            session.add(new_member)
+            session.commit()
+            return {"message": "New member added successfully"}
+    except Exception as e:
+        session.rollback()
+        print(f"Error in add_member_to_group: {e}")
+        return {"error": str(e)}
+    finally:
+        session.close()
+
+def remove_member_from_group(group_id, owner_username, remove_member_username):
+    if not is_user_owner_of_group(owner_username, group_id):
+        return {"error": "Only group owners can remove members"}
+
+    try:
+        with Session(engine) as session:
+            # 检查要移除的成员是否在群中
+            existing_member = session.query(GroupUser).filter_by(group_id=group_id, username=remove_member_username).first()
+            if not existing_member:
+                return {"error": "User is not a member of the group"}
+
+            # 移除成员
+            session.delete(existing_member)
+            session.commit()
+            return {"message": "Member removed successfully"}
+    except Exception as e:
+        session.rollback()
+        print(f"Error in remove_member_from_group: {e}")
+        return {"error": str(e)}
+    finally:
+        session.close()
+
+def is_user_owner_of_group(username, group_id):
+    try:
+        session = Session(engine)
+        owner = session.query(GroupUser).filter_by(group_id=group_id, username=username, is_owner=True).first()
+        return owner is not None
+    except Exception as e:
+        print(f"Error in is_user_owner_of_group: {e}")
+        return False
     finally:
         session.close()

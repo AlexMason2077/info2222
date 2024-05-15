@@ -337,11 +337,13 @@ def send_request():
 
     result = db.send_friend_request(sender, receiver)
     if result:
+        print("Emitting friend_request_update event")
+        socketio.emit('friend_request_update', {'message': 'Update your friend requests list'})
+        print("done")
         return jsonify({"message": "Friend request sent successfully"})
     else:
         return jsonify({"error": "An error occurred while processing your request"}), 400
-
-
+    
 @app.route('/get_friend_requests')
 def get_friend_requests():
     current_user = request.args.get('username')
@@ -515,15 +517,14 @@ def create_group_route():
     data = request.get_json()
     group_name = data.get('name')
     usernames = data.get('usernames')
-
-    if not group_name or not usernames:
+    creator_username = session.get('username')
+    if not group_name or not usernames or not creator_username:
         return jsonify({"error": "Group name and usernames are required"}), 400
 
-    result = db.create_group(group_name, usernames)
+    result = db.create_group(group_name, creator_username,usernames)
     if "error" in result:
-        return jsonify(result), 500
-    return jsonify(result), 200
-
+        return jsonify(result), 400
+    return jsonify(result)
 
 @app.route('/join_group', methods=['POST'])
 def join_group():
@@ -548,7 +549,34 @@ def get_groups_route():
         return jsonify({"error": "Username is required"}), 400
 
     groups = db.get_groups_for_user(username)
+    print(groups)
     return jsonify(groups)
+
+@app.route("/add_member_to_group", methods=["POST"])
+def add_member_to_group_route():
+    data = request.get_json()
+    group_id = data.get('group_id')
+    new_member_username = data.get('new_member_username')
+
+    owner_username = session['username']
+
+    result = db.add_member_to_group(group_id, owner_username, new_member_username)
+    if 'error' in result:
+        return jsonify(result), 400
+    return jsonify(result)
+
+@app.route("/remove_member_from_group", methods=["POST"])
+def remove_member_from_group_route():
+    data = request.get_json()
+    group_id = data.get('group_id')
+    remove_member_username = data.get('remove_member_username')
+
+    owner_username = session['username']
+
+    result = db.remove_member_from_group(group_id, owner_username, remove_member_username)
+    if 'error' in result:
+        return jsonify(result), 400
+    return jsonify(result)
 
 if __name__ == '__main__':
     # db.view_tables()

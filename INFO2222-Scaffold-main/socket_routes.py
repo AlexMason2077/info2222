@@ -40,7 +40,8 @@ def connect():
         user.is_online = True
         session.commit()
         join_room(int(room_id))
-        emit("incoming", (f"{username} has connected","green"), to=int(room_id))
+        emit("incoming", {"sender": "system", "message": f"{username} has connected", "color": "green"}, to=int(room_id))
+
 
 # event when client disconnects
 # quite unreliable use sparingly
@@ -58,25 +59,14 @@ def disconnect():
         user.is_online = False
         session.commit()
         leave_room(room_id)
-        emit("incoming", (f"{username} has disconnected", "red"), to=int(room_id))
+        emit("incoming", {"sender": "system", "message": f"{username} has disconnected", "color": "green"}, to=int(room_id))
 
 
 
-@socketio.on("send")
-def send(username, message, room_id):
-    # users_in_room = room.get_users_in_room(room_id)
-
-    # if len(users_in_room) < 2:
-    #     emit("error", {"message": "2 users both need to be online"}, to=request.sid)
-    #     return 
-
-    emit("incoming", (f"{username}: {message}", "black"), to=room_id)
-    
-    # include the message type when inserting a message into the database
-    db.insert_message(room_id, username, message)
-
-    return
-    
+@socketio.on('send')
+def handle_send_message(sender, message, room_id):
+    db.insert_message(room_id, sender, message)
+    emit('incoming', {'sender': sender, 'message': message}, room=room_id)
 # join room event handler
 # sent when the user joins a room
 @socketio.on("join")
@@ -108,10 +98,11 @@ def join(sender_name, receiver_name):
 
         join_room(room_id_current)
         # emit to everyone in the room except the sender
-        emit("incoming", (f"{sender_name} has joined the room.","green"), to=room_id_current, include_self=False)
+        emit("incoming", {"sender": "system", "message": f"{sender_name} has connected", "color": "green"}, to=room_id_current, include_self=False)
+
         
         # emit only to the sender
-        emit("incoming", (f"{sender_name} has joined the room. Now talking to {receiver_name}.", "green"))
+        emit("incoming", {"sender": "system", "message": f"{sender_name} has connected", "color": "green"})
 
         return room_id_current
 
@@ -124,7 +115,7 @@ def join(sender_name, receiver_name):
     room_id_current = room.create_room(sender_name, receiver_name)
 
     join_room(room_id_current)
-    emit("incoming", (f"{sender_name} has joined the room. Now talking to {receiver_name}.", "green"), to=room_id_current)
+    emit("incoming", {"sender": "system", "message": f"{sender_name} has connected", "color": "green"}, to=room_id_current)
 
     return room_id_current
 
@@ -132,22 +123,14 @@ def join(sender_name, receiver_name):
 def GetHisoryMessages(sender_name, receiver_name):
     room_id_stored = db.find_room_id_by_users(sender_name, receiver_name)
     if room_id_stored:
-        messages_list = [] 
-
-        for e in db.get_messages_by_room_id(room_id_stored):
-            message_content = f"{e[0]}: {e[1]}"
-            messages_list.append({
-                "content": message_content, 
-                "color": "black"
-            })
-
-        emit("incoming_messages_list", {"messages": messages_list}, to=request.sid)
-
+        messages_list = db.get_messages_by_room_id(room_id_stored)
+        emit("incoming_messages_list", {"messages": [{"sender": msg.sender, "content": msg.content} for msg in messages_list]}, to=request.sid)
+        print(messages_list)
 
 # leave room event handler
 @socketio.on("leave")
 def leave(username, room_id):
-    emit("incoming", (f"{username} has left the room.", "red"), to=room_id)
+    emit("incoming", {"sender": "system", "message": f"{username} has connected", "color": "green"}, to=room_id)
     leave_room(room_id)
     room.leave_room(username)
 
@@ -157,8 +140,8 @@ def handle_friend_request_sent(data):
     print("Friend request sent from:", data['sender'], "to:", data['receiver'])
     # Here you can broadcast to specific rooms or globally as needed
     print("Emitting friend_request_update event")
-    socketio.emit('friend_request_update', {'message': 'Update your friend requests list'})
-
+    emit('friend_request_update', {'message': 'Update your friend requests list'})
+    print("done")
 
 ##############################################################################
 # group chat
@@ -166,13 +149,62 @@ def handle_friend_request_sent(data):
 
 @socketio.on("send_group_message")
 def handle_group_message(data):
+    print("send group message")
     group_id = data.get('group_id')
     sender = data.get('sender')
     message = data.get('message')
 
-    with Session(engine) as session:
-        group_message = GroupMessage(group_id=group_id, sender=sender, content=message)
-        session.add(group_message)
-        session.commit()
 
-    emit("incoming_group_message", {"sender": sender, "message": message}, room=f"group_{group_id}")
+    if not db.is_user_in_group(sender, group_id):
+        emit("error", {"error": "You are not a member of this group."}, room=request.sid)
+        return
+    db.insert_group_message(group_id, sender, message)
+    print(message)
+
+    room_id = group_id + 10000  # 群组ID加上10000
+    emit("incoming_group_message", {"sender": sender, "message": message}, room=room_id)
+
+
+@socketio.on("GetGroupHistoryMessages")
+def get_group_history_messages(data):
+    group_id = data.get('group_id')
+    messages = db.get_group_messages(group_id)
+    room_id = group_id + 10000  # 群组ID加上10000
+    messages_data = [{"sender": msg.sender, "content": msg.content} for msg in messages]
+    emit("incoming_group_messages_list", {"messages": messages_data}, room=room_id)
+
+
+@socketio.on("join_group")
+def join_group(data):
+    group_id = data.get('group_id')
+    username = data.get('username')
+
+    user = db.get_user(username)
+    if user is None:
+        return {"error": "Unknown user!"}
+
+    if not db.is_user_in_group(username, group_id):
+        emit("error", {"error": "You are not a member of this group."}, room=request.sid)
+        return
+
+    # groups = db.get_groups_for_user(username)
+    # group_ids = [group['id'] for group in groups]
+
+    # if group_id not in group_ids:
+    #     return {"error": "You are not a member of this group."}
+
+    room_id = group_id + 10000  # 群组ID加上10000
+    join_room(room_id)
+
+    emit("clear_messages", room=room_id)
+
+    # 发送用户加入群组的消息给群组中的其他用户，但不包括自己
+
+    # 发送历史消息给加入群组的用户
+    messages = db.get_group_messages(group_id)
+    #messages_data = [{"sender": msg.sender, "content": msg.content} for msg in messages]
+    #emit("incoming_group_messages_list", {"messages": messages_data}, room=room_id)
+    
+    #emit("incoming_group_message", {"sender": username, "message": "has joined the room."}, room=room_id)
+
+    return {"group_id": group_id, "message": f"{username} has joined the room."}
