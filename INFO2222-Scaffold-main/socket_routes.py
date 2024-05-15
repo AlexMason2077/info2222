@@ -157,7 +157,7 @@ def handle_friend_request_sent(data):
     # Here you can broadcast to specific rooms or globally as needed
     print("Emitting friend_request_update event")
     emit('friend_request_update', {'message': 'Update your friend requests list'})
-
+    print("done")
 
 ##############################################################################
 # group chat

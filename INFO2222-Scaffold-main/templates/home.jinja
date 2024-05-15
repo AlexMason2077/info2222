@@ -163,7 +163,19 @@
         <ul id="group_list">
         <!-- Groups will be added here dynamically -->
         </ul>
-    </section>
+        <div id="add_member_form" style="display: none;">
+
+        <h3>Add New Member</h3>
+        <input id="new_member_username" placeholder="Enter username">
+        <button onclick="addNewMember()">Add Member</button>
+        </div>
+        <!-- 移除成员的表单，初始隐藏 -->
+        <div id="remove_member_form" style="display: none;">
+            <h3>Remove Member</h3>
+            <input id="remove_member_username" placeholder="Enter username">
+            <button onclick="removeMember()">Remove Member</button>
+        </div>
+        </section>
 
     
 
@@ -363,7 +375,7 @@ function addFriendMessage(message) {
 
     //////////////////////////////////////////////////////////////////////////////
     // Function to update a friend request's status
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const socket = io();
 
     // Log socket connection events
@@ -397,6 +409,7 @@ function addFriendMessage(message) {
         fetchFriends();
     });
 });
+
 
 function updateFriendRequest(requestId, status) {
     fetch('/update_friend_request', {
@@ -560,12 +573,109 @@ function fetchGroups(username) {
             };
 
             li.appendChild(chatButton);
+
+            if (group.is_owner) {
+                const addButton = document.createElement('button');
+                addButton.textContent = 'Add';
+                addButton.onclick = function() {
+                    toggleAddMemberForm();
+                };
+                li.appendChild(addButton);
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = function() {
+                    toggleRemoveMemberForm();
+                };
+                li.appendChild(removeButton);
+            }
+
             groupList.appendChild(li);
         });
     })
     .catch(error => console.error('Error fetching groups:', error));
 }
 
+function toggleAddMemberForm() {
+    const addMemberForm = document.getElementById('add_member_form');
+    const removeMemberForm = document.getElementById('remove_member_form');
+
+    if (addMemberForm.style.display === 'none' || addMemberForm.style.display === '') {
+        addMemberForm.style.display = 'block';
+        removeMemberForm.style.display = 'none'; // 隐藏移除成员表单
+    } else {
+        addMemberForm.style.display = 'none';
+    }
+}
+
+function toggleRemoveMemberForm() {
+    const addMemberForm = document.getElementById('add_member_form');
+    const removeMemberForm = document.getElementById('remove_member_form');
+
+    if (removeMemberForm.style.display === 'none' || removeMemberForm.style.display === '') {
+        removeMemberForm.style.display = 'block';
+        addMemberForm.style.display = 'none'; // 隐藏添加成员表单
+    } else {
+        removeMemberForm.style.display = 'none';
+    }
+}
+
+function addNewMember() {
+    let newMemberUsername = document.getElementById('new_member_username').value;
+    let groupId = room_id - 10000;  // 获取当前群组的ID
+
+    fetch('/add_member_to_group', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ group_id: groupId, new_member_username: newMemberUsername })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            alert(data.message);
+            fetchGroups("{{ username }}");
+        }
+        toggleAddMemberForm(); // 添加成功后隐藏表单
+    })
+    .catch(error => {
+        console.error('Error adding new member:', error);
+        alert('Failed to add new member.');
+        toggleAddMemberForm(); // 发生错误后隐藏表单
+    });
+}
+
+function removeMember() {
+    let removeMemberUsername = document.getElementById('remove_member_username').value;
+    let groupId = room_id - 10000;  // 获取当前群组的ID
+    let ownerUsername = "{{ username }}";  // 获取当前用户作为群主
+
+    fetch('/remove_member_from_group', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ group_id: groupId, owner_username: ownerUsername, remove_member_username: removeMemberUsername })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            alert(data.message);
+            fetchGroups(ownerUsername);
+        }
+        toggleRemoveMemberForm(); // 移除成功后隐藏表单
+    })
+    .catch(error => {
+        console.error('Error removing member:', error);
+        alert('Failed to remove member.');
+        toggleRemoveMemberForm(); // 发生错误后隐藏表单
+    });
+}
 function showCreateGroupModal() {
     document.getElementById('createGroupModal').style.display = 'block';
 }
@@ -576,13 +686,13 @@ function hideCreateGroupModal() {
 function createGroup() {
     let groupName = document.getElementById('groupName').value;
     let groupMembers = document.getElementById('groupMembers').value.split(',').map(member => member.trim());
-
+    let creatorUsername = "{{ username }}";
     fetch('/create_group', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name: groupName, usernames: groupMembers })
+        body: JSON.stringify({ name: groupName, usernames: groupMembers,  creator_username: creatorUsername })
     })
     .then(response => response.json())
     .then(data => {
