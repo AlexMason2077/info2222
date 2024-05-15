@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 0 "main.aux" "main.bbl" "main" 1715780626.8659 0
+["bibtex main"] 1715801064.7124 "main.aux" "main.bbl" "main" 1715801066.46557 0
+  "./reference.bib" 1715798767.13467 90 86542e1b6ca3a74cd1bcbd8673b90713 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/bibtex/bst/bibtex/unsrt.bst" 1678856792.43594 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "main.aux" 0 -1 0 "pdflatex"
-  "reference.bib" 0 -1 0 ""
+  "main.aux" 1715801065.87464 2046 d970988a85087c4ac31a2035dc7d512f "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1715780625.60536 "main.tex" "main.pdf" "main" 1715780626.8661 0
+["pdflatex"] 1715801064.93401 "main.tex" "main.pdf" "main" 1715801066.46574 0
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/map/pdftex/pdftex.map" 1715773750.44061 84440 4cb442eb2b994e0c3de64aa9fad60308 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/miktex/data/le/pdftex/pdflatex.fmt" 1710507425.07267 24243819 9873b88c324e7d4c2fb47d8dfa8007a8 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/enc/dvips/base/8r.enc" 1678856792.83247 4993 1194fb36dfcb11d9ae9802f2b00b60a3 ""
@@ -22,6 +22,7 @@
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/cm/cmr12.tfm" 1678856792.58726 1288 655e228510b4c2a1abe905c368440826 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmb.tfm" 1136736254 984 3dcde7360ef3d34302e591b511cba83c ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmr.tfm" 1136736254 1032 7fa31d93ecd4cbdfac02c7a1ebc6facc ""
+  "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb" 1713089324.2556 64555 1bdfd101450d8daa1682251ffcdf0074 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb" 1713089324.25868 62231 6fa2851364e6117779162ea79cb96ef4 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb" 1136817348 52406 dad2f72863a03727d5f536c64a69c452 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplr8a.pfb" 1136817348 52665 661b1e6b26edb5f50dd491f8a701cb57 ""
@@ -171,6 +172,7 @@
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/tasks/tasks.cfg" 1713089308.53348 1243 e62c3e9ce7f03f5534afdad3c1b736a2 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/tasks/tasks.sty" 1713089308.5336 32338 f6746a6ded873058b5462467aca8daf4 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/tools/calc.sty" 1710507269.12954 10214 547fd4d29642cb7c80bf54b49d447f01 ""
+  "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/tools/multicol.sty" 1710507269.12981 32515 51caec75eda9c8890135f12f1a4eddc3 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/trimspaces/trimspaces.sty" 1678856799.71702 1380 971a51b00a14503ddf754cab24c3f209 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/units/nicefrac.sty" 1713089318.64125 4163 98f285ced1c61c25144faeaf509fbad0 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/units/units.sty" 1713089318.64143 2206 02ab59708cb05b879cd46cab9db5f849 ""
@@ -180,10 +182,15 @@
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/xstring/xstring.sty" 1710564009.63973 123 a302f2c651a95033260db60e51527ae8 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/zref/zref-abspage.sty" 1713089312.52586 2269 4fe6fb3396214c91f164d45faf9bec45 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/zref/zref-base.sty" 1713089312.52596 20785 f7d1133a287929598a897c93f8f4c44b ""
-  "main.aux" 1715780626.29361 234 ef207514b022d798a0a5e0b2ec1877f2 "pdflatex"
-  "main.bbl" 0 -1 0 "bibtex main"
-  "main.out" 1715780626.25944 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.tex" 1715780624.78061 6239 7598e8c3d5163c943ba9bf51faa831dd ""
+  "graphs/Similarity_Matrix.png" 1715793241.34713 197908 2d4eca7c5965cdc26a8a0266d2698ddf ""
+  "graphs/Survey-summary_page-0001.jpg" 1715799137 306901 511bf876ca8ab9959a24f478644adfec ""
+  "graphs/Survey-summary_page-0002.jpg" 1715799137 371066 78d5a54c3b4e64a101cf3198635c1884 ""
+  "graphs/Survey-summary_page-0003.jpg" 1715799137 296563 b51c67fba99956a6bb66d457656a0efb ""
+  "graphs/cardsorting_overview.jpg" 1715796181.21711 158804 5dfdd663433b5c8eaf9497b55f24679d ""
+  "main.aux" 1715801065.87464 2046 d970988a85087c4ac31a2035dc7d512f "pdflatex"
+  "main.bbl" 1715801064.9101 122 fd94f97f9b78d12d27b0455d00fda90f "bibtex main"
+  "main.out" 1715801065.8755 1286 7a3c243cb364be5ff5b2ad3a999e44c3 "pdflatex"
+  "main.tex" 1715801062.31114 8185 f4a098d99b9f5c2b68849c9bd8a1e2b5 ""
   (generated)
   "main.aux"
   "main.log"

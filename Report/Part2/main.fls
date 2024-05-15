@@ -54,69 +54,16 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/la
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/tools/calc.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/mathtools/mhsetup.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/mathtools/mhsetup.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hyperref.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hyperref.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/iftex/iftex.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/iftex/iftex.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/kvsetkeys/kvsetkeys.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/kvsetkeys/kvsetkeys.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/kvdefinekeys/kvdefinekeys.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/kvdefinekeys/kvdefinekeys.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/pdfescape/pdfescape.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/pdfescape/pdfescape.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/ltxcmds/ltxcmds.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/ltxcmds/ltxcmds.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/pdftexcmds/pdftexcmds.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/pdftexcmds/pdftexcmds.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/infwarerr/infwarerr.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/infwarerr/infwarerr.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hycolor/hycolor.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hycolor/hycolor.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/auxhook/auxhook.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/auxhook/auxhook.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/nameref.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/nameref.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/refcount/refcount.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/refcount/refcount.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/gettitlestring/gettitlestring.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/gettitlestring/gettitlestring.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/kvoptions/kvoptions.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/kvoptions/kvoptions.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/etoolbox/etoolbox.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/etoolbox/etoolbox.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/pd1enc.def
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/pd1enc.def
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/pd1enc.def
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/intcalc/intcalc.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/intcalc/intcalc.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/puenc.def
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/puenc.def
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/puenc.def
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/url/url.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/url/url.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/bitset/bitset.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/bitset/bitset.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/bigintcalc/bigintcalc.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/bigintcalc/bigintcalc.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/atbegshi/atbegshi.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/atbegshi-ltx.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/atbegshi-ltx.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hpdftex.def
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hpdftex.def
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hpdftex.def
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/atveryend/atveryend.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/atveryend-ltx.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/atveryend-ltx.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/rerunfilecheck/rerunfilecheck.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/rerunfilecheck/rerunfilecheck.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/uniquecounter/uniquecounter.sty
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/uniquecounter/uniquecounter.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/tools/multicol.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/tools/multicol.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/float/float.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/float/float.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/geometry/geometry.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/geometry/geometry.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/iftex/ifvtex.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/iftex/ifvtex.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/iftex/iftex.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/iftex/iftex.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/geometry/geometry.cfg
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/geometry/geometry.cfg
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/geometry/geometry.cfg
@@ -140,12 +87,28 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/la
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/xstring/xstring.tex
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/mdframed/mdframed.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/mdframed/mdframed.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/kvoptions/kvoptions.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/kvoptions/kvoptions.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/ltxcmds/ltxcmds.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/ltxcmds/ltxcmds.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/kvsetkeys/kvsetkeys.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/kvsetkeys/kvsetkeys.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/etoolbox/etoolbox.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/etoolbox/etoolbox.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/zref/zref-abspage.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/zref/zref-abspage.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/zref/zref-base.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/zref/zref-base.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/infwarerr/infwarerr.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/infwarerr/infwarerr.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/kvdefinekeys/kvdefinekeys.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/kvdefinekeys/kvdefinekeys.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/pdftexcmds/pdftexcmds.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/pdftexcmds/pdftexcmds.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/etexcmds/etexcmds.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/etexcmds/etexcmds.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/auxhook/auxhook.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/auxhook/auxhook.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/needspace/needspace.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/needspace/needspace.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/graphics/color.sty
@@ -278,6 +241,45 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/la
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/ifthen.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/units/nicefrac.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/units/nicefrac.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hyperref.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hyperref.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/pdfescape/pdfescape.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/pdfescape/pdfescape.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hycolor/hycolor.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hycolor/hycolor.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/nameref.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/nameref.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/refcount/refcount.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/refcount/refcount.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/gettitlestring/gettitlestring.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/gettitlestring/gettitlestring.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/pd1enc.def
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/pd1enc.def
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/pd1enc.def
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/intcalc/intcalc.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/intcalc/intcalc.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/puenc.def
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/puenc.def
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/puenc.def
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/url/url.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/url/url.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/bitset/bitset.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/bitset/bitset.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/bigintcalc/bigintcalc.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/bigintcalc/bigintcalc.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/atbegshi/atbegshi.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/atbegshi-ltx.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/atbegshi-ltx.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hpdftex.def
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hpdftex.def
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/hyperref/hpdftex.def
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/atveryend/atveryend.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/atveryend-ltx.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/base/atveryend-ltx.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/rerunfilecheck/rerunfilecheck.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/rerunfilecheck/rerunfilecheck.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/uniquecounter/uniquecounter.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/generic/uniquecounter/uniquecounter.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/fancyhdr/fancyhdr.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/fancyhdr/fancyhdr.sty
 INPUT ./main.aux
@@ -296,10 +298,10 @@ INPUT ./main.out
 INPUT ./main.out
 INPUT main.out
 INPUT main.out
+OUTPUT main.pdf
 INPUT ./main.out
 INPUT ./main.out
 OUTPUT main.out
-OUTPUT main.pdf
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr9d.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplb9d.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr9d.tfm
@@ -330,10 +332,50 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/la
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/psnfss/ts1pplj.fd
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr9c.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplr9c.vf
+INPUT ./graphs/cardsorting_overview.jpg
+INPUT ./graphs/cardsorting_overview.jpg
+INPUT ./graphs/cardsorting_overview.jpg
+INPUT ./graphs/cardsorting_overview.jpg
+INPUT ./graphs/cardsorting_overview.jpg
+INPUT ./graphs/cardsorting_overview.jpg
+INPUT ./graphs/cardsorting_overview.jpg
+INPUT ./graphs/Similarity_Matrix.png
+INPUT ./graphs/Similarity_Matrix.png
+INPUT ./graphs/Similarity_Matrix.png
+INPUT ./graphs/Similarity_Matrix.png
+INPUT ./graphs/Similarity_Matrix.png
+INPUT ./graphs/Similarity_Matrix.png
+INPUT ./graphs/Similarity_Matrix.png
+INPUT ./graphs/Survey-summary_page-0001.jpg
+INPUT ./graphs/Survey-summary_page-0001.jpg
+INPUT ./graphs/Survey-summary_page-0001.jpg
+INPUT ./graphs/Survey-summary_page-0001.jpg
+INPUT ./graphs/Survey-summary_page-0001.jpg
+INPUT ./graphs/Survey-summary_page-0001.jpg
+INPUT ./graphs/Survey-summary_page-0001.jpg
+INPUT ./graphs/Survey-summary_page-0002.jpg
+INPUT ./graphs/Survey-summary_page-0002.jpg
+INPUT ./graphs/Survey-summary_page-0002.jpg
+INPUT ./graphs/Survey-summary_page-0002.jpg
+INPUT ./graphs/Survey-summary_page-0002.jpg
+INPUT ./graphs/Survey-summary_page-0002.jpg
+INPUT ./graphs/Survey-summary_page-0002.jpg
+INPUT ./graphs/Survey-summary_page-0003.jpg
+INPUT ./graphs/Survey-summary_page-0003.jpg
+INPUT ./graphs/Survey-summary_page-0003.jpg
+INPUT ./graphs/Survey-summary_page-0003.jpg
+INPUT ./graphs/Survey-summary_page-0003.jpg
+INPUT ./graphs/Survey-summary_page-0003.jpg
+INPUT ./graphs/Survey-summary_page-0003.jpg
+INPUT ./main.bbl
+INPUT ./main.bbl
+INPUT main.bbl
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/enc/dvips/base/8r.enc
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb
