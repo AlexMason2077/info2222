@@ -40,7 +40,8 @@ def connect():
         user.is_online = True
         session.commit()
         join_room(int(room_id))
-        emit("incoming", (f"{username} has connected","green"), to=int(room_id))
+        emit("incoming", {"sender": "system", "message": f"{username} has connected", "color": "green"}, to=int(room_id))
+
 
 # event when client disconnects
 # quite unreliable use sparingly
@@ -58,7 +59,7 @@ def disconnect():
         user.is_online = False
         session.commit()
         leave_room(room_id)
-        emit("incoming", (f"{username} has disconnected", "red"), to=int(room_id))
+        emit("incoming", {"sender": "system", "message": f"{username} has disconnected", "color": "green"}, to=int(room_id))
 
 
 
@@ -97,10 +98,11 @@ def join(sender_name, receiver_name):
 
         join_room(room_id_current)
         # emit to everyone in the room except the sender
-        emit("incoming", (f"{sender_name} has joined the room.","green"), to=room_id_current, include_self=False)
+        emit("incoming", {"sender": "system", "message": f"{sender_name} has connected", "color": "green"}, to=room_id_current, include_self=False)
+
         
         # emit only to the sender
-        emit("incoming", (f"{sender_name} has joined the room. Now talking to {receiver_name}.", "green"))
+        emit("incoming", {"sender": "system", "message": f"{sender_name} has connected", "color": "green"})
 
         return room_id_current
 
@@ -113,7 +115,7 @@ def join(sender_name, receiver_name):
     room_id_current = room.create_room(sender_name, receiver_name)
 
     join_room(room_id_current)
-    emit("incoming", (f"{sender_name} has joined the room. Now talking to {receiver_name}.", "green"), to=room_id_current)
+    emit("incoming", {"sender": "system", "message": f"{sender_name} has connected", "color": "green"}, to=room_id_current)
 
     return room_id_current
 
@@ -128,7 +130,7 @@ def GetHisoryMessages(sender_name, receiver_name):
 # leave room event handler
 @socketio.on("leave")
 def leave(username, room_id):
-    emit("incoming", (f"{username} has left the room.", "red"), to=room_id)
+    emit("incoming", {"sender": "system", "message": f"{username} has connected", "color": "green"}, to=room_id)
     leave_room(room_id)
     room.leave_room(username)
 

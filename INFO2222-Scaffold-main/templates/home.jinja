@@ -101,6 +101,12 @@
         border: 1px solid #ccc;
         float: left;
     }
+    .system-message {
+    color: #888;
+    text-align: center;
+    margin: 10px 0;
+    }
+
 
 
     .sidebar {
@@ -958,9 +964,14 @@
     function addMessage(sender, message) {
         let box = $("#message_box");
         let messageType = sender === username ? 'sent' : 'received';
+        if (sender === 'system') {
+        let systemMessage = $(`<p class="system-message"></p>`).text(message);
+        box.append(systemMessage);
+    } else {
         let child = $(`<div class="message ${messageType}"><p></p></div>`);
         child.find("p").text(message);
         box.append(child);
+    }
     }
 
 
