@@ -524,7 +524,6 @@ def create_group_route():
         return jsonify(result), 500
     return jsonify(result), 200
 
-
 @app.route('/join_group', methods=['POST'])
 def join_group():
     data = request.get_json()
@@ -548,7 +547,10 @@ def get_groups_route():
         return jsonify({"error": "Username is required"}), 400
 
     groups = db.get_groups_for_user(username)
+    print(groups)
     return jsonify(groups)
+
+
 
 if __name__ == '__main__':
     # db.view_tables()

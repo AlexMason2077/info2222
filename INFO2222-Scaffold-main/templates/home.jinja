@@ -155,6 +155,8 @@
             <!-- Friends will be added here dynamically or list them statically for now -->
         </ul>
     </section>
+    {# <div id="group_message_box"></div> #}
+
     <!-- Group List Section -->
     <section id="group_list_box" style="display: block;">
         <h2>Group List</h2>
@@ -251,7 +253,13 @@
     async function send() {
         let message = $("#message").val();
         $("#message").val("");
-        socket.emit("send", username, message,room_id);
+        if (room_id >= 10000) {
+        // 发送群组消息
+        sendGroupMessage(room_id - 10000, username, message);
+    } else {
+        // 发送私聊消息
+        socket.emit("send", username, message, room_id);
+    }
     }
 
 
@@ -281,9 +289,21 @@
             socket.emit("GetHistoryMessages", username,receiver );
 
         });
-
-
     }
+    socket.on('incoming_messages_list', function(data) {
+    console.log('Incoming messages list:', data);  // 打印日志用于调试
+    // 清空消息框
+    $("#message_box").empty();
+    // 加载历史消息
+    data.messages.forEach(msg => {
+        addFriendMessage(msg.content);
+    });
+});
+function addFriendMessage(message) {
+    let box = $("#message_box");
+    let child = $(`<p></p>`).text(`${message}`);
+    box.append(child);
+}
 
     // function when the user clicks on "Leave Room"
     // emits a "leave" event, telling the server that we want to leave the room
@@ -582,27 +602,22 @@ function createGroup() {
         hideCreateGroupModal(); // Hide the modal after error
     });
 }
-function joinGroup(groupId, username) {
-    fetch('/join_group', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ group_id: groupId, username: username })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message) {
-            console.log(data.message);
-            alert('Joined group successfully.');
-        } else if (data.error) {
-            console.error(data.error);
-            alert('Failed to join group: ' + data.error);
+function join_group_chat(groupId) {
+    console.log("Joining group chat with ID:", groupId); // 添加日志
+    socket.emit("join_group", { group_id: groupId, username: username }, (res) => {
+        if (res.error) {
+            alert(res.error);
+            return;
         }
-    })
-    .catch(error => {
-        console.error('Error joining group:', error);
-        alert('Error joining group.');
+
+        room_id = groupId + 10000;  // 群组ID加上10000
+        Cookies.set("room_id", room_id);
+        $("#chat_box").hide();
+        $("#input_box").show();
+
+        // 清空消息框并获取历史消息
+        $("#message_box").empty();
+        socket.emit("GetGroupHistoryMessages", { group_id: groupId });
     });
 }
 
@@ -614,17 +629,32 @@ function sendGroupMessage(groupId, sender, message) {
     });
 }
 
-// Listen for incoming group messages
+// 监听传入的群组消息
 socket.on('incoming_group_message', function(data) {
-    addGroupMessage(data.sender, data.message);
+    addMessage(data.sender, data.message);
 });
 
-function addGroupMessage(sender, message) {
-    let box = $("#group_message_box");
+// 监听传入的历史群组消息
+socket.on('incoming_group_messages_list', function(data) {
+    data.messages.forEach(msg => {
+        addMessage(msg.sender, msg.content);
+    });
+});
+
+socket.on('clear_messages', function() {
+    $("#message_box").empty();
+});
+
+// 监听错误消息
+socket.on('error', function(data) {
+    alert(data.error);
+});
+
+function addMessage(sender, message) {
+    let box = $("#message_box");
     let child = $(`<p></p>`).text(`${sender}: ${message}`);
     box.append(child);
 }
-
 
 
 
