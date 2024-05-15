@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1715801064.7124 "main.aux" "main.bbl" "main" 1715801066.46557 0
+["bibtex main"] 1715801064.7124 "main.aux" "main.bbl" "main" 1715802639.19772 0
   "./reference.bib" 1715798767.13467 90 86542e1b6ca3a74cd1bcbd8673b90713 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/bibtex/bst/bibtex/unsrt.bst" 1678856792.43594 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "main.aux" 1715801065.87464 2046 d970988a85087c4ac31a2035dc7d512f "pdflatex"
+  "main.aux" 1715802638.59859 2046 d970988a85087c4ac31a2035dc7d512f "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1715801064.93401 "main.tex" "main.pdf" "main" 1715801066.46574 0
+["pdflatex"] 1715802637.60359 "main.tex" "main.pdf" "main" 1715802639.19791 0
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/map/pdftex/pdftex.map" 1715773750.44061 84440 4cb442eb2b994e0c3de64aa9fad60308 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/miktex/data/le/pdftex/pdflatex.fmt" 1710507425.07267 24243819 9873b88c324e7d4c2fb47d8dfa8007a8 ""
   "/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/enc/dvips/base/8r.enc" 1678856792.83247 4993 1194fb36dfcb11d9ae9802f2b00b60a3 ""
@@ -187,10 +187,10 @@
   "graphs/Survey-summary_page-0002.jpg" 1715799137 371066 78d5a54c3b4e64a101cf3198635c1884 ""
   "graphs/Survey-summary_page-0003.jpg" 1715799137 296563 b51c67fba99956a6bb66d457656a0efb ""
   "graphs/cardsorting_overview.jpg" 1715796181.21711 158804 5dfdd663433b5c8eaf9497b55f24679d ""
-  "main.aux" 1715801065.87464 2046 d970988a85087c4ac31a2035dc7d512f "pdflatex"
+  "main.aux" 1715802638.59859 2046 d970988a85087c4ac31a2035dc7d512f "pdflatex"
   "main.bbl" 1715801064.9101 122 fd94f97f9b78d12d27b0455d00fda90f "bibtex main"
-  "main.out" 1715801065.8755 1286 7a3c243cb364be5ff5b2ad3a999e44c3 "pdflatex"
-  "main.tex" 1715801062.31114 8185 f4a098d99b9f5c2b68849c9bd8a1e2b5 ""
+  "main.out" 1715802638.59936 1286 7a3c243cb364be5ff5b2ad3a999e44c3 "pdflatex"
+  "main.tex" 1715802635.45681 8160 2e6c3e27f816a2f48dcafbe41f4bdaac ""
   (generated)
   "main.aux"
   "main.log"
