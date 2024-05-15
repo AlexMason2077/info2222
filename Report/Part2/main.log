@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  15 MAY 2024 14:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  15 MAY 2024 23:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -962,6 +962,27 @@ Package caption Info: New subtype `subtable' on input line 238.
 \c@subtable=\count340
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
+booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen299
+\lightrulewidth=\dimen300
+\cmidrulewidth=\dimen301
+\belowrulesep=\dimen302
+\belowbottomsep=\dimen303
+\aboverulesep=\dimen304
+\abovetopsep=\dimen305
+\cmidrulesep=\dimen306
+\cmidrulekern=\dimen307
+\defaultaddspace=\dimen308
+\@cmidla=\count341
+\@cmidlb=\count342
+\@aboverulesep=\dimen309
+\@belowrulesep=\dimen310
+\@thisruleclass=\count343
+\@lastruleclass=\count344
+\@thisrulewidth=\dimen311
+)
+(/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 fourier/fourier-orns.sty
 Package: fourier-orns 2022/02/05 2.3 fourier-ornaments package
 )
@@ -996,38 +1017,38 @@ Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
 ) (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/contex
 t/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count341
-\scratchdimen=\dimen299
+\scratchcounter=\count345
+\scratchdimen=\dimen312
 \scratchbox=\box77
-\nofMPsegments=\count342
-\nofMParguments=\count343
+\nofMPsegments=\count346
+\nofMParguments=\count347
 \everyMPshowfont=\toks44
-\MPscratchCnt=\count344
-\MPscratchDim=\dimen300
-\MPnumerator=\count345
-\makeMPintoPDFobject=\count346
+\MPscratchCnt=\count348
+\MPscratchDim=\dimen313
+\MPnumerator=\count349
+\makeMPintoPDFobject=\count350
 \everyMPtoPDFconversion=\toks45
 )
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
@@ -1040,7 +1061,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 00miktex/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 47.
+Package hyperref Info: Link coloring OFF on input line 46.
  (main.out) (main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
@@ -1054,15 +1075,15 @@ Package hyperref Info: Link coloring OFF on input line 47.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(76.82234pt, 443.86319pt, 76.82234pt)
-* v-part:(T,H,B)=(76.82234pt, 691.40216pt, 76.82234pt)
+* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=443.86319pt
-* \textheight=691.40216pt
-* \oddsidemargin=4.55235pt
-* \evensidemargin=4.55235pt
-* \topmargin=-32.44765pt
+* \textwidth=452.9679pt
+* \textheight=700.50687pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
 * \headheight=14.5pt
 * \headsep=25.0pt
 * \topskip=12.0pt
@@ -1082,36 +1103,43 @@ Package hyperref Info: Link coloring OFF on input line 47.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-No file main.bbl.
 [1{/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/map/p
 dftex/pdftex.map}
 
-] [2] (main.aux)
+]
+LaTeX Font Info:    Trying to load font information for TS1+pplj on input line 
+71.
+
+(/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
+psnfss/ts1pplj.fd
+File: ts1pplj.fd 2004/09/06 font definitions for TS1/pplj.
+)
+No file main.bbl.
+[2] (main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 4EE7ADCC3DDD6A18287F307B89CB83D9;103.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 25255 strings out of 474436
- 482707 string characters out of 5731134
- 1938187 words of memory out of 5000000
- 47146 multiletter control sequences out of 15000+600000
- 577584 words of font info for 57 fonts, out of 8000000 for 9000
+ 25347 strings out of 474436
+ 484460 string characters out of 5731134
+ 1940187 words of memory out of 5000000
+ 47231 multiletter control sequences out of 15000+600000
+ 577897 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 126i,11n,135p,976b,482s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 126i,11n,135p,998b,482s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/en
 c/dvips/base/8r.enc}</Users/bamingyuan/Library/Application Support/MiKTeX/texmf
-s/install/fonts/type1/public/fpl/fplbj8a.pfb></Users/bamingyuan/Library/Applica
-tion Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb></Users/b
-amingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/pal
-atino/uplb8a.pfb></Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/i
-nstall/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on main.pdf (2 pages, 62813 bytes).
+s/install/fonts/type1/public/fpl/fplrc8a.pfb></Users/bamingyuan/Library/Applica
+tion Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb></Users/
+bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/pa
+latino/uplr8a.pfb>
+Output written on main.pdf (2 pages, 64512 bytes).
 PDF statistics:
- 52 PDF objects out of 1000 (max. 8388607)
- 10 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 42 PDF objects out of 1000 (max. 8388607)
+ 9 named destinations out of 1000 (max. 500000)
+ 13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

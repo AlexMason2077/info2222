@@ -268,6 +268,8 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/la
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/caption/caption.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/caption/caption3.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/caption/caption3.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/booktabs/booktabs.sty
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/booktabs/booktabs.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/fourier/fourier-orns.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/fourier/fourier-orns.sty
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/units/units.sty
@@ -294,10 +296,10 @@ INPUT ./main.out
 INPUT ./main.out
 INPUT main.out
 INPUT main.out
-OUTPUT main.pdf
 INPUT ./main.out
 INPUT ./main.out
 OUTPUT main.out
+OUTPUT main.pdf
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr9d.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplb9d.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr9d.tfm
@@ -323,12 +325,15 @@ INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplb8r.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/public/mathpazo/fplmb.tfm
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplbj8r.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/psnfss/ts1pplj.fd
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/psnfss/ts1pplj.fd
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/psnfss/ts1pplj.fd
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/tfm/adobe/palatino/pplr9c.tfm
+INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/vf/adobe/palatino/pplr9c.vf
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/enc/dvips/base/8r.enc
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
-INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplrc8a.pfb
 INPUT /Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb

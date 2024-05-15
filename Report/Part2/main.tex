@@ -1,8 +1,7 @@
 \documentclass[12pt]{article}
 
-
 \newcommand{\GroupId}{CC09-7}
-\newcommand{\assignment}{project-security}
+\newcommand{\assignment}{project-usability}
 
 \NeedsTeXFormat{LaTeX2e}
 \usepackage[osf]{mathpazo}
@@ -18,18 +17,18 @@
 \usepackage{environ}
 \usepackage{subcaption}
 \usepackage{etoolbox}
+\usepackage{booktabs}
 \usepackage{fourier-orns}
 \usepackage{kvoptions}
-\usepackage[]{units}
-\usepackage{url}%
-%\usepackage[normal]{subfigure}
+\usepackage{units}
+\usepackage{url}
+\geometry{a4paper, margin=1in}
 
 % math config
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\set{\{}{\}}
-
 
 % headers
 
@@ -47,27 +46,52 @@
 \begin{document}
 
 \section*{User Investigation}
+
+    \subsection*{Introduction}
+    \hspace{2em}In our project, we chose students as the target user group and conducted a survey through Ed and tutorial classes to gain a deeper understanding of their needs and preferences. The students who participated in the survey were mainly from computer science-related departments.
+
+    Through the survey, we found that students primarily use WeChat (55.1\%) and Instagram (24.5\%) to communicate with friends (61.2\%) and classmates (28.6\%). They like the user-friendly interface of these chat applications (71.4\%) and prefer the option to set multilingual support (54.5\%). Students hope that chat rooms will allow only the group owner to invite friends (63.3\%). Opinions were divided on whether new users should be able to see chat room history (55\% in favor, 45\% against). Based on these findings, we conducted a PACT analysis for this group of computer science students and constructed relevant personas. The statistics for each question and the complete survey data are provided in the appendix.
+
     \subsection*{PACT Analysis}
+    \hspace{2em}\textbf{People:} The vast majority (98\%) of respondents are students at the University of Sydney, with only one staff member participating. Students primarily use the platform for academic-related activities, such as discussions and posting questions or exchanges. They also wish to communicate with friends. Among the respondents, 55.1\% are currently using WeChat, and 24.5\% are using Instagram, indicating that a design similar to these platforms would be more familiar and appealing to them. While most respondents are computer science majors, there are also students from economics and architecture fields, and their diverse needs must be considered in the platform design.
 
-        \subsubsection*{People}
-            The vast majority (98\%) of respondents are students at the University of Sydney, with only one staff member participating. Students primarily use the platform for academic-related activities, such as discussions and posting questions or exchanges. They also wish to communicate with friends. Among the respondents, 55.7\% are currently using WeChat, and 24.5\% are using Instagram, indicating that a design similar to these platforms would be more familiar and appealing to them. While most respondents are computer science majors, there are also students from economics and architecture fields, and their diverse needs must be considered in the platform design.
+    \textbf{Activities:} The platform's primary use cases include participating in discussions, accessing study materials, sharing academic experiences, and asking questions. Additionally, the platform should support students in communicating with friends or alumni. In terms of functionality, 61.2\% of users primarily engage in group chats or private chats with friends, and 28.6\% chat with schoolmates. Users prefer that only group owners can invite friends to join group chats (63.3\%) and wish to retain chat history. Both staff and students can post articles and comment on them, with staff having the authority to manage posts and comments. Compared to other features, users highly prefer a friendly interface (71.4\%). Regarding additional features, 54.5\% of users want support for multiple languages (English, Spanish, Chinese). Given the real-time nature of chatting and commenting, the platform needs to handle high usage frequency efficiently.
 
-        \subsubsection*{Activities}
-            The platform's primary use cases include participating in discussions, accessing study materials, sharing academic experiences, and asking questions. Additionally, the platform should support students in communicating with friends or alumni. In terms of functionality, 61.2\% of users primarily engage in group chats or private chats with friends, and 28.6\% chat with schoolmates. Users prefer that only group owners can invite friends to join group chats (63.3\%) and wish to retain chat history. Both staff and students can post articles and comment on them, with staff having the authority to manage posts and comments. Compared to other features, users highly prefer a friendly interface (71.4\%). Regarding additional features, 54.5\% of users want support for multiple languages (English, Spanish, Chinese). Given the real-time nature of chatting and commenting, the platform needs to handle high usage frequency efficiently.
+    \textbf{Contexts:} Students might use the platform both on and off-campus, including at home or during commutes. They can access the site anytime, with peak usage times during the day and evening. Teachers and staff need to be able to access the site at any time to manage student posts, requiring the platform to function reliably across different times and locations, providing a consistent user experience.
 
+    \textbf{Technologies:} Considering the usage patterns of university students, the platform must operate seamlessly on various devices, including laptops, tablets, and smartphones. Given the diverse usage environments, the platform needs strong responsiveness and adaptive design to ensure a consistent and smooth user experience across all devices.
 
-        \subsubsection*{Contexts}
-            Students might use the platform both on and off-campus, including at home or during commutes. They can access the site anytime, with peak usage times during the day and evening. Teachers and staff need to be able to access the site at any time to manage student posts, requiring the platform to function reliably across different times and locations, providing a consistent user experience.
+\subsection*{Persona}
+    \textbf{Name:} Emma Liu \\
+    \textbf{Age:} 21 \\
+    \textbf{Major:} Computer Science \\
+    \textbf{Background:} Emma is a third-year computer science student at the University of Sydney. She is proficient in using various technologies and spends a significant amount of time on her laptop and smartphone. She uses chat applications like WeChat and Instagram daily to keep in touch with her friends and classmates. \\
+    \textbf{Goals:} 
+    \begin{itemize}
+        \item Participate in academic discussions and access study materials.
+        \item Share experiences and ask questions related to her studies.
+        \item Communicate with friends and alumni for both academic and personal purposes.
+        \item Use a platform with a user-friendly interface and multilingual support.
+    \end{itemize}
+    \textbf{Frustrations:} 
+    \begin{itemize}
+        \item Difficulty in finding a platform that combines academic and personal communication.
+        \item Lack of multilingual support in many existing chat applications.
+        \item Confusion caused by complicated interfaces in some chat platforms.
+    \end{itemize}
+    \textbf{Preferred Features:} 
+    \begin{itemize}
+        \item User-friendly interface similar to WeChat and Instagram.
+        \item Multilingual support, especially in English, Spanish, and Chinese.
+        \item Ability for group owners to invite friends to join group chats.
+        \item Retaining chat history for reference and context.
+    \end{itemize}
+    
+\section*{Appendix}
 
+\section*{Contribution}
 
-        \subsubsection*{Technologies}
-            Considering the usage patterns of university students, the platform must operate seamlessly on various devices, including laptops, tablets, and smartphones. Given the diverse usage environments, the platform needs strong responsiveness and adaptive design to ensure a consistent and smooth user experience across all devices.
-
-\section{Contribution}
-
-
-
-       
 \bibliographystyle{unsrt}
 \bibliography{reference} 
 \end{document}
+
