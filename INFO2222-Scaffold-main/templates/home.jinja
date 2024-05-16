@@ -152,10 +152,12 @@
 
     .arrow {
         transition: transform 0.3s ease;
+        user-select: none;
     }
 
     .arrow.down {
         transform: rotate(90deg);
+        user-select: none;
     }
 
     .section-header {
@@ -289,22 +291,33 @@
 <nav>
     <!-- Left-aligned items -->
     <div class="nav-links">
-        <a href="/home?username={{ username }}" class="nav-link">Home</a>
-        <a href="/knowledge" class="nav-link">Knowledge</a>
-        <a href="/settings" class="nav-link">Settings</a>
+        <a href="/home?username={{ username }}" class="nav-link" data-i18n="home">Home</a>
+            <a href="/knowledge" class="nav-link" data-i18n="knowledge">Knowledge</a>
+            <a href="/settings" class="nav-link" data-i18n="settings">Settings</a>
     </div>
 
     <!-- Right-aligned items -->
+    <!-- Language selector -->
+    <div class="language-selector">
+        <div class="tab" onclick="toggleLanguageSelector()">Language <span class="arrow">›</span></div>
+        <div id="language_selector" class="tab-content">
+            <button onclick="setLanguage('en')">English</button>
+            <button onclick="setLanguage('zh')">中文</button>
+            <button onclick="setLanguage('es')">Español</button>
+        </div>
+    </div>
     <div class="user-info">
         <ol style="list-style: none; padding: 0;">
             <li>
-                Username: {{ username }}
+                <li data-i18n="username">Username: {{ username }}</li>
             </li>
             <li>
                 <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn">Logout</a>
             </li>
         </ol>
     </div>
+
+
 </nav>
 
 <main>
@@ -316,19 +329,20 @@
             <!-- The (message) input box is set to display: none initially, 
             this means the input box is "invisible" initially-->
             <section id="input_box" style="display: none;">
-                <p class="text">Message: </p>
+                <p class="text" data-i18n="message">Message: </p>
                 <input id="message" placeholder="message">
-                <button onclick="send()">Send</button>
-                <button onclick="leave()">Leave Room</button>
+                <button onclick="send()" data-i18n="send">Send</button>
+                <button onclick="leave()" data-i18n="leave_room">Leave Room</button>
             </section>
         </div>
 
         <div class="sidebar">
-            <div class="tab active" onclick="toggleCard('friend_list_card')">Friend List <span class="arrow">›</span>
+            <div class="tab active" onclick="toggleCard('friend_list_card')">
+                <span data-i18n="friend_list">Friend List</span> <span class="arrow">›</span>
             </div>
             <div id="friend_list_card" class="tab-content active">
                 <div class="section-header">
-                    <h2>Friend List</h2>
+                    <h2 data-i18n="friend_list">Friend List</h2>
                     <button onclick="showCreateGroupModal()">Create Group</button>
                 </div>
                 <ul id="friend_list">
@@ -336,51 +350,55 @@
                 </ul>
             </div>
 
-            <div class="tab" onclick="toggleCard('group_list_card')">Group List <span class="arrow">›</span></div>
+            <div class="tab active" onclick="toggleCard('group_list_card')">
+                <span data-i18n="group_list">Group List</span> <span class="arrow">›</span>
+            </div>
             <div id="group_list_card" class="tab-content">
-                <h2>Group List</h2>
+                <h2 data-i18n="group_list">Group List</h2>
                 <ul id="group_list">
                     <!-- Groups will be added here dynamically -->
                 </ul>
                 <div id="add_member_form" style="display: none;">
                     <h3>Add New Member</h3>
                     <input id="new_member_username" placeholder="Enter username">
-                    <button onclick="addNewMember()">Add Member</button>
+                    <button onclick="addNewMember()" data-i18n="add_new_member">Add Member</button>
                 </div>
                 <div id="remove_member_form" style="display: none;">
-                    <h3>Remove Member</h3>
+                    <h3 data-i18n="remove_member">Remove Member</h3>
                     <input id="remove_member_username" placeholder="Enter username">
-                    <button onclick="removeMember()">Remove Member</button>
+                    <button onclick="removeMember()" data-i18n="remove_member">Remove Member</button>
                 </div>
             </div>
 
-            <div class="tab" onclick="toggleCard('add_friend_card')">Add Friend <span class="arrow">›</span></div>
+            <div class="tab active" onclick="toggleCard('add_friend_card')">
+                <span data-i18n="add_friend">Friend List</span> <span class="arrow">›</span>
+            </div>
             <div id="add_friend_card" class="tab-content">
-                <h2>Add Friend</h2>
+                <h2 data-i18n="add_friend">Add Friend</h2>
                 <input id="friend_username" placeholder="Enter username">
-                <button onclick="sendFriendRequest()">Add Friend</button>
+                <button onclick="sendFriendRequest()" data-i18n="add_friend">Add Friend</button>
             </div>
-
-            <div class="tab" onclick="toggleCard('friend_requests_card')">Friend Requests <span class="arrow">›</span>
+            <div class="tab active" onclick="toggleCard('friend_requests_card')">
+                <span data-i18n="friend_requests">Friend List</span> <span class="arrow">›</span>
             </div>
-            <div id="friend_requests_card" class="tab-content">
-                <h2>Friend Requests</h2>
-                <ul id="friend_requests">
-                    <!-- Dynamically list friend requests here -->
-                </ul>
+                <div id="friend_requests_card" class="tab-content">
+                    <h2 data-i18n="friend_requests">Friend Requests</h2>
+                    <ul id="friend_requests">
+                        <!-- Dynamically list friend requests here -->
+                    </ul>
             </div>
         </div>
     </div>
 
     <!-- Create Group Modal -->
     <div id="createGroupModal">
-        <h2>Create Group</h2>
-        <label for="groupName">Group Name:</label>
-        <input type="text" id="groupName">
-        <label for="groupMembers">Add Members (comma separated usernames):</label>
-        <input type="text" id="groupMembers">
-        <button onclick="createGroup()">Create</button>
-        <button onclick="hideCreateGroupModal()">Cancel</button>
+            <h2 data-i18n="create_group">Create Group</h2>
+            <label for="groupName" data-i18n="group_name">Group Name:</label>
+            <input type="text" id="groupName">
+            <label for="groupMembers" data-i18n="add_members">Add Members (comma separated usernames):</label>
+            <input type="text" id="groupMembers">
+            <button onclick="createGroup()" data-i18n="create_group">Create</button>
+            <button onclick="hideCreateGroupModal()" data-i18n="cancel">Cancel</button>
     </div>
     <div id="overlay"></div>
 </main>
@@ -776,6 +794,7 @@
                     if (group.is_owner) {
                         const addButton = document.createElement('button');
                         addButton.textContent = 'Add';
+                        addButton.setAttribute('data-i18n', 'add');
                         addButton.onclick = function () {
                             toggleAddMemberForm();
                         };
@@ -783,6 +802,7 @@
 
                         const removeButton = document.createElement('button');
                         removeButton.textContent = 'Remove';
+                        removeButton.setAttribute('data-i18n', 'remove');
                         removeButton.onclick = function () {
                             toggleRemoveMemberForm();
                         };
@@ -791,6 +811,7 @@
 
                     groupList.appendChild(li);
                 });
+                updateTranslations();
             })
             .catch(error => console.error('Error fetching groups:', error));
     }
@@ -973,6 +994,103 @@
         box.append(child);
     }
     }
+    ///////////////////////////
+    // change language
+    /////////////////////////
+    const translations = {
+    en: {
+        "home": "Home",
+        "knowledge": "Knowledge",
+        "settings": "Settings",
+        "username": "Username",
+        "logout": "Logout",
+        "message": "Message",
+        "send": "Send",
+        "leave_room": "Leave Room",
+        "friend_list": "Friend List",
+        "group_list": "Group List",
+        "create_group": "Create Group",
+        "add_friend": "Add Friend",
+        "friend_requests": "Friend Requests",
+        "add_new_member": "Add New Member",
+        "remove_member": "Remove Member",
+        "cancel": "Cancel"
+    },
+    zh: {
+        "home": "主页",
+        "knowledge": "知识",
+        "settings": "设置",
+        "username": "用户名",
+        "logout": "登出",
+        "message": "消息",
+        "send": "发送",
+        "leave_room": "离开房间",
+        "friend_list": "好友列表",
+        "group_list": "群组列表",
+        "create_group": "创建群组",
+        "add_friend": "添加好友",
+        "friend_requests": "好友请求",
+        "add_new_member": "添加新成员",
+        "remove_member": "移除成员",
+        "cancel": "Cancel"
+    },
+    es: {
+        "home": "Inicio",
+        "knowledge": "Conocimiento",
+        "settings": "Configuraciones",
+        "username": "Nombre de usuario",
+        "logout": "Cerrar sesión",
+        "message": "Mensaje",
+        "send": "Enviar",
+        "leave_room": "Salir de la sala",
+        "friend_list": "Lista de amigos",
+        "group_list": "Lista de grupos",
+        "create_group": "Crear grupo",
+        "add_friend": "Agregar amigo",
+        "friend_requests": "Solicitudes de amistad",
+        "add_new_member": "Agregar nuevo miembro",
+        "remove_member": "Eliminar miembro",
+        "cancel": "Cancelar"
+    }
+};
+  function setLanguage(language) {
+    if (!translations[language]) return;
+
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[language][key]) {
+            element.innerText = translations[language][key];
+        }
+    });
+}
+ function toggleLanguageSelector() {
+            const languageSelector = document.getElementById('language_selector');
+            const arrow = document.querySelector('.language-selector .arrow');
+            if (languageSelector.style.display === 'none' || languageSelector.style.display === '') {
+                languageSelector.style.display = 'block';
+                arrow.classList.add('down');
+            } else {
+                languageSelector.style.display = 'none';
+                arrow.classList.remove('down');
+            }
+        }
+function updateTranslations() {
+    const language = currentLanguage; // Store the current language
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[language][key]) {
+            element.innerText = translations[language][key];
+        }
+    });
+}
+
+// Call updateTranslations whenever necessary, e.g., after dynamically adding content
+
+
+
+// Set default language to English
+setLanguage('en');
+
 
 
 
