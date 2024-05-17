@@ -47,11 +47,6 @@
         align-items: center;
     }
 
-    .user-info li {
-        list-style: none;
-        margin-right: 10px;
-    }
-
     .btn {
         color: #333;
         font-weight: bold;
@@ -71,7 +66,6 @@
         top: 0;
         bottom: 0;
     }
-
 
     .side-nav ul {
         padding: 0;
@@ -115,6 +109,7 @@
         margin-top: 80px; /* 与导航栏保持一致 */
         height: calc(100vh - 80px);
     }
+
     .btn-new-article {
         background-color: #007bff;
         color: #fff;
@@ -207,7 +202,8 @@
         background-color: #0056b3;
     }
 
-    .edit-button, .delete-button {
+    .edit-button,
+    .delete-button {
         padding: 8px 12px;
         border: none;
         border-radius: 5px;
@@ -236,6 +232,38 @@
         transform: scale(1.05);
     }
 
+    .edit-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-form input[type="text"],
+    .edit-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .edit-form button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .edit-form button:hover {
+        background-color: #0056b3;
+    }
 </style>
 
 <nav>
@@ -248,18 +276,12 @@
 
     <!-- Right-aligned items -->
     <div class="user-info">
-        <ol style="list-style: none; padding: 0;">
-            <li data-i18n="username">Username: {{ username }}</li>
-            <li>
-                <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn">Logout</a>
-            </li>
-        </ol>
+        <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn">Logout</a>
     </div>
 </nav>
 
 <div class="side-nav">
     <div class="user-avatar">🤓</div>
-    <p><strong>Username:</strong> {{ username }}</p>
     <hr>
     <a href="{{ url_for('new_article_form') }}" class="btn-new-article">New Article</a>
 
@@ -385,11 +407,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const commentList = document.getElementById('comment-list');
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `<strong>${commenter}:</strong> ${commentText} <br><small>Now</small> ${(canDeleteComments || commenter === currentUser) ? `<button onclick="deleteComment(${data.comment_id})" class="delete-button">Delete</button>` : ''}`;
-                    commentList.appendChild(listItem);
                     document.getElementById('comment-text').value = '';
+                    loadComments(articleId); // 提交评论后刷新评论列表
                 } else {
                     alert('Failed to post comment');
                 }
@@ -445,12 +464,14 @@
     function editArticle(articleId, title, content) {
         const contentArea = document.querySelector('.content-area');
         contentArea.innerHTML = `
-            <h1>Editing: ${title}</h1>
-            <form onsubmit="submitEdit(${articleId}); return false;">
-                <input type="text" id="edit-title" value="${title}" />
-                <textarea id="edit-content">${content}</textarea>
-                <button type="submit">Submit Changes</button>
-            </form>
+            <div class="edit-form">
+                <h1>Editing: ${title}</h1>
+                <form onsubmit="submitEdit(${articleId}); return false;">
+                    <input type="text" id="edit-title" value="${title}" />
+                    <textarea id="edit-content">${content}</textarea>
+                    <button type="submit">Submit Changes</button>
+                </form>
+            </div>
         `;
     }
 
@@ -486,6 +507,20 @@
             });
         })
         .catch(error => console.error('Error loading articles:', error));
+    }
+
+    function logoutAndClearStorage() {
+        fetch('/logout')
+            .then(response => {
+                if (response.ok) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    window.location.href = '/';
+                } else {
+                    alert('Logout failed.');
+                }
+            })
+            .catch(error => console.error('Error during logout:', error));
     }
 </script>
 {% endblock %}

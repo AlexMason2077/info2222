@@ -207,7 +207,6 @@ def api_articles_list():
     } for article in articles]
     return jsonify(articles_data)
 
-# 删除文章的 API 路由
 @app.route("/api/delete_article/<article_id>", methods=["POST"])
 def delete_article(article_id):
     if 'username' not in session:
@@ -219,6 +218,7 @@ def delete_article(article_id):
 
     db.delete_article(article_id)
     return jsonify({"success": True})
+
 
 @app.route("/api/edit_article/<int:article_id>", methods=["POST"])
 def edit_article(article_id):

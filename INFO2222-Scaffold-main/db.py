@@ -455,14 +455,21 @@ def delete_article(article_id: int):
         try:
             # 查找并删除指定 ID 的文章
             article = session.query(Article).filter_by(id=article_id).one()
+
+            # 查找并删除与该文章相关的所有评论
+            comments = session.query(Comment).filter_by(article_id=article_id).all()
+            for comment in comments:
+                session.delete(comment)
+
             session.delete(article)
             session.commit()
-            print(f"Article ID {article_id} deleted successfully.")
+            print(f"Article ID {article_id} and its comments deleted successfully.")
         except SQLAlchemyError as e:
             session.rollback()  # 回滚事务
-            print(f"Failed to delete article: {e}")
+            print(f"Failed to delete article and its comments: {e}")
         finally:
             session.close()  # 确保会话正确关闭
+
 
 # 修改数据库操作函数
 def edit_article(article_id: int, title: str, content: str):
