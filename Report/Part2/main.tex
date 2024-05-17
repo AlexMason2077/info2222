@@ -24,6 +24,7 @@
 \usepackage{hyperref}
 \usepackage{url}
 \geometry{a4paper, margin=1in}
+\setlength{\parindent}{2em}
 \usepackage{graphicx}
 \usepackage{subcaption}
 
@@ -51,12 +52,13 @@
 \section{User Investigation}
 
 \subsection{Introduction}
-In our project, we chose students as the target user group and conducted a survey through Ed and tutorial classes to gain a deeper understanding of their needs and preferences. The students who participated in the survey were mainly from computer science-related departments.
+
+\hspace{2em}In our project, we chose students as the target user group and conducted a survey through Ed and tutorial classes to gain a deeper understanding of their needs and preferences. The students who participated in the survey were mainly from computer science-related departments.
 
 Through the survey, we found that students primarily use WeChat (55.1\%) and Instagram (24.5\%) to communicate with friends (61.2\%) and classmates (28.6\%). They like the user-friendly interface of these chat applications (71.4\%) and prefer the option to set multilingual support (54.5\%). Students hope that chat rooms will allow only the group owner to invite friends (63.3\%). Opinions were divided on whether new users should be able to see chat room history (55\% in favor, 45\% against). Based on these findings and lecture slides \cite{7.users-designs.pptx}, we conducted a PACT analysis for this group of computer science students and constructed relevant personas. The statistics for each question and the complete survey data are provided in the appendix (\ref{survey}).
 
 \subsection{PACT Analysis}
-\textbf{People:} (98\%) of respondents are students at the University of Sydney, with only one staff member participating. Students primarily use the platform for academic-related activities, such as discussions and posting questions. They also want to communicate with friends. Among the respondents, 55.1\% are currently using WeChat, and 24.5\% are using Instagram, indicating that a design similar to these apps would be more familiar to them. Most respondents are computer science majors, with a few students from other majors.
+\hspace{2em}\textbf{People:} (98\%) of respondents are students at the University of Sydney, with only one staff member participating. Students primarily use the platform for academic-related activities, such as discussions and posting questions. They also want to communicate with friends. Among the respondents, 55.1\% are currently using WeChat, and 24.5\% are using Instagram, indicating that a design similar to these apps would be more familiar to them. Most respondents are computer science majors, with a few students from other majors.
 
 \textbf{Activities:} The platform's primary use cases include participating in discussions, sharing academic experiences, and asking questions. Additionally, the platform should support students in communicating with friends. In terms of functionality, 61.2\% of users primarily engage in group chats or private chats with friends, and 28.6\% chat with schoolmates. Users prefer that only group owners can invite friends to join group chats (63.3\%) and wish to retain chat history. Both staff and students can post articles and comment on them, with staff having the authority to manage posts and comments. Compared to other features, users highly prefer a friendly interface (71.4\%). Regarding additional features, 54.5\% of users want support for multiple languages.
 
@@ -94,7 +96,8 @@ Through the survey, we found that students primarily use WeChat (55.1\%) and Ins
 \newpage
 
 \section{Navigation design}
-We used Optimal Workshop for card sorting. A total of 11 participants completed the card sorting. The image is shown as figure \ref{cardsorting_overview}. We categorized the multilingual functionality, which we learned about from the previous survey, under the "User settings/profile" card, as this special feature pertains to the entire user interface settings. The similarity matrix of the results is shown in the figure \ref{similarity_matrix}.
+
+\hspace{2em}We used Optimal Workshop \cite{optimalwork} for card sorting. A total of 11 participants completed the card sorting. The image is shown as figure \ref{cardsorting_overview}. We categorized the multilingual functionality, which we learned about from the previous survey, under the "User settings/profile" card, as this special feature pertains to the entire user interface settings. The similarity matrix of the results is shown in the figure \ref{similarity_matrix}.
 
 \begin{figure}[H]
     \centering
@@ -151,7 +154,8 @@ Based on the similarity matrix, we have categorized as follows:
 \section{Design-Evaluate 1}
 
 \subsection{Priority List}
-    Based on user personas, PACT analysis, and the results of card sorting, we have summarized the following prioritized list of features. Based on the specifications and user needs, we have identified Multi-Person Chat Rooms, Post Publishing, Multi-Language Support, and Enhanced User Interface as primary objectives. These form the core functionalities of the website, with the rest being enhancements built upon these foundational features. The second tier of importance includes supplementary enhancements to the previous functionalities, such as comments under posts and account management capabilities, where staff can manage posts and have the ability to mute and unmute users. Consideration is given to less critical search/filtering functionalities.
+
+    \hspace{2em}Based on user personas, PACT analysis, and the results of card sorting, we have summarized the following prioritized list of features. Based on the specifications and user needs, we have identified Multi-Person Chat Rooms, Post Publishing, Multi-Language Support, and Enhanced User Interface as primary objectives. These form the core functionalities of the website, with the rest being enhancements built upon these foundational features. The second tier of importance includes supplementary enhancements to the previous functionalities, such as comments under posts and account management capabilities, where staff can manage posts and have the ability to mute and unmute users. Consideration is given to less critical search/filtering functionalities.
     \begin{enumerate}
     \item \textbf{High Priority: Core Features}
         \begin{itemize}
@@ -184,7 +188,7 @@ Based on the similarity matrix, we have categorized as follows:
     \end{enumerate}
 
 \subsection{Low-fidelity Prototype}
-    Based on the prioritization of features from the previous steps, including card sorting and the website's information architecture, we have designed a low-fidelity prototype consisting of three pages, prioritizing the implementation of core functionalities and medium-priority features, as shown in the figures \ref{Message Page}, \ref{Knowledge Page}, \ref{Setting Page}.
+    \hspace{2em}Based on the prioritization of features from the previous steps, including card sorting and the website's information architecture, we have designed a low-fidelity prototype consisting of three pages, prioritizing the implementation of core functionalities and medium-priority features, as shown in the figures \ref{Message Page}, \ref{Knowledge Page}, \ref{Setting Page}.
             
     \begin{figure}[H]
         \centering
@@ -212,7 +216,7 @@ Based on the similarity matrix, we have categorized as follows:
 \subsection{Guerrilla Testing Report}
 
     \subsubsection*{Purpose} 
-    The purpose of this testing is to evaluate the usability and user experience of the low-fidelity prototype, collect user feedback to improve the design, and identify necessary improvements in functionality and interface elements.
+    \hspace{2em}The purpose of this testing is to evaluate the usability and user experience of the low-fidelity prototype, collect user feedback to improve the design, and identify necessary improvements in functionality and interface elements.
 
     \subsubsection*{Method}
         \begin{itemize}

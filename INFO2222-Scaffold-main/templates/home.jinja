@@ -17,6 +17,7 @@
     }
 
     nav {
+        width: 100%;
         border-bottom: 1px solid #ddd;
         padding: 10px 0;
         background-color: #fff;
@@ -24,6 +25,11 @@
         justify-content: space-between;
         align-items: center;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        height: 60px;
     }
 
     .nav-link {
@@ -33,6 +39,7 @@
         font-weight: bold;
         transition: background-color 0.3s ease;
     }
+    
 
     .nav-link:hover {
         background-color: #e0e0e0;
@@ -292,8 +299,8 @@
     <!-- Left-aligned items -->
     <div class="nav-links">
         <a href="/home?username={{ username }}" class="nav-link" data-i18n="home">Home</a>
-            <a href="/knowledge" class="nav-link" data-i18n="knowledge">Knowledge</a>
-            <a href="/settings" class="nav-link" data-i18n="settings">Settings</a>
+        <a href="/knowledge" class="nav-link" data-i18n="knowledge">Knowledge</a>
+        <a href="/settings" class="nav-link" data-i18n="settings">Settings</a>
     </div>
 
     <!-- Right-aligned items -->
@@ -306,19 +313,17 @@
             <button onclick="setLanguage('es')">Español</button>
         </div>
     </div>
+
     <div class="user-info">
         <ol style="list-style: none; padding: 0;">
+            <li data-i18n="username">Username: {{ username }}</li>
             <li>
-                <li data-i18n="username">Username: {{ username }}</li>
-            </li>
-            <li>
-                <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn">Logout</a>
+                <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn" data-i18n="logout">Logout</a>
             </li>
         </ol>
     </div>
-
-
 </nav>
+
 
 <main>
     <div class="container">

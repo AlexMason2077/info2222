@@ -4,253 +4,147 @@
 <style>
     body {
         font-family: 'Arial', sans-serif;
-        background: linear-gradient(to right, #6e6e6e, #5036a4);
-        display: flex;
-        flex-direction: row; /* 主轴为水平方向 */
-        height: 100vh;
+        background: #f0f0f0;
         margin: 0;
-    }
-    
-    .author {
-        font-style: italic;
-        color: #6e6e6e;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        height: 100vh;
     }
 
-    .top-nav {
+    nav {
         width: 100%;
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 5px 10px;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+        background-color: #fff;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         position: fixed;
         top: 0;
         left: 0;
         z-index: 1000;
-        font-size: 14px; 
+        height: 60px; /* 确保导航栏有足够的高度 */
+    }
+
+    .nav-link {
+        padding: 10px 15px;
+        color: #333;
+        text-decoration: none;
         font-weight: bold;
+        transition: background-color 0.3s ease;
     }
 
-    .nav-group {
+    .nav-link:hover {
+        background-color: #e0e0e0;
+        border-radius: 5px;
+    }
+
+    .nav-links,
+    .user-info {
         display: flex;
+        align-items: center;
     }
 
-    .search-container {
-        flex-grow: 1;
-        display: flex;
-        justify-content: center;
-        padding: 0 10px; /* 根据需要调整间距 */
+    .user-info li {
+        list-style: none;
+        margin-right: 10px;
     }
 
-    .search-bar {
-        width: 100%; /* 调整搜索栏的宽度以适应容器 */
-        max-width: 500px; /* 最大宽度，防止过长 */
-        /* 其他样式保持不变 */
+    .btn {
+        color: #333;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .side-nav {
+        width: 250px;
+        background-color: #fff;
+        padding: 20px;
+        padding-top: 80px; /* 留出足够的空间给导航栏 */
+        border-right: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+    }
+
+
+    .side-nav ul {
+        padding: 0;
+        list-style: none;
+    }
+
+    .side-nav li {
+        margin-bottom: 10px;
+    }
+
+    .side-nav a {
+        display: block;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .side-nav a:hover {
+        background-color: #e0e0e0;
     }
 
     .user-avatar {
-        width: 100px;
-        height: 30px;
+        width: 60px; /* 增加头像的宽度 */
+        height: 60px; /* 增加头像的高度 */
         border-radius: 50%;
         background-color: #f2f2f2;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 50px;
-        margin-right: 0px;
-    }
-
-    .side-nav {
-        width: 120px;
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 8px;  /* 增加内边距，改善点击体验 */
-        border-radius: 5px;  /* 圆角边框 */
-        height: 100%;
-        overflow-y: auto;  /* 允许垂直滚动 */
-        position: fixed;
-        top: 54px;
-        bottom: 0;
-        left: 0;
-        z-index: 1000;
-    }
-
-    .side-nav ul {
-        padding: 0;  /* 移除默认的内边距 */
-        list-style: none;  /* 去掉列表项前的圆点 */
-        margin: 0;  /* 移除默认的外边距 */
-    }
-
-    .side-nav li {
-        white-space: nowrap;  /* 防止文本换行 */
-        overflow: hidden;  /* 隐藏超出部分的文本 */
-        text-overflow: ellipsis;  /* 超出部分显示省略号 */
-        padding: 5px 0;  /* 增加垂直内边距 */
-        margin-bottom: 10px;  /* 增加列表项之间的垂直间隙 */
-    }
-
-    .side-nav a {
-        display: block;  /* 使链接填满整个列表项 */
-        text-decoration: none;  /* 去除下划线 */
-        color: #4029a0;  /* 设置链接颜色 */
+        font-size: 50px; /* 增加字体大小 */
+        margin-bottom: 20px; /* 增加头像下方的间距 */
     }
 
     .content-area {
-        margin-left: 200px; /* 与左侧导航的距离 */
-        margin-top: 40px; /* 与顶部导航的距离 */
-        margin-right: 320px; /* 留出足够空间给评论区，稍大于评论区宽度以留出间隙 */
-        flex-grow: 1;
+        flex: 1;
         padding: 20px;
         overflow-y: auto;
+        margin-left: 280px; /* 确保内容区域不被侧边栏遮挡，并添加一些间距 */
+        margin-top: 80px; /* 与导航栏保持一致 */
+        height: calc(100vh - 80px);
     }
-
-    .comment-section {
-        width: 300px; /* 设置评论区域的宽度 */
-        padding: 20px;
-        background-color: #f9f9f9; /* 轻微区分背景色 */
-        border-left: 1px solid #ccc; /* 左侧边界线 */
-        position: fixed; /* 固定位置 */
-        right: 0; /* 右侧对齐 */
-        top: 54px; /* 顶部位置 */
-        bottom: 0; /* 延伸到底部 */
-        overflow-y: auto; /* 超出内容可滚动 */
-        display: none; /* 默认隐藏 */
-    }
-
-    /* 可能需要为响应式设计调整 */
-    @media (max-width: 800px) {
-        .content-area {
-            margin-right: 20px; /* 在窄屏幕上减少右侧边距 */
-        }
-
-        .comment-section {
-            width: 240px; /* 在窄屏幕上减少评论区宽度 */
-        }
-    }
-
-    /* 应用于content-area中的所有子元素 */
-    .content-area * {
-        white-space: pre-wrap; /* 保持空格和换行符，并自动换行 */
-    }
-
-    .search-bar {
-        padding: 10px;
-        width: calc(100% - 200px);
-        border: 2px solid #4029a0;
-        border-radius: 5px;
-        color: #4029a0;
-    }
-
-    .nav-link, .btn {
-        padding: 10px;
-        margin-right: 10px;
-        color: #4029a0;
-        text-decoration: none;
-    }
-
-    .nav-link:hover, .btn:hover {
-        background-color: #e0d1f2;
-        border-radius: 5px;
-    }
-
     .btn-new-article {
-        background-color: #4029a0;
+        background-color: #007bff;
         color: #fff;
-        padding: 8px 12px;
-        border-radius: 5px;
-        display: block;
-        margin-bottom: 20px; /* Space before article list */
-        text-align: center;
-    }
-
-    /* Customized styles */
-    .custom-prompt {
-        font-family: 'Arial', sans-serif;
-        background-color: #ffffff;
-        border: 2px solid #4029a0;
-        border-radius: 5px;
         padding: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .custom-prompt input[type="text"] {
-        width: 100%;
-        padding: 8px;
-        margin-top: 8px;
-        box-sizing: border-box;
-    }
-
-    .custom-prompt button {
-        background-color: #4029a0;
-        color: #ffffff;
-        border: none;
         border-radius: 5px;
-        padding: 8px 16px;
-        margin-top: 8px;
-        cursor: pointer;
+        text-align: center;
+        display: block;
+        text-decoration: none;
+        margin-bottom: 20px;
+        transition: background-color 0.3s ease;
     }
 
-    .custom-prompt button:hover {
-        background-color: #6747cc;
-    }
-
-    /* 样式调整以增加编辑表单的输入框尺寸 */
-    #edit-title {
-        width: 100%; /* 使用全部可用宽度 */
-        padding: 10px; /* 更大的内边距以便于输入 */
-        margin-bottom: 10px; /* 在元素之间增加间隔 */
-        box-sizing: border-box; /* 包括内边距和边框在内的总宽度 */
-        border: 2px solid #4029a0; /* 边框颜色与网站主题一致 */
-        border-radius: 5px; /* 圆角边框 */
-    }
-
-    #edit-content {
-        width: 100%; /* 使用全部可用宽度 */
-        height: 300px; /* 设置较大的高度以容纳更多内容 */
-        padding: 10px; /* 更大的内边距以便于输入 */
-        box-sizing: border-box; /* 包括内边距和边框在内的总宽度 */
-        border: 2px solid #4029a0; /* 边框颜色与网站主题一致 */
-        border-radius: 5px; /* 圆角边框 */
-        resize: vertical; /* 允许垂直方向调整大小 */
-    }
-
-    /* 编辑和删除按钮的通用样式 */
-    .edit-button, .delete-button {
-        padding: 8px 12px;  /* 内边距 */
-        border: none;  /* 无边框 */
-        border-radius: 5px;  /* 圆角 */
-        color: white;  /* 文字颜色 */
-        font-size: 16px;  /* 文字大小 */
-        cursor: pointer;  /* 鼠标样式 */
-        transition: background-color 0.3s;  /* 背景色过渡动画 */
-    }
-
-    /* 编辑按钮的特定样式 */
-    .edit-button {
-        background-color: #4CAF50;  /* 背景颜色 */
-    }
-
-    .edit-button:hover {
-        background-color: #45a049;  /* 鼠标悬停时的背景颜色 */
-    }
-
-    /* 删除按钮的特定样式 */
-    .delete-button {
-        background-color: #f44336;  /* 背景颜色 */
-    }
-
-    .delete-button:hover {
-        background-color: #da190b;  /* 鼠标悬停时的背景颜色 */
+    .btn-new-article:hover {
+        background-color: #0056b3;
     }
 
     .comment-section {
         width: 300px;
         padding: 20px;
         background-color: #f9f9f9;
-        border-left: 1px solid #ccc;
+        border-left: 1px solid #ddd;
         position: fixed;
         right: 0;
         top: 54px;
         bottom: 0;
+        overflow-y: auto;
+    }
+
+    #comment-list-container {
+        height: calc(100% - 160px);
         overflow-y: auto;
     }
 
@@ -270,7 +164,7 @@
 
     #comment-list li strong {
         display: block;
-        color: #4029a0;
+        color: #007bff;
         margin-bottom: 5px;
     }
 
@@ -290,14 +184,16 @@
     }
 
     .comment-form {
-        margin-top: 20px;
+        position: absolute;
+        bottom: 20px;
+        width: calc(100% - 40px);
     }
 
     .comment-form button {
         display: block;
         width: 100%;
         padding: 10px;
-        background-color: #4029a0;
+        background-color: #007bff;
         color: #fff;
         border: none;
         border-radius: 5px;
@@ -308,52 +204,64 @@
     }
 
     .comment-form button:hover {
-        background-color: #6747cc;
+        background-color: #0056b3;
     }
+
+    .edit-button, .delete-button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .edit-button {
+        background-color: #4CAF50;
+    }
+
+    .edit-button:hover {
+        background-color: #45a049;
+    }
+
+    .delete-button {
+        background-color: #ff4d4d;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .delete-button:hover {
+        background-color: #e60000;
+        transform: scale(1.05);
+    }
+
 </style>
 
-<nav class="top-nav">
+<nav>
     <!-- Left-aligned items -->
-    <div class="nav-group">
+    <div class="nav-links">
         <a href="/home?username={{ username }}" class="nav-link">Home</a>
         <a href="/knowledge" class="nav-link">Knowledge</a>
-        <a href="/settings" class="nav-link">settings</a>
-    </div>
-
-    <!-- Search Bar -->
-    <div class="search-container">
-        <input type="text" placeholder="Search articles..." class="search-bar">
+        <a href="/settings" class="nav-link">Settings</a>
     </div>
 
     <!-- Right-aligned items -->
-    <div class="nav-group">
+    <div class="user-info">
         <ol style="list-style: none; padding: 0;">
-            <li style="display: inline-block; margin-right: 10px;">
-                Username: {{ username }}
-            </li>
-            <li style="display: inline-block;">
+            <li data-i18n="username">Username: {{ username }}</li>
+            <li>
                 <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn">Logout</a>
             </li>
         </ol>
     </div>
 </nav>
 
-<div class="comment-section" id="comment-section">
-    <h2>Comments</h2>
-    <ul id="comment-list">
-        <!-- 评论列表 -->
-    </ul>
-    <form id="comment-form" class="comment-form">
-        <textarea id="comment-text" placeholder="Add a comment..."></textarea>
-        <button type="button" onclick="submitComment()">Post Comment</button>
-    </form>
-</div>
-
-<nav class="side-nav">
+<div class="side-nav">
     <div class="user-avatar">🤓</div>
     <p><strong>Username:</strong> {{ username }}</p>
     <hr>
-    <button class="btn-new-article" onclick="location.href='{{ url_for('new_article_form') }}'">New Article</button>
+    <a href="{{ url_for('new_article_form') }}" class="btn-new-article">New Article</a>
 
     <p><strong>Articles:</strong></p>
     <ul>
@@ -361,44 +269,54 @@
             <li><a href="javascript:void(0);" onclick="loadArticle({{ article.id }})" class="nav-link">{{ article.title }}</a></li>
         {% endfor %}
     </ul>
-</nav>
-
+</div>
 
 <div class="content-area">
     <h1>Welcome to the Knowledge Base</h1>
     <p>This is the area where you can add more dynamic content, articles, and other information.</p>
 </div>
 
+<div class="comment-section" id="comment-section">
+    <h2>Comments</h2>
+    <div id="comment-list-container">
+        <ul id="comment-list">
+            <!-- 评论列表 -->
+        </ul>
+    </div>
+    <form id="comment-form" class="comment-form">
+        <textarea id="comment-text" placeholder="Add a comment..."></textarea>
+        <button type="button" onclick="submitComment()">Post Comment</button>
+    </form>
+</div>
 
 <script>
-    let currentArticleId = null; // 用于保存当前文章的 ID
+    let currentArticleId = null;
     const currentUser = '{{ username }}';
     const canDeleteComments = {{ can_delete_comments|tojson }};
 
     function loadArticle(articleId) {
-        currentArticleId = articleId; // 保存当前文章的 ID
+        currentArticleId = articleId;
         fetch('/api/article/' + articleId)
             .then(response => response.json())
             .then(data => {
                 const contentArea = document.querySelector('.content-area');
-                contentArea.innerHTML = ''; // 清空之前的内容
+                contentArea.innerHTML = '';
 
                 let titleElem = document.createElement('h1');
-                let authorElem = document.createElement('p'); // 创建作者元素
+                let authorElem = document.createElement('p');
                 let contentElem = document.createElement('p');
 
                 titleElem.textContent = data.title;
 
-                // 设置作者信息和样式
                 authorElem.textContent = 'Author: ' + data.author + ' (' + data.author_role + ')';
                 authorElem.classList.add('author');
-                authorElem.style.fontStyle = 'italic'; // 设置字体样式为斜体
-                authorElem.style.color = '#6e6e6e'; // 设置字体颜色
+                authorElem.style.fontStyle = 'italic';
+                authorElem.style.color = '#6e6e6e';
 
                 contentElem.innerHTML = data.content;
 
                 contentArea.appendChild(titleElem);
-                contentArea.appendChild(authorElem); // 将作者信息添加到标题下方
+                contentArea.appendChild(authorElem);
                 contentArea.appendChild(contentElem);
 
                 let buttonContainer = contentArea.querySelector('.button-container');
@@ -407,7 +325,7 @@
                     buttonContainer.classList.add('button-container');
                     contentArea.appendChild(buttonContainer);
                 } else {
-                    buttonContainer.innerHTML = ''; // 清空按钮容器
+                    buttonContainer.innerHTML = '';
                 }
 
                 const canEdit = data.author === currentUser || canDeleteComments;
@@ -426,14 +344,11 @@
                     buttonContainer.appendChild(deleteButton);
                 }
 
-                // 显示评论区域
                 document.getElementById('comment-section').style.display = 'block';
-                // 加载评论
                 loadComments(articleId);
             })
             .catch(error => console.error('Error loading the article:', error));
     }
-
 
     function loadComments(articleId) {
         fetch('/api/comments/' + articleId)
@@ -446,7 +361,7 @@
                     const listItem = document.createElement('li');
                     listItem.innerHTML = `
                         <strong>${comment.commenter} (${comment.commenter_role}):</strong> ${comment.content} <br><small>${comment.comment_date}</small>
-                        ${(canDeleteComments || comment.commenter === currentUser) ? `<button onclick="deleteComment(${comment.id})">Delete</button>` : ''}
+                        ${(canDeleteComments || comment.commenter === currentUser) ? `<button onclick="deleteComment(${comment.id})" class="delete-button">Delete</button>` : ''}
                     `;
                     commentList.appendChild(listItem);
                 });
@@ -456,10 +371,10 @@
 
     function submitComment() {
         const commentText = document.getElementById('comment-text').value;
-        const articleId = currentArticleId; // 获取当前文章的 ID
-        const commenter = currentUser; // 获取当前用户
+        const articleId = currentArticleId;
+        const commenter = currentUser;
 
-        if (commentText && articleId) { // 确保文章 ID 存在
+        if (commentText && articleId) {
             fetch('/api/add_comment', {
                 method: 'POST',
                 headers: {
@@ -472,9 +387,9 @@
                 if (data.success) {
                     const commentList = document.getElementById('comment-list');
                     const listItem = document.createElement('li');
-                    listItem.innerHTML = `<strong>${commenter}:</strong> ${commentText} <br><small>Now</small> ${(canDeleteComments || commenter === currentUser) ? `<button onclick="deleteComment(${data.comment_id})">Delete</button>` : ''}`;
+                    listItem.innerHTML = `<strong>${commenter}:</strong> ${commentText} <br><small>Now</small> ${(canDeleteComments || commenter === currentUser) ? `<button onclick="deleteComment(${data.comment_id})" class="delete-button">Delete</button>` : ''}`;
                     commentList.appendChild(listItem);
-                    document.getElementById('comment-text').value = ''; // 清空输入框
+                    document.getElementById('comment-text').value = '';
                 } else {
                     alert('Failed to post comment');
                 }
@@ -482,7 +397,6 @@
             .catch(error => console.error('Error posting comment:', error));
         }
     }
-
 
     function deleteComment(commentId) {
         fetch(`/api/delete_comment/${commentId}`, {
@@ -494,7 +408,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                loadComments(currentArticleId);  // Reload comments after deletion
+                loadComments(currentArticleId);
             } else {
                 alert('Error: ' + data.error);
             }
@@ -502,7 +416,6 @@
         .catch(error => console.error('Error deleting comment:', error));
     }
 
-    
     function submitEdit(articleId) {
         const title = document.getElementById('edit-title').value;
         const content = document.getElementById('edit-content').value;
@@ -518,8 +431,8 @@
         .then(data => {
             if (data.success) {
                 alert('Article updated successfully.');
-                loadArticle(articleId);  // 重新加载文章内容
-                updateArticleList();  // 更新左侧文章列表
+                loadArticle(articleId);
+                updateArticleList();
             } else {
                 alert('Error updating article: ' + data.error);
             }
@@ -528,8 +441,6 @@
             console.error('Error during fetch operation:', error);
         });
     }
-
-
 
     function editArticle(articleId, title, content) {
         const contentArea = document.querySelector('.content-area');
@@ -549,7 +460,7 @@
             .then(data => {
                 if (data.success) {
                     alert('Article deleted successfully.');
-                    window.location.reload();  // Reload the page or redirect as needed
+                    window.location.reload();
                 } else {
                     alert('Error deleting article: ' + data.error);
                 }
@@ -558,24 +469,23 @@
     }
 
     function updateArticleList() {
-        fetch('/api/articles')  // 调用后端API获取所有文章列表
-        .then(response => response.json())  // 解析返回的JSON数据
+        fetch('/api/articles')
+        .then(response => response.json())
         .then(articles => {
-            const listContainer = document.querySelector('.side-nav ul');  // 选中左侧导航栏的<ul>元素
-            listContainer.innerHTML = ''; // 清空现有的文章列表
+            const listContainer = document.querySelector('.side-nav ul');
+            listContainer.innerHTML = '';
 
-            // 遍历所有文章数据，为每篇文章创建一个链接并添加到列表中
             articles.forEach(article => {
-                const listItem = document.createElement('li');  // 创建<li>元素
-                const link = document.createElement('a');  // 创建<a>元素
-                link.href = 'javascript:void(0);';  // 设置链接，防止页面跳转
-                link.textContent = article.title;  // 设置链接文本为文章标题
-                link.onclick = () => loadArticle(article.id);  // 点击链接时加载对应的文章详情
-                listItem.appendChild(link);  // 将链接<a>添加到列表项<li>中
-                listContainer.appendChild(listItem);  // 将列表项<li>添加到<ul>中
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = 'javascript:void(0);';
+                link.textContent = article.title;
+                link.onclick = () => loadArticle(article.id);
+                listItem.appendChild(link);
+                listContainer.appendChild(listItem);
             });
         })
-        .catch(error => console.error('Error loading articles:', error));  // 处理可能的错误
+        .catch(error => console.error('Error loading articles:', error));
     }
 </script>
 {% endblock %}
