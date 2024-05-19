@@ -71,53 +71,40 @@ def handle_send_message(sender, message, room_id):
 # sent when the user joins a room
 @socketio.on("join")
 def join(sender_name, receiver_name):
-    #print("start join_room")
-
     receiver = db.get_user(receiver_name)
     if receiver is None:
         return "Unknown receiver!"
-    
+
     sender = db.get_user(sender_name)
     if sender is None:
         return "Unknown sender!"
 
-    # Check if they are friends!
+    # Check if the sender is muted
+    if db.is_user_muted(sender_name):
+        emit('error', {"error": "You are muted and cannot join any room."}, room=request.sid)
+        return "You are muted and cannot join any room."
+
+    # Check if they are friends
     users = db.get_friends_for_user(sender_name)
-    usernames = [user['username'] for user in users]  
+    usernames = [user['username'] for user in users]
 
     if not (receiver_name in usernames):
         return f"{receiver_name} is not your friend, please send a request🥰"
 
-    room_id_current = db.find_room_id_by_users(sender_name,receiver_name)
-
-    print(room_id_current)
+    room_id_current = db.find_room_id_by_users(sender_name, receiver_name)
 
     if room_id_current is not None:
-
         room.join_room(sender_name, room_id_current)
-
         join_room(room_id_current)
-        # emit to everyone in the room except the sender
         emit("incoming", {"sender": "system", "message": f"{sender_name} has connected", "color": "green"}, to=room_id_current, include_self=False)
-
-        
-        # emit only to the sender
         emit("incoming", {"sender": "system", "message": f"{sender_name} has connected", "color": "green"})
-
         return room_id_current
 
-
-    # if the user isn't inside of any room, 
-    # perhaps this user has recently left a room
-    # or is simply a new user looking to chat with someone
-    # it will not create if the room exists
-
     room_id_current = room.create_room(sender_name, receiver_name)
-
     join_room(room_id_current)
     emit("incoming", {"sender": "system", "message": f"{sender_name} has connected", "color": "green"}, to=room_id_current)
-
     return room_id_current
+
 
 @socketio.on("GetHistoryMessages")
 def GetHisoryMessages(sender_name, receiver_name):
@@ -183,28 +170,21 @@ def join_group(data):
     if user is None:
         return {"error": "Unknown user!"}
 
+    # Check if the user is muted
+    if db.is_user_muted(username):
+        emit("error", {"error": "You are muted and cannot join any group."}, room=request.sid)
+        return {"error": "You are muted and cannot join any group."}
+
     if not db.is_user_in_group(username, group_id):
         emit("error", {"error": "You are not a member of this group."}, room=request.sid)
         return
 
-    # groups = db.get_groups_for_user(username)
-    # group_ids = [group['id'] for group in groups]
-
-    # if group_id not in group_ids:
-    #     return {"error": "You are not a member of this group."}
-
-    room_id = group_id + 10000  # 群组ID加上10000
+    room_id = group_id + 10000
     join_room(room_id)
 
     emit("clear_messages", room=room_id)
-
-    # 发送用户加入群组的消息给群组中的其他用户，但不包括自己
-
-    # 发送历史消息给加入群组的用户
     messages = db.get_group_messages(group_id)
-    #messages_data = [{"sender": msg.sender, "content": msg.content} for msg in messages]
-    #emit("incoming_group_messages_list", {"messages": messages_data}, room=room_id)
-    
-    #emit("incoming_group_message", {"sender": username, "message": "has joined the room."}, room=room_id)
-
     return {"group_id": group_id, "message": f"{username} has joined the room."}
+
+
+

@@ -477,6 +477,7 @@ def get_article_by_id(article_id):
             return None
         return article
 
+
 def delete_article(article_id: int):
     with Session(engine) as session:
         try:
@@ -535,6 +536,12 @@ def delete_comment(comment_id: int):
 ##########
 #group chat
 ##########
+
+def is_user_muted(username):
+    with Session(engine) as session:
+        user = session.get(User, username)
+        return user.is_muted if user else False
+
 
 def create_group(group_name,creator_username, usernames):
     try:
