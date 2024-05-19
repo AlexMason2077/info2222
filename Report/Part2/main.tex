@@ -149,7 +149,16 @@ Based on the similarity matrix, we have categorized as follows:
     \item Delete Comments
 \end{itemize}
 
+
+
 \end{multicols}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphs/sitemap.jpg}
+    \caption{Sitemap}
+    \label{sitemap}
+\end{figure}
 
 \section{Design-Evaluate 1}
 
@@ -304,7 +313,52 @@ Based on the similarity matrix, we have categorized as follows:
 
 \newpage
 
-\section{Design-Evaluate 2}
+\section {Design-Evaluate Incremental Development Plan}
+We divided the development process into two iterations, each lasting two weeks.
+
+\begin{enumerate}
+    \item \textbf{First Iteration (Week 9-10)}
+        \begin{itemize}
+            \item \textbf{Planned Features:}
+            \begin{itemize}
+                \item Basic chat functionalities such as multi-user chat rooms and group chat.
+                \item User online status.
+                \item Friend removal.
+                \item Group invitation.
+            \end{itemize}
+            \item \textbf{Completed Features:}
+            \begin{itemize}
+                \item We successfully completed these basic features. After conducting guerrilla testing with five participants focusing on the implemented features, the feedback revealed that while the basic chat functions were well-received, the placement of the language settings in the settings page was not intuitive.
+                \item More users preferred to directly access the language settings from the navigation bar instead of going through the settings page.
+                \item The survey also showed that more people prefer a user-friendly interface and, for group chats, prefer that only the group owner can add or remove members.
+            \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Second Iteration (Week 11-12)}
+        \begin{itemize}
+            \item \textbf{Implemented Improvements:}
+            \begin{itemize}
+                \item Based on the first iteration and guerrilla testing, we moved the language settings from the settings page to the navigation bar. Now, users can change the language settings at any time by clicking the language option on the right side of the navigation bar. Once changed, the language preference remains consistent throughout the session and does not revert upon refreshing the page.
+                \item Additionally, we updated and optimized the user interface, enhancing the group chat experience. We designated the group creator as the group owner, giving them the sole authority to invite and remove group members, aligning with the preferences expressed by the majority in our survey.
+            \end{itemize}
+            \item \textbf{Technical Details:}
+            \begin{itemize}
+                \item When moving the language bar to the navigation bar, we found that if we created the language bar in different Jinja files, the language settings might change each time we switched to a different page. Therefore, we improved \texttt{base.jinja} by placing the entire navigation bar's code there and then using the \texttt{extend} statement to call it in \texttt{home.jinja}, \texttt{knowledge.jinja}, and \texttt{setting.jinja}.
+                \item Initially, we planned to also call it in \texttt{index.jinja}, \texttt{login.jinja}, and \texttt{signup.jinja}, but we realized that the home, knowledge, and settings options on the navigation bar should not appear before the user logs in. Hence, for these files, we chose to create separate navigation bars and did not call \texttt{base.jinja}.
+                \item For language selection, we set up three languages: English, Chinese, and Spanish. We used \texttt{data-i18n} to mark the places needing translation and then used the translations library to call the corresponding language tags.
+                \item For the user interface, we optimized every button on the page. For example, we added shadows, hover, and click effects to the buttons.
+                \item Additionally, for the language option and the home page's friend list, group list, add friend, and friend request, we added labels to hide them, so they only appear when clicked, which enhances the page's cleanliness.
+                \item We also added a small arrow to the right of each label. When the label is collapsed, the arrow points to the right, indicating that the label is not yet expanded. When the label is expanded, the arrow points downwards, indicating the page is open.
+                \item We also optimized the chat interface by adding chat bubbles. Messages sent by the user appear in green bubbles on the right side of the chat interface, while messages from other users appear in white bubbles on the left side. Through these details, we aim to enhance the user's experience.
+            \end{itemize}
+        \end{itemize}
+
+    \item \textbf{Future Planned Features:}
+        \begin{itemize}
+            \item Based on the survey report, we found that many users like stickers and emojis. In the future, we plan to implement the feature of sending stickers and custom avatars for users.
+            \item Additionally, we plan to implement article search functionality in the knowledge repository and a user search feature in the settings for different user roles.
+        \end{itemize}
+\end{enumerate}
 
 \section{Appendix}
 
