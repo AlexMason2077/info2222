@@ -394,7 +394,7 @@ def get_friends():
 
     friends = db.get_friends_for_user(username)
     return jsonify(friends)
-    
+
 # 根据用户名获取用户角色
 @app.route("/get_role/<username>", methods=["GET"])
 def get_role(username):

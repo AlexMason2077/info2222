@@ -238,6 +238,7 @@
                 </ul>
             </div>
 
+
             <div class="tab active" onclick="toggleCard('group_list_card')">
                 <span data-i18n="group_list">Group List</span> <span class="arrow">›</span>
             </div>
@@ -593,13 +594,13 @@
                 data.forEach(friend => {
                     const li = document.createElement('li');
                     const chatButton = document.createElement('button');
-                    chatButton.textContent = friend['username'];
+                    chatButton.textContent = `${friend['username']} (${friend['role']})`; // Display username and role
                     chatButton.onclick = function () {
                         join_room(friend['username']);
                     };
-                     const removeButton = document.createElement('button');
-                removeButton.setAttribute('data-i18n', 'remove'); // 添加 data-i18n 属性
-                removeButton.textContent = translations[Cookies.get('language') || 'en']['remove']; // 设置按钮的初始文本
+                    const removeButton = document.createElement('button');
+                    removeButton.setAttribute('data-i18n', 'remove'); // 添加 data-i18n 属性
+                    removeButton.textContent = translations[Cookies.get('language') || 'en']['remove']; // 设置按钮的初始文本
 
                     removeButton.onclick = function () {
                         removeFriend(friend['username']);

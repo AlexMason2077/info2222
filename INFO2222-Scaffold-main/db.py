@@ -389,6 +389,28 @@ def update_friend_request_status(request_id: int, new_status: str):
             print(f"Error updating friend request status: {e}")
             return False, "Error occurred during the update."
 
+# def get_friends_for_user(username: str):
+#     online_user = get_online_user(username)
+#     print(username)
+#     print(online_user.get_online())
+#     online_user.set_online(True)
+#     with Session(engine) as session:
+#         # check friendship
+#         friendships = session.query(Friendship).filter(
+#             (Friendship.user_username == username)
+#         ).all()
+
+#         # extract the friend's username
+#         friends_usernames = [friendship.friend_username for friendship in friendships]
+#         friends = []
+#         for friend_username in friends_usernames:
+#             friend = session.query(UserOnline).filter(UserOnline.username == friend_username).first()
+#             if friend:
+#                 #friend.set_online(True)
+#                 friends.append({"username": friend.username,'is_online': friend.is_online})
+#         print("Friends and their online status:", friends)
+#         return friends
+
 def get_friends_for_user(username: str):
     online_user = get_online_user(username)
     print(username)
@@ -406,10 +428,15 @@ def get_friends_for_user(username: str):
         for friend_username in friends_usernames:
             friend = session.query(UserOnline).filter(UserOnline.username == friend_username).first()
             if friend:
-                #friend.set_online(True)
-                friends.append({"username": friend.username,'is_online': friend.is_online})
+                user_info = session.query(User).filter(User.username == friend_username).first()
+                friends.append({
+                    "username": friend.username,
+                    'is_online': friend.is_online,
+                    'role': user_info.role  # Add role here
+                })
         print("Friends and their online status:", friends)
         return friends
+
 
 def print_all_friends():
     with Session(engine) as session:
