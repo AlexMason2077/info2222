@@ -103,8 +103,8 @@ def signup_user():
     password = request.json.get("password")
 
     if db.get_user(username) is None:
-        db.insert_user(username, password)  # 默认角色为 student，is_muted 默认为 False
-        session['username'] = username  # 将用户名存储到 session 中
+        db.insert_user(username, password)  
+        session['username'] = username 
         return url_for('home', username=username)
 
     return "Error: User already exists!"
@@ -146,16 +146,16 @@ def show_knowledge():
 
 @app.route('/knowledge/new_article')
 def new_article_form():
-    username = session.get('username')  # 从会话获取用户名
+    username = session.get('username') 
     if not username:
-        # 如果没有找到用户名，重定向到登录页面
+
         return redirect(url_for('login'))
     return render_template('new_article.jinja', username=username)
 
 @app.route("/knowledge/new_article", methods=["POST"])
 def submit_article():
     if 'username' not in session:
-        abort(403)  # 用户未登录
+        abort(403) 
 
     username = session['username']
     
@@ -167,12 +167,10 @@ def submit_article():
     title = data['title']
     content = data['content']
     author = data['author']
-    publish_date = datetime.now()  # 使用当前时间作为发布日期
+    publish_date = datetime.now()  
 
-    # 调用之前定义的插入文章的函数
     db.insert_article(title, content, author, publish_date)
 
-    # 返回成功消息
     return jsonify({"success": True})
 
 
@@ -194,13 +192,13 @@ def api_article_detail(article_id):
         'title': article.title,
         'content': article.content,
         'author': article.author,
-        'author_role': author.role  # 添加作者的角色信息
+        'author_role': author.role 
     })
 
 
 @app.route('/api/articles')
 def api_articles_list():
-    articles = db.get_all_articles()  # 假设这个函数返回数据库中所有文章的列表
+    articles = db.get_all_articles() 
     articles_data = [{
         'id': article.id,
         'title': article.title
@@ -271,7 +269,7 @@ def get_comments(article_id):
         comments_data.append({
             'id': comment.id,
             'commenter': comment.commenter,
-            'commenter_role': commenter.role,  # 添加评论者的角色信息
+            'commenter_role': commenter.role,  
             'content': comment.content,
             'comment_date': comment.comment_date.strftime("%Y-%m-%d %H:%M:%S")
         })
@@ -395,7 +393,7 @@ def get_friends():
     friends = db.get_friends_for_user(username)
     return jsonify(friends)
 
-# 根据用户名获取用户角色
+
 @app.route("/get_role/<username>", methods=["GET"])
 def get_role(username):
     user = db.get_user(username)
@@ -417,7 +415,6 @@ def get_all_users():
     else:
         abort(403)
 
-# 渲染设置页面
 @app.route("/settings", methods=["GET"])
 def settings():
     if 'username' not in session:
@@ -468,7 +465,7 @@ def toggle_role(username):
         user = db.get_user(username)
         if user:
             new_role = request.json.get('role')
-            if new_role in ['student', 'staff']:  # 确保角色为 student 或 staff
+            if new_role in ['student', 'staff']: 
                 user.role = new_role
                 db.update_user(user)
                 return jsonify({"success": True})

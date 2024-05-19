@@ -221,7 +221,7 @@ def view_tables():
         # print column information
         for column in table.c:
             print(f"  Column: {column.name}, Type: {column.type}")
-        print("")  # empty line for separating different tables
+        print("")  
 
 
 ##############################################################################
@@ -237,8 +237,7 @@ def send_friend_request(sender_username: str, receiver_username: str):
         print(receiver)
         if not receiver:
             return "Receiver does not exist."
-        
-         # check if a friend request has already been sent
+    
         existing_request = session.query(FriendRequest).filter(
         (FriendRequest.sender_id == sender_username) & 
         (FriendRequest.receiver_id == receiver_username) & 
@@ -292,7 +291,6 @@ def db_remove_friend(user_username, friend_username):
             for friendship in friendships:
                 session.delete(friendship)
             
-            # 删除相关的 FriendRequest 记录
             friend_requests = session.query(FriendRequest).filter(
                 or_(
                     (FriendRequest.sender_id == user_username) & (FriendRequest.receiver_id == friend_username),
@@ -422,7 +420,6 @@ def get_friends_for_user(username: str):
             (Friendship.user_username == username)
         ).all()
 
-        # extract the friend's username
         friends_usernames = [friendship.friend_username for friendship in friendships]
         friends = []
         for friend_username in friends_usernames:
@@ -443,7 +440,7 @@ def print_all_friends():
         # retrieve all users
         users = session.query(User).all()
 
-        # for each user, print their list of friends
+
         for user in users:
             print(f"User {user.username}'s friends:")
             # call the get_friends_for_user function to retrieve the list of friends
@@ -466,14 +463,14 @@ def insert_article(title: str, content: str, author: str, publish_date: datetime
 
 
 def get_all_articles():
-    with Session(engine) as session:  # 确保使用了正确的 engine 对象
+    with Session(engine) as session:  
         return session.query(Article).all()
 
 def get_article_by_id(article_id):
-    with Session(engine) as session:  # 确保使用了正确的 engine 对象
+    with Session(engine) as session: 
         article = session.query(Article).get(article_id)
         if article is None:
-            # 这里我们返回 None, 由调用者决定如何处理
+           
             return None
         return article
 
@@ -481,10 +478,10 @@ def get_article_by_id(article_id):
 def delete_article(article_id: int):
     with Session(engine) as session:
         try:
-            # 查找并删除指定 ID 的文章
+
             article = session.query(Article).filter_by(id=article_id).one()
 
-            # 查找并删除与该文章相关的所有评论
+
             comments = session.query(Comment).filter_by(article_id=article_id).all()
             for comment in comments:
                 session.delete(comment)
@@ -493,13 +490,13 @@ def delete_article(article_id: int):
             session.commit()
             print(f"Article ID {article_id} and its comments deleted successfully.")
         except SQLAlchemyError as e:
-            session.rollback()  # 回滚事务
+            session.rollback()
             print(f"Failed to delete article and its comments: {e}")
         finally:
-            session.close()  # 确保会话正确关闭
+            session.close()  
 
 
-# 修改数据库操作函数
+
 def edit_article(article_id: int, title: str, content: str):
     with Session(engine) as session:
         article = session.get(Article, article_id)
@@ -513,7 +510,7 @@ def add_comment(article_id: int, commenter: str, content: str) -> int:
         comment = Comment(article_id=article_id, commenter=commenter, content=content, comment_date=datetime.now())
         session.add(comment)
         session.commit()
-        return comment.id  # 返回新添加的评论ID
+        return comment.id 
 
 
 def get_comments_by_article_id(article_id: int):
@@ -627,17 +624,17 @@ def add_member_to_group(group_id, owner_username, new_member_username):
 
     try:
         with Session(engine) as session:
-             # 检查新成员是否存在
+
             new_member = session.query(User).filter_by(username=new_member_username).first()
             if not new_member:
                 return {"error": "User does not exist"}
             
-            # 检查新成员是否已经在群中
+
             existing_member = session.query(GroupUser).filter_by(group_id=group_id, username=new_member_username).first()
             if existing_member:
                 return {"error": "User is already a member of the group"}
 
-            # 添加新成员
+
             new_member = GroupUser(group_id=group_id, username=new_member_username)
             session.add(new_member)
             session.commit()
@@ -655,12 +652,12 @@ def remove_member_from_group(group_id, owner_username, remove_member_username):
 
     try:
         with Session(engine) as session:
-            # 检查要移除的成员是否在群中
+
             existing_member = session.query(GroupUser).filter_by(group_id=group_id, username=remove_member_username).first()
             if not existing_member:
                 return {"error": "User is not a member of the group"}
 
-            # 移除成员
+
             session.delete(existing_member)
             session.commit()
             return {"message": "Member removed successfully"}

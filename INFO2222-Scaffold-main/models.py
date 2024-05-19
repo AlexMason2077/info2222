@@ -14,7 +14,7 @@ from sqlalchemy import Boolean, Column, Integer, String, Text, DateTime, Foreign
 
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime  # 导入 datetime
+from datetime import datetime 
 
 from typing import Dict
 from enum import Enum as PyEnum
@@ -62,9 +62,7 @@ class Counter():
 class Room():
     def __init__(self):
         self.counter = Counter()
-        # dictionary that maps the username to the room id
-        # for example self.dict["John"] -> gives you the room id of 
-        # the room where John is in
+
         self.dict: Dict[str, int] = {}
 
     def create_room(self, sender: str, receiver: str) -> int:
