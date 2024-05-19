@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  17 MAY 2024 00:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2024.3.15)  19 MAY 2024 22:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1196,51 +1196,64 @@ File: graphs/Similarity_Matrix.png Graphic file (type png)
 Package pdftex.def Info: graphs/Similarity_Matrix.png  used on input line 111.
 (pdftex.def)             Requested size: 362.37569pt x 292.48262pt.
  [3 <./graphs/cardsorting_overview.jpg> <./graphs/Similarity_Matrix.png>]
+<graphs/sitemap.jpg, id=88, 1823.81375pt x 983.675pt>
+File: graphs/sitemap.jpg Graphic file (type jpg)
+<use graphs/sitemap.jpg>
+Package pdftex.def Info: graphs/sitemap.jpg  used on input line 158.
+(pdftex.def)             Requested size: 407.66833pt x 219.8764pt.
+ [4 <./graphs/sitemap.jpg>]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-68.
+77.
 
 (/Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/install/tex/latex/
 base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-) [4]
-<graphs/message_page.jpg, id=99, 1231.60126pt x 772.8875pt>
+)
+<graphs/message_page.jpg, id=100, 1231.60126pt x 772.8875pt>
 File: graphs/message_page.jpg Graphic file (type jpg)
 <use graphs/message_page.jpg>
-Package pdftex.def Info: graphs/message_page.jpg  used on input line 195.
+Package pdftex.def Info: graphs/message_page.jpg  used on input line 203.
 (pdftex.def)             Requested size: 362.37569pt x 227.39838pt.
-<graphs/knowledge_page.jpg, id=100, 1231.60126pt x 772.8875pt>
+ [5]
+<graphs/knowledge_page.jpg, id=112, 1231.60126pt x 772.8875pt>
 File: graphs/knowledge_page.jpg Graphic file (type jpg)
 <use graphs/knowledge_page.jpg>
-Package pdftex.def Info: graphs/knowledge_page.jpg  used on input line 202.
+Package pdftex.def Info: graphs/knowledge_page.jpg  used on input line 210.
 (pdftex.def)             Requested size: 362.37569pt x 227.39838pt.
- [5 <./graphs/message_page.jpg>]
-<graphs/setting_page.jpg, id=111, 1231.60126pt x 772.8875pt>
+<graphs/setting_page.jpg, id=113, 1231.60126pt x 772.8875pt>
 File: graphs/setting_page.jpg Graphic file (type jpg)
 <use graphs/setting_page.jpg>
-Package pdftex.def Info: graphs/setting_page.jpg  used on input line 209.
+Package pdftex.def Info: graphs/setting_page.jpg  used on input line 217.
 (pdftex.def)             Requested size: 362.37569pt x 227.39838pt.
- [6 <./graphs/knowledge_page.jpg> <./graphs/setting_page.jpg>] [7] [8]
-<graphs/Survey-summary_page-0001.jpg, id=144, 597.432pt x 845.0772pt>
+ [6 <./graphs/message_page.jpg> <./graphs/knowledge_page.jpg>] [7 <./graphs/set
+ting_page.jpg>] [8] [9] [10]
+Overfull \hbox (4.91649pt too wide) in paragraph at lines 358--359
+[]\T1/pplj/m/n/12 Additionally, we plan to im-ple-ment ar-ti-cle search func-ti
+on-al-ity in the knowl-
+ []
+
+<graphs/Survey-summary_page-0001.jpg, id=156, 597.432pt x 845.0772pt>
 File: graphs/Survey-summary_page-0001.jpg Graphic file (type jpg)
 <use graphs/Survey-summary_page-0001.jpg>
 Package pdftex.def Info: graphs/Survey-summary_page-0001.jpg  used on input lin
-e 317.
+e 370.
 (pdftex.def)             Requested size: 407.66833pt x 576.66939pt.
-<graphs/Survey-summary_page-0002.jpg, id=145, 597.432pt x 845.0772pt>
+[11]
+<graphs/Survey-summary_page-0002.jpg, id=162, 597.432pt x 845.0772pt>
 File: graphs/Survey-summary_page-0002.jpg Graphic file (type jpg)
 <use graphs/Survey-summary_page-0002.jpg>
 Package pdftex.def Info: graphs/Survey-summary_page-0002.jpg  used on input lin
-e 322.
+e 375.
 (pdftex.def)             Requested size: 407.66833pt x 576.66939pt.
- [9 <./graphs/Survey-summary_page-0001.jpg>]
-<graphs/Survey-summary_page-0003.jpg, id=151, 597.432pt x 845.0772pt>
+ [12 <./graphs/Survey-summary_page-0001.jpg>]
+<graphs/Survey-summary_page-0003.jpg, id=168, 597.432pt x 845.0772pt>
 File: graphs/Survey-summary_page-0003.jpg Graphic file (type jpg)
 <use graphs/Survey-summary_page-0003.jpg>
 Package pdftex.def Info: graphs/Survey-summary_page-0003.jpg  used on input lin
-e 327.
+e 380.
 (pdftex.def)             Requested size: 407.66833pt x 576.66939pt.
- [10 <./graphs/Survey-summary_page-0002.jpg>] (main.bbl [11 <./graphs/Survey-su
-mmary_page-0003.jpg>]
+ [13 <./graphs/Survey-summary_page-0002.jpg>] [14 <./graphs/Survey-summary_page
+-0003.jpg>] (main.bbl
 LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 1
 0.
 
@@ -1293,22 +1306,22 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 Package caption Warning: Unused \captionsetup[sub] on input line 30.
 See the caption package documentation for explanation.
 
-[12] (main.aux)
+[15] (main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 8D91F73D28CD1021AED4B197D73CA6E7;1767.
+(rerunfilecheck)             Checksum: DE8C4C5A587B95284946C2F7B01DE193;1908.
  ) 
 Here is how much of TeX's memory you used:
- 25759 strings out of 474436
- 492943 string characters out of 5731134
+ 25776 strings out of 474436
+ 493207 string characters out of 5731134
  1941187 words of memory out of 5000000
- 47558 multiletter control sequences out of 15000+600000
+ 47566 multiletter control sequences out of 15000+600000
  585104 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 126i,11n,135p,818b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 126i,11n,135p,818b,683s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/bamingyuan/Library/Application Support/MiKTeX/texmfs/data/fonts/pk/l
 jfour/jknappen/ec/dpi600/ectt1200.pk>{/Users/bamingyuan/Library/Application Sup
 port/MiKTeX/texmfs/install/fonts/enc/dvips/base/8r.enc}</Users/bamingyuan/Libra
@@ -1317,9 +1330,9 @@ ry/Application Support/MiKTeX/texmfs/install/fonts/type1/public/fpl/fplbj8a.pfb
 e1/public/fpl/fplrc8a.pfb></Users/bamingyuan/Library/Application Support/MiKTeX
 /texmfs/install/fonts/type1/urw/palatino/uplb8a.pfb></Users/bamingyuan/Library/
 Application Support/MiKTeX/texmfs/install/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on main.pdf (12 pages, 1605062 bytes).
+Output written on main.pdf (15 pages, 1748942 bytes).
 PDF statistics:
- 227 PDF objects out of 1000 (max. 8388607)
- 62 named destinations out of 1000 (max. 500000)
- 157 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 256 PDF objects out of 1000 (max. 8388607)
+ 71 named destinations out of 1000 (max. 500000)
+ 162 words of extra memory for PDF output out of 10000 (max. 10000000)
 
