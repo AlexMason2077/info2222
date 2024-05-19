@@ -176,5 +176,10 @@ body {
 
         Cookies.set('language', language, { expires: 7 });
     }
+
+    function logoutAndClearStorage() {
+        // Redirect to the logout page
+        window.location.href = '/logout';
+    }
 </script>
 {% endblock %}
