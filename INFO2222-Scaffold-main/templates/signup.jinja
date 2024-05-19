@@ -1,128 +1,310 @@
-{% extends 'base.jinja' %}
-
-{% block content %}
-<style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(to right, #6e6e6e, #5036a4);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-    form {
-        background: white;
-        padding: 50px;
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        width: 400px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    input[type="text"], input[type="password"] {
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 15px;
-        width: 100%;
-        padding: 15px;
-        margin: 10px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-
-    button {
-        background-color: #4029a0;
-        color: white;
-        padding: 16px 20px;
-        margin: 8px 0;
-        margin-top: 20px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        font-size: 18px;
-        transition: 0.3s;
-        border-radius: 20px;
-    }
-    button:hover {
-        opacity: 0.75;
-        transform: scale(1.02);
-        transition: 0.3s;
-    }
-    button:active {
-        transform: scale(0.97);
-        transition: 0.3s;
-        opacity: 1;
-    }
-    h1 {
-        color: white;
-        margin-bottom: 20px; /* 为标题和表单之间增加一些间距 */
-    }
-</style>
-
-<div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-    <h1>Sign Up</h1>
-    <form onsubmit="signup(event)">
-        <p>Username</p>
-        <input type="text" id="username" class="username"/>
-        <p>Password</p>
-        <input type="password" id="password" class="password"/>
-        <button type="submit">Sign up</button>
-    </form>
-</div>
-
-<script>
-    function isValidURL(string) {
-        return string.length > 0 && string.startsWith("/");
-    }
-
-    function isValidPassword(password) {
-        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        return regex.test(password);
-    }
-
-    function isValidUsername(username) {
-        const regex = /^[a-zA-Z0-9_]{1,9}$/;
-        return regex.test(username);
-    }
-
-    async function signup(event) {
-        event.preventDefault(); 
-
-        const username = $("#username").val();
-        const password = $("#password").val();
-
-        if (!isValidUsername(username)) {
-            alert("The username must be fewer than 10 characters and can only contain letters, numbers, and underscores.");
-            return;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <script src="/static/js/libs/axios.min.js"></script>
+    <script src="/static/js/libs/jquery.min.js"></script>
+    <script src="/static/js/libs/js.cookie.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #8af862, #007bff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
-        if (!isValidPassword(password)) {
-            alert("Password must have a letter, number and at least 8 characters.");
-            return;
+        nav {
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            background-color: #fff;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: 60px;
         }
 
-        let signupURL = "{{ url_for('signup_user') }}";
+        .language-selector {
+            padding: 0px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            cursor: pointer;
+            margin: 0 20px;
+        }
 
-        try {
-            let res = await axios.post(signupURL, {
-                username: username,
-                password: password
+        .language-selector:hover {
+            background-color: #e0e0e0;
+        }
+
+        .tab {
+            padding: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tab:hover {
+            background-color: #e0e0e0;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .tab-content button {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+
+.tab-content button:hover {
+    background-color: #007bff;
+}
+
+        .arrow {
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        .arrow.down {
+            transform: rotate(90deg);
+            user-select: none;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 80px; /* 确保内容不被导航栏遮挡 */
+        }
+
+        form {
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"], input[type="password"] {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 15px;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+           background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            margin: 8px 0;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            align-self: center;
+            font-size: 18px;
+            transition: 0.3s;
+            border-radius: 20px;
+        }
+
+        button:hover {
+            opacity: 0.75;
+            transform: scale(1.02);
+            transition: 0.3s;
+        }
+
+        button:active {
+            transform: scale(0.97);
+            transition: 0.3s;
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 50px;
+            color: white;
+            margin-bottom: 20px; /* 为标题和表单添加间隔 */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Language selector -->
+        <div class="language-selector">
+            <div class="tab" onclick="toggleLanguageSelector()">
+                <span data-i18n="language">Language</span> <span class="arrow">›</span>
+            </div>
+            <div id="language_selector" class="tab-content">
+                <button class="button" onclick="setLanguage('en')">English</button>
+                <button class="button" onclick="setLanguage('zh')">中文</button>
+                <button class="button" onclick="setLanguage('es')">Español</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 data-i18n="sign_up">Sign Up</h1>
+        <form onsubmit="signup(event)">
+            <p data-i18n="username">Username</p>
+            <input type="text" id="username" class="username" data-i18n-placeholder="username_placeholder" placeholder="Enter your username"/>
+            <p data-i18n="password">Password</p>
+            <input type="password" id="password" class="password" data-i18n-placeholder="password_placeholder" placeholder="Enter your password"/>
+            <button type="submit" data-i18n="sign_up">Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                "language": "Language",
+                "sign_up": "Sign Up",
+                "username": "Username",
+                "password": "Password",
+                "username_placeholder": "Enter your username",
+                "password_placeholder": "Enter your password"
+            },
+            zh: {
+                "language": "语言",
+                "sign_up": "注册",
+                "username": "用户名",
+                "password": "密码",
+                "username_placeholder": "输入您的用户名",
+                "password_placeholder": "输入您的密码"
+            },
+            es: {
+                "language": "Idioma",
+                "sign_up": "Regístrate",
+                "username": "Nombre de usuario",
+                "password": "Contraseña",
+                "username_placeholder": "Ingrese su nombre de usuario",
+                "password_placeholder": "Ingrese su contraseña"
+            }
+        };
+
+        // Set the language based on the user's choice
+        function setLanguage(language) {
+            if (!translations[language]) return;
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[language][key]) {
+                    element.innerText = translations[language][key];
+                }
             });
 
-            if (!isValidURL(res.data)) {
-                alert(res.data);
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[language][key]) {
+                    element.placeholder = translations[language][key];
+                }
+            });
+
+            // Set a cookie to remember the selected language
+            Cookies.set('language', language, { expires: 7 });
+        }
+
+        function toggleLanguageSelector() {
+            const languageSelector = document.getElementById('language_selector');
+            const arrow = document.querySelector('.language-selector .arrow');
+            if (languageSelector.style.display === 'none' || languageSelector.style.display === '') {
+                languageSelector.style.display = 'block';
+                arrow.classList.add('down');
+            } else {
+                languageSelector.style.display = 'none';
+                arrow.classList.remove('down');
+            }
+        }
+
+        // Function to check if the server returns an Error message instead of a URL
+        function isValidURL(string) {
+            return string.length > 0 && string.startsWith("/");
+        }
+
+        function isValidPassword(password) {
+            const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+            return regex.test(password);
+        }
+
+        function isValidUsername(username) {
+            const regex = /^[a-zA-Z0-9_]{1,9}$/;
+            return regex.test(username);
+        }
+
+        async function signup(event) {
+            event.preventDefault(); 
+
+            const username = $("#username").val();
+            const password = $("#password").val();
+
+            if (!isValidUsername(username)) {
+                alert("The username must be fewer than 10 characters and can only contain letters, numbers, and underscores.");
                 return;
             }
-            window.location.href = res.data;
-        } catch (error) {
-            alert("Signup failed: " + error);
+
+            if (!isValidPassword(password)) {
+                alert("Password must have a letter, number and at least 8 characters.");
+                return;
+            }
+
+            let signupURL = "{{ url_for('signup_user') }}";
+
+            try {
+                let res = await axios.post(signupURL, {
+                    username: username,
+                    password: password
+                });
+
+                if (!isValidURL(res.data)) {
+                    alert(res.data);
+                    return;
+                }
+                window.location.href = res.data;
+            } catch (error) {
+                alert("Signup failed: " + error);
+            }
         }
-    }
-</script>
 
-{% endblock %}
-
+        // Ensure the language is set correctly on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const language = Cookies.get('language') || 'en';
+            setLanguage(language);
+        });
+    </script>
+</body>
+</html>

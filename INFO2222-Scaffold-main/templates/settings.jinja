@@ -1,70 +1,17 @@
 {% extends 'base.jinja' %}
 
+{% block title %}Settings{% endblock %}
+
 {% block content %}
 <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background: #f0f0f0;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: row;
-        height: 100vh;
-    }
-
-    nav {
-        width: 100%;
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
-        background-color: #fff;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-        height: 60px;
-    }
-
-    .nav-link {
-        padding: 10px 15px;
-        color: #333;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-    }
-
-    .nav-link:hover {
-        background-color: #e0e0e0;
-        border-radius: 5px;
-    }
-
-    .nav-links,
-    .user-info {
-        display: flex;
-        align-items: center;
-    }
-
-    .user-info li {
-        list-style: none;
-        margin-right: 10px;
-    }
-
-    .btn {
-        color: #333;
-        font-weight: bold;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    main {
-        flex: 1;
-        display: flex;
-        padding: 20px;
-    }
-
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f0f0f0;
+    margin: 0;
+    padding: 0;
+   
+    height: 100vh;
+}
     .settings-container {
         padding: 20px;
         background-color: white;
@@ -101,27 +48,16 @@
     }
 
     th {
-        background-color: #5036a4;
+        background-color: #007bff;
         color: white;
     }
 
-    .btn {
-        padding: 5px 10px;
-        color: white;
-        background-color: #5036a4;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
 
-    .btn:hover {
-        background-color: #6e6e6e;
-    }
 
     .role-btn {
         padding: 5px 10px;
         color: white;
-        background-color: #5036a4;
+        background-color: #007bff;
         border: none;
         border-radius: 5px;
         cursor: pointer;
@@ -133,42 +69,24 @@
     }
 </style>
 
-<nav>
-    <!-- Left-aligned items -->
-    <div class="nav-links">
-        <a href="/home?username={{ username }}" class="nav-link" data-i18n="home">Home</a>
-        <a href="/knowledge" class="nav-link" data-i18n="knowledge">Knowledge</a>
-        <a href="/settings" class="nav-link" data-i18n="settings">Settings</a>
-    </div>
-
-    <!-- Right-aligned items -->
-    <div class="user-info">
-        <ol style="list-style: none; padding: 0;">
-            <li>
-                <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn" data-i18n="logout">Logout</a>
-            </li>
-        </ol>
-    </div>
-</nav>
-
 <main>
     <div class="settings-container">
-        <h2>Settings</h2>
+        <h2 data-i18n="settings">Settings</h2>
         <div class="user-info">
-            <p><strong>Username:</strong> {{ user.username }}</p>
-            <p><strong>Role:</strong> {{ user.role }}</p>
-            <p><strong>Muted:</strong> {{ 'Yes' if user.is_muted else 'No' }}</p>
+            <p><strong data-i18n="username">Username:</strong> {{ user.username }}</p>
+            <p><strong data-i18n="role">Role:</strong> {{ user.role }}</p>
+            <p><strong data-i18n="muted">Muted:</strong> {{ 'Yes' if user.is_muted else 'No' }}</p>
         </div>
 
         {% if user.role in ['admin', 'staff'] %}
-        <h2>All Users</h2>
+        <h2 data-i18n="all_users">All Users</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Muted</th>
-                    <th>Actions</th>
+                    <th data-i18n="username">Username</th>
+                    <th data-i18n="role">Role</th>
+                    <th data-i18n="muted">Muted</th>
+                    <th data-i18n="actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -179,12 +97,12 @@
                     <td>{{ 'Yes' if u.is_muted else 'No' }}</td>
                     <td>
                         {% if user.role == 'admin' or (user.role == 'staff' and u.role == 'student') %}
-                        <button class="btn" onclick="toggleMute('{{ u.username }}', {{ 'false' if u.is_muted else 'true' }})">
+                        <button class="btn" onclick="toggleMute('{{ u.username }}', {{ 'false' if u.is_muted else 'true' }})" data-i18n="{{ 'unmute' if u.is_muted else 'mute' }}">
                             {{ 'Unmute' if u.is_muted else 'Mute' }}
                         </button>
                         {% endif %}
                         {% if user.role == 'admin' %}
-                        <button class="role-btn" onclick="toggleRole('{{ u.username }}', '{{ 'staff' if u.role == 'student' else 'student' }}')">
+                        <button class="role-btn" onclick="toggleRole('{{ u.username }}', '{{ 'staff' if u.role == 'student' else 'student' }}')" data-i18n="{{ 'make_staff' if u.role == 'student' else 'make_student' }}">
                             {{ 'Make Staff' if u.role == 'student' else 'Make Student' }}
                         </button>
                         {% endif %}
@@ -232,6 +150,31 @@
                 alert('Error: ' + data.error);
             }
         });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const language = Cookies.get('language') || 'en';
+        setLanguage(language);
+    });
+
+    function setLanguage(language) {
+        if (!translations[language]) return;
+
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (translations[language][key]) {
+                element.innerText = translations[language][key];
+            }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            if (translations[language][key]) {
+                element.placeholder = translations[language][key];
+            }
+        });
+
+        Cookies.set('language', language, { expires: 7 });
     }
 </script>
 {% endblock %}

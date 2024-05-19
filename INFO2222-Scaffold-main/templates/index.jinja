@@ -1,55 +1,222 @@
-{% extends 'base.jinja' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <script src="/static/js/libs/axios.min.js"></script>
+    <script src="/static/js/libs/jquery.min.js"></script>
+    <script src="/static/js/libs/js.cookie.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #8af862, #007bff); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-{% block content %}
-<style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(to right, #6e6e6e, #5036a4); 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-    div.container {
-        background: white;
-        padding: 40px 60px; 
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* 添加阴影以增加深度感 */
-        text-align: center; /* 确保文字居中显示 */
-    }
+        nav {
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            background-color: #fff;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: 60px;
+        }
 
-    h1 {
-        color: #5036a4; /* 标题使用暗紫色以增加视觉焦点 */
-        margin-bottom: 20px; /* 增加间距 */
-    }
+        .language-selector {
+            padding: 0px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            cursor: pointer;
+            margin: 0 20px;
+        }
 
-    a {
-        display: inline-block;
-        background-color: #4029a0; /* 按钮使用深紫色 */
+        .language-selector:hover {
+            background-color: #e0e0e0;
+        }
+
+         .button {
+        padding: 10px;
+
+        background-color: #007bff;
         color: white;
-        padding: 12px 20px;
-        text-decoration: none; /* 去除下划线 */
-        font-size: 16px; /* 统一字体大小 */
-        border-radius: 20px; /* 圆角按钮 */
-        transition: background-color 0.3s, transform 0.3s;
-        width: 120px; /* 设置固定宽度 */
-        text-align: center; /* 文字居中 */
-    }
-    a:hover {
-        background-color: #604fb0; /* 鼠标悬停时变化颜色 */
-        transform: scale(1.05); /* 轻微放大 */
-    }
-    a:active {
-        transform: scale(0.95); /* 点击时缩小 */
-    }
-</style>
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        }
 
-<div class="container">
-    <h1>Hello! Welcome to the site!</h1>
-    <p><a href={{ url_for('signup') }}>Sign Up</a></p>
-    <p><a href={{ url_for('login') }}>Login</a></p>
-</div>
+        .button:hover {
+            background-color: #0056b3;
+        }
+    .tab {
+        padding: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-{% endblock %}
+    .tab:hover {
+        background-color: #e0e0e0;
+    }
 
+    .tab.active {
+        background-color: #ffffff;
+    }
+
+    .tab-content {
+        display: none;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+        .arrow {
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        .arrow.down {
+            transform: rotate(90deg);
+            user-select: none;
+        }
+
+        div.container {
+            background: white;
+            padding: 40px 60px; 
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* 添加阴影以增加深度感 */
+            text-align: center; /* 确保文字居中显示 */
+            margin-top: 80px; /* 确保内容不会被导航栏遮挡 */
+        }
+
+        h1 {
+            color: #007bff; /* 标题使用暗紫色以增加视觉焦点 */
+            margin-bottom: 20px; /* 增加间距 */
+        }
+
+        a {
+            display: inline-block;
+            background-color: #007bff; /* 按钮使用深紫色 */
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none; /* 去除下划线 */
+            font-size: 16px; /* 统一字体大小 */
+            border-radius: 20px; /* 圆角按钮 */
+            transition: background-color 0.3s, transform 0.3s;
+            width: 120px; /* 设置固定宽度 */
+            text-align: center; /* 文字居中 */
+        }
+        a:hover {
+            background-color: #007bff /* 鼠标悬停时变化颜色 */
+            transform: scale(1.05); /* 轻微放大 */
+        }
+        a:active {
+            transform: scale(0.95); /* 点击时缩小 */
+        }
+    
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Language selector -->
+        <div class="language-selector">
+            <div class="tab" onclick="toggleLanguageSelector()">
+                <span data-i18n="language">Language</span> <span class="arrow">›</span>
+            </div>
+            <div id="language_selector" class="tab-content">
+                <button class="button" onclick="setLanguage('en')">English</button>
+                <button class="button" onclick="setLanguage('zh')">中文</button>
+                <button class="button" onclick="setLanguage('es')">Español</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 data-i18n="welcome">Hello! Welcome to the site!</h1>
+        <p><a href="{{ url_for('signup') }}" data-i18n="sign_up">Sign Up</a></p>
+        <p><a href="{{ url_for('login') }}" data-i18n="login">Login</a></p>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                "language": "Language",
+                "welcome": "Hello! Welcome to the site!",
+                "sign_up": "Sign Up",
+                "login": "Login"
+            },
+            zh: {
+                "language": "语言",
+                "welcome": "你好！欢迎来到本站！",
+                "sign_up": "注册",
+                "login": "登录"
+            },
+            es: {
+                "language": "Idioma",
+                "welcome": "¡Hola! ¡Bienvenido al sitio!",
+                "sign_up": "Regístrate",
+                "login": "Iniciar sesión"
+            }
+        };
+
+        function setLanguage(language) {
+            if (!translations[language]) return;
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[language][key]) {
+                    element.innerText = translations[language][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[language][key]) {
+                    element.placeholder = translations[language][key];
+                }
+            });
+
+            Cookies.set('language', language, { expires: 7 });
+        }
+
+        function toggleLanguageSelector() {
+            const languageSelector = document.getElementById('language_selector');
+            const arrow = document.querySelector('.language-selector .arrow');
+            if (languageSelector.style.display === 'none' || languageSelector.style.display === '') {
+                languageSelector.style.display = 'block';
+                arrow.classList.add('down');
+            } else {
+                languageSelector.style.display = 'none';
+                arrow.classList.remove('down');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const language = Cookies.get('language') || 'en';
+            setLanguage(language);
+        });
+    </script>
+</body>
+</html>

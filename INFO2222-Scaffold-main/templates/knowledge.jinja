@@ -1,59 +1,17 @@
 {% extends 'base.jinja' %}
 
+{% block title %}Knowledge{% endblock %}
+
 {% block content %}
 <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background: #f0f0f0;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: row;
-        height: 100vh;
-    }
-
-    nav {
-        width: 100%;
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
-        background-color: #fff;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-        height: 60px;
-    }
-
-    .nav-link {
-        padding: 10px 15px;
-        color: #333;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-    }
-
-    .nav-link:hover {
-        background-color: #e0e0e0;
-        border-radius: 5px;
-    }
-
-    .nav-links,
-    .user-info {
-        display: flex;
-        align-items: center;
-    }
-
-    .btn {
-        color: #333;
-        font-weight: bold;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f0f0f0;
+    margin: 0;
+    padding: 0;
+   
+    height: 100vh;
+}
     .side-nav {
         width: 250px;
         background-color: #fff;
@@ -264,70 +222,7 @@
     .edit-form button:hover {
         background-color: #0056b3;
     }
-
-    .language-selector {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #fff;
-        cursor: pointer;
-    }
-
-    .language-selector:hover {
-        background-color: #e0e0e0;
-    }
-    .button {
-        padding: 10px 15px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .button:hover {
-        background-color: #0056b3;
-    }
 </style>
-
-<nav>
-    <!-- Left-aligned items -->
-    <div class="nav-links">
-        <a href="/home?username={{ username }}" class="nav-link" data-i18n="home">Home</a>
-        <a href="/knowledge" class="nav-link" data-i18n="knowledge">Knowledge</a>
-        <a href="/settings" class="nav-link" data-i18n="settings">Settings</a>
-    </div>
-
-    <!-- Right-aligned items -->
-    <!-- Language selector -->
-    <div class="language-selector">
-        <div class="tab" onclick="toggleLanguageSelector()">Language <span class="arrow">›</span></div>
-        <div id="language_selector" class="tab-content">
-            <button class="button" onclick="setLanguage('en')">English</button>
-            <button class="button" onclick="setLanguage('zh')">中文</button>
-            <button class="button" onclick="setLanguage('es')">Español</button>
-        </div>
-    </div>
-
-    <div class="user-info">
-        <ol style="list-style: none; padding: 0;">
-            <li data-i18n="username">Username: {{ username }}</li>
-            <li>
-                <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn" data-i18n="logout">Logout</a>
-            </li>
-        </ol>
-    </div>
-</nav>
-
-<div id="language-menu" style="display: none; position: absolute; top: 60px; right: 10px; background: #fff; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border-radius: 5px;">
-    <ul style="list-style: none; padding: 0; margin: 0;">
-        <li style="padding: 10px; cursor: pointer;" onclick="setLanguage('en')">English</li>
-        <li style="padding: 10px; cursor: pointer;" onclick="setLanguage('zh')">中文</li>
-        <li style="padding: 10px; cursor: pointer;" onclick="setLanguage('es')">Español</li>
-    </ul>
-</div>
 
 <div class="side-nav">
     <div class="user-avatar">🤓</div>
@@ -571,127 +466,11 @@
             .catch(error => console.error('Error during logout:', error));
     }
 
-    function toggleLanguageSelector() {
-        const languageSelector = document.getElementById('language_selector');
-        const arrow = document.querySelector('.language-selector .arrow');
-        if (languageSelector.style.display === 'none' || languageSelector.style.display === '') {
-            languageSelector.style.display = 'block';
-            arrow.classList.add('down');
-        } else {
-            languageSelector.style.display = 'none';
-            arrow.classList.remove('down');
-        }
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const language = Cookies.get('language') || 'en';
+        setLanguage(language);
+    });
 
-    function setLanguage(language) {
-        if (!translations[language]) return;
-
-        document.querySelectorAll('[data-i18n]').forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            if (translations[language][key]) {
-                element.innerText = translations[language][key];
-            }
-        });
-    }
-
-    function updateTranslations() {
-        const language = currentLanguage; // Store the current language
-        document.querySelectorAll('[data-i18n]').forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            if (translations[language][key]) {
-                element.innerText = translations[language][key];
-            }
-        });
-    }
-
-    const translations = {
-        en: {
-            "home": "Home",
-            "knowledge": "Knowledge",
-            "settings": "Settings",
-            "username": "Username",
-            "logout": "Logout",
-            "message": "Message",
-            "send": "Send",
-            "leave_room": "Leave Room",
-            "friend_list": "Friend List",
-            "group_list": "Group List",
-            "create_group": "Create Group",
-            "add_friend": "Add Friend",
-            "friend_requests": "Friend Requests",
-            "add_new_member": "Add New Member",
-            "remove_member": "Remove Member",
-            "cancel": "Cancel",
-            "welcome_message": "Welcome to the Knowledge Base",
-            "welcome_description": "This is the area where you can add more dynamic content, articles, and other information.",
-            "new_article": "New Article",
-            "articles": "Articles",
-            "comments": "Comments",
-            "add_comment_placeholder": "Add a comment...",
-            "post_comment": "Post Comment",
-            "delete": "Delete",
-            "editing": "Editing",
-            "submit_changes": "Submit Changes"
-        },
-        zh: {
-            "home": "主页",
-            "knowledge": "知识",
-            "settings": "设置",
-            "username": "用户名",
-            "logout": "登出",
-            "message": "消息",
-            "send": "发送",
-            "leave_room": "离开房间",
-            "friend_list": "好友列表",
-            "group_list": "群组列表",
-            "create_group": "创建群组",
-            "add_friend": "添加好友",
-            "friend_requests": "好友请求",
-            "add_new_member": "添加新成员",
-            "remove_member": "移除成员",
-            "cancel": "取消",
-            "welcome_message": "欢迎来到知识库",
-            "welcome_description": "这是一个可以添加更多动态内容、文章和其他信息的区域。",
-            "new_article": "新文章",
-            "articles": "文章",
-            "comments": "评论",
-            "add_comment_placeholder": "添加评论...",
-            "post_comment": "发布评论",
-            "delete": "删除",
-            "editing": "编辑",
-            "submit_changes": "提交更改"
-        },
-        es: {
-            "home": "Inicio",
-            "knowledge": "Conocimiento",
-            "settings": "Configuraciones",
-            "username": "Nombre de usuario",
-            "logout": "Cerrar sesión",
-            "message": "Mensaje",
-            "send": "Enviar",
-            "leave_room": "Salir de la sala",
-            "friend_list": "Lista de amigos",
-            "group_list": "Lista de grupos",
-            "create_group": "Crear grupo",
-            "add_friend": "Agregar amigo",
-            "friend_requests": "Solicitudes de amistad",
-            "add_new_member": "Agregar nuevo miembro",
-            "remove_member": "Eliminar miembro",
-            "cancel": "Cancelar",
-            "welcome_message": "Bienvenido a la Base de Conocimientos",
-            "welcome_description": "Esta es el área donde puedes agregar más contenido dinámico, artículos y otra información.",
-            "new_article": "Nuevo Artículo",
-            "articles": "Artículos",
-            "comments": "Comentarios",
-            "add_comment_placeholder": "Agregar un comentario...",
-            "post_comment": "Publicar comentario",
-            "delete": "Eliminar",
-            "editing": "Editando",
-            "submit_changes": "Enviar Cambios"
-        }
-    };
-
-    // Set default language to English
     setLanguage('en');
 </script>
 {% endblock %}

@@ -10,16 +10,329 @@ Yeah I know it's pretty ugly...
 -->
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>HTML :)</title> 
-        <script src="/static/js/libs/axios.min.js"></script>
-        <script src="/static/js/libs/jquery.min.js"></script>
-        <script src="/static/js/libs/js.cookie.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/elliptic/6.5.5/elliptic.js"></script>
-    </head>
-    <body>
-        <!-- The content from any other page goes here -->
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <script src="/static/js/libs/axios.min.js"></script>
+    <script src="/static/js/libs/jquery.min.js"></script>
+    <script src="/static/js/libs/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elliptic/6.5.5/elliptic.js"></script>
+    <style>
+    
+        nav {
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .nav-link {
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+        }
+
+        .nav-links,
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            color: #333;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .language-selector {
+            padding: 0px;
+            border: 0px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .language-selector:hover {
+            background-color: #e0e0e0;
+        }
+
+        .button {
+        padding: 10px 15px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    .tab {
+        padding: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .tab:hover {
+        background-color: #e0e0e0;
+    }
+
+    .tab.active {
+        background-color: #ffffff;
+    }
+
+    .tab-content {
+        display: none;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+    .resizable {
+        resize: horizontal;
+        overflow: auto;
+    }
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Left-aligned items -->
+        <div class="nav-links">
+            <a href="/home?username={{ username }}" class="nav-link" data-i18n="home">Home</a>
+            <a href="/knowledge" class="nav-link" data-i18n="knowledge">Knowledge</a>
+            <a href="/settings" class="nav-link" data-i18n="settings">Settings</a>
+        </div>
+
+        <!-- Right-aligned items -->
+        <!-- Language selector -->
+        <div class="language-selector">
+            <div class="tab" onclick="toggleLanguageSelector()">
+                <span data-i18n="language">Language</span> <span class="arrow">›</span>
+            </div>
+            <div id="language_selector" class="tab-content">
+                <button class="button" onclick="setLanguage('en')">English</button>
+                <button class="button" onclick="setLanguage('zh')">中文</button>
+                <button class="button" onclick="setLanguage('es')">Español</button>
+            </div>
+        </div>
+
+        <div class="user-info">
+            <ol style="list-style: none; padding: 0;">
+                <li data-i18n="username">Username: {{ username }}</li>
+                <li>
+                    <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn" data-i18n="logout">Logout</a>
+                </li>
+            </ol>
+        </div>
+    </nav>
+    
+    <!-- The content from any other page goes here -->
+    <div style="margin-top: 60px;">
         {% block content %} {% endblock %}
-    </body>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                "sign_up": "Sign Up",
+                "home": "Home",
+                "knowledge": "Knowledge",
+                "settings": "Settings",
+                "username": "Username",
+                "logout": "Logout",
+                "language": "Language",
+                "message": "Message",
+                "send": "Send",
+                "leave_room": "Leave Room",
+                "friend_list": "Friend List",
+                "group_list": "Group List",
+                "create_group": "Create Group",
+                "add_friend": "Add Friend",
+                "friend_requests": "Friend Requests",
+                "add_new_member": "Add New Member",
+                "add":"Add",
+                "remove_member": "Remove Member",
+                "cancel": "Cancel",
+                "welcome_message": "Welcome to the Knowledge Base",
+                "welcome_description": "This is the area where you can add more dynamic content, articles, and other information.",
+                "new_article": "New Article",
+                "articles": "Articles",
+                "comments": "Comments",
+                "add_comment_placeholder": "Add a comment...",
+                "post_comment": "Post Comment",
+                "delete": "Delete",
+                "editing": "Editing",
+                "submit_changes": "Submit Changes",
+                "login": "Login",
+                "password": "Password",
+                "username_placeholder": "Enter your username",
+                "password_placeholder": "Enter your password",
+                "message_placeholder": "Enter your message",
+                "remove": "Remove",
+                "role": "Role", 
+                "muted": "Muted"
+            },
+            zh: {
+                "sign_up": "注册",
+                "home": "主页",
+                "knowledge": "知识",
+                "settings": "设置",
+                "username": "用户名",
+                "logout": "登出",
+                "message": "消息",
+                "send": "发送",
+                "leave_room": "离开房间",
+                "friend_list": "好友列表",
+                "group_list": "群组列表",
+                "create_group": "创建群组",
+                "add_friend": "添加好友",
+                "friend_requests": "好友请求",
+                "add_new_member": "添加新成员",
+                "add":"添加",
+                "remove_member": "移除成员",
+                "cancel": "取消",
+                "welcome_message": "欢迎来到知识库",
+                "welcome_description": "这是一个可以添加更多动态内容、文章和其他信息的区域。",
+                "new_article": "新文章",
+                "articles": "文章",
+                "comments": "评论",
+                "add_comment_placeholder": "添加评论...",
+                "post_comment": "发布评论",
+                "delete": "删除",
+                "editing": "编辑",
+                "submit_changes": "提交更改",
+                "language": "语言",
+                "login": "登录",
+                "password": "密码",
+                "username_placeholder": "输入您的用户名",
+                "password_placeholder": "输入您的密码",
+                "message_placeholder": "输入您的消息",
+                "remove": "移除",
+                "role": "身份", 
+                "muted": "禁言" 
+            },
+            es: {
+                "sign_up": "Regístrate",
+                "home": "Inicio",
+                "knowledge": "Conocimiento",
+                "settings": "Configuraciones",
+                "username": "Nombre de usuario",
+                "logout": "Cerrar sesión",
+                "message": "Mensaje",
+                "send": "Enviar",
+                "leave_room": "Salir de la sala",
+                "friend_list": "Lista de amigos",
+                "group_list": "Lista de grupos",
+                "create_group": "Crear grupo",
+                "add_friend": "Agregar amigo",
+                "add": "Agrergar",
+                "friend_requests": "Solicitudes de amistad",
+                "add_new_member": "Agregar nuevo miembro",
+                "remove_member": "Eliminar miembro",
+                "cancel": "Cancelar",
+                "welcome_message": "Bienvenido a la Base de Conocimientos",
+                "welcome_description": "Esta es el área donde puedes agregar más contenido dinámico, artículos y otra información.",
+                "new_article": "Nuevo Artículo",
+                "articles": "Artículos",
+                "comments": "Comentarios",
+                "add_comment_placeholder": "Agregar un comentario...",
+                "post_comment": "Publicar comentario",
+                "delete": "Eliminar",
+                "editing": "Editando",
+                "submit_changes": "Enviar Cambios",
+                "language": "Idioma",
+                "login": "Iniciar sesión",
+                "password": "Contraseña",
+                "username_placeholder": "Ingrese su nombre de usuario",
+                "password_placeholder": "Ingrese su contraseña",
+                "message_placeholder": "Ingrese su mensaje",
+                "remove": "Eliminar",
+                "role": "Rol", // Add this line
+                "muted": "Silenciado" 
+            }
+        };
+
+        function setLanguage(language) {
+            if (!translations[language]) return;
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[language][key]) {
+                    element.innerText = translations[language][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[language][key]) {
+                    element.placeholder = translations[language][key];
+                }
+            });
+
+            // Set a cookie to remember the selected language
+            Cookies.set('language', language, { expires: 7 });
+        }
+
+        function toggleLanguageSelector() {
+            const languageSelector = document.getElementById('language_selector');
+            const arrow = document.querySelector('.language-selector .arrow');
+            if (languageSelector.style.display === 'none' || languageSelector.style.display === '') {
+                languageSelector.style.display = 'block';
+                arrow.classList.add('down');
+            } else {
+                languageSelector.style.display = 'none';
+                arrow.classList.remove('down');
+            }
+        }
+
+        // Check for the language cookie on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const language = Cookies.get('language') || 'en';
+            setLanguage(language);
+        });
+
+        // Set default language to English if no cookie is found
+        function updateTranslations() {
+        const language = Cookies.get('language') || 'en';
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (translations[language][key]) {
+                element.innerText = translations[language][key];
+            }
+        });
+    }
+    </script>
+</body>
 </html>

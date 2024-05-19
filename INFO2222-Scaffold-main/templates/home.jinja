@@ -1,66 +1,17 @@
 {% extends 'base.jinja' %}
 
+{% block title %}Home{% endblock %}
 
 {% block content %}
 <style>
     body {
-        font-family: 'Arial', sans-serif;
-        background: #f0f0f0;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-
-    nav {
-        width: 100%;
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
-        background-color: #fff;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-        height: 60px;
-    }
-
-    .nav-link {
-        padding: 10px 15px;
-        color: #333;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-    }
-    
-
-    .nav-link:hover {
-        background-color: #e0e0e0;
-        border-radius: 5px;
-    }
-
-    .nav-links,
-    .user-info {
-        display: flex;
-        align-items: center;
-    }
-
-    .user-info li {
-        list-style: none;
-        margin-right: 10px;
-    }
-
-    .btn {
-        color: #333;
-        font-weight: bold;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
+    font-family: 'Arial', sans-serif;
+    background: #f0f0f0;
+    margin: 0;
+    padding: 0;
+   
+    height: 100vh;
+}
     main {
         flex: 1;
         display: flex;
@@ -106,13 +57,12 @@
         border: 1px solid #ccc;
         float: left;
     }
+
     .system-message {
-    color: #888;
-    text-align: center;
-    margin: 10px 0;
+        color: #888;
+        text-align: center;
+        margin: 10px 0;
     }
-
-
 
     .sidebar {
         display: flex;
@@ -120,41 +70,6 @@
         gap: 10px;
         width: 250px;
     }
-
-    .tab {
-        padding: 15px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .tab:hover {
-        background-color: #e0e0e0;
-    }
-
-    .tab.active {
-        background-color: #f9f9f9;
-    }
-
-    .tab-content {
-        display: none;
-        padding: 10px 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .tab-content.active {
-        display: block;
-    }
-
     .arrow {
         transition: transform 0.3s ease;
         user-select: none;
@@ -293,36 +208,6 @@
     }
 </style>
 
-<nav>
-    <!-- Left-aligned items -->
-    <div class="nav-links">
-        <a href="/home?username={{ username }}" class="nav-link" data-i18n="home">Home</a>
-        <a href="/knowledge" class="nav-link" data-i18n="knowledge">Knowledge</a>
-        <a href="/settings" class="nav-link" data-i18n="settings">Settings</a>
-    </div>
-
-    <!-- Right-aligned items -->
-    <!-- Language selector -->
-    <div class="language-selector">
-        <div class="tab" onclick="toggleLanguageSelector()">Language <span class="arrow">›</span></div>
-        <div id="language_selector" class="tab-content">
-            <button onclick="setLanguage('en')">English</button>
-            <button onclick="setLanguage('zh')">中文</button>
-            <button onclick="setLanguage('es')">Español</button>
-        </div>
-    </div>
-
-    <div class="user-info">
-        <ol style="list-style: none; padding: 0;">
-            <li data-i18n="username">Username: {{ username }}</li>
-            <li>
-                <a href="javascript:void(0)" onclick="logoutAndClearStorage()" class="btn" data-i18n="logout">Logout</a>
-            </li>
-        </ol>
-    </div>
-</nav>
-
-
 <main>
     <div class="container">
         <div style="flex: 3; display: flex; flex-direction: column;">
@@ -333,7 +218,7 @@
             this means the input box is "invisible" initially-->
             <section id="input_box" style="display: none;">
                 <p class="text" data-i18n="message">Message: </p>
-                <input id="message" placeholder="message">
+                <input id="message" placeholder="message" data-i18n-placeholder="message_placeholder">
                 <button onclick="send()" data-i18n="send">Send</button>
                 <button onclick="leave()" data-i18n="leave_room">Leave Room</button>
             </section>
@@ -346,7 +231,7 @@
             <div id="friend_list_card" class="tab-content active">
                 <div class="section-header">
                     <h2 data-i18n="friend_list">Friend List</h2>
-                    <button onclick="showCreateGroupModal()">Create Group</button>
+                    <button onclick="showCreateGroupModal()" data-i18n="create_group">Create Group</button>
                 </div>
                 <ul id="friend_list">
                     <!-- Friends will be added here dynamically or list them statically for now -->
@@ -374,7 +259,7 @@
             </div>
 
             <div class="tab active" onclick="toggleCard('add_friend_card')">
-                <span data-i18n="add_friend">Friend List</span> <span class="arrow">›</span>
+                <span data-i18n="add_friend">Add Friend</span> <span class="arrow">›</span>
             </div>
             <div id="add_friend_card" class="tab-content">
                 <h2 data-i18n="add_friend">Add Friend</h2>
@@ -382,35 +267,32 @@
                 <button onclick="sendFriendRequest()" data-i18n="add_friend">Add Friend</button>
             </div>
             <div class="tab active" onclick="toggleCard('friend_requests_card')">
-                <span data-i18n="friend_requests">Friend List</span> <span class="arrow">›</span>
+                <span data-i18n="friend_requests">Friend Requests</span> <span class="arrow">›</span>
             </div>
-                <div id="friend_requests_card" class="tab-content">
-                    <h2 data-i18n="friend_requests">Friend Requests</h2>
-                    <ul id="friend_requests">
-                        <!-- Dynamically list friend requests here -->
-                    </ul>
+            <div id="friend_requests_card" class="tab-content">
+                <h2 data-i18n="friend_requests">Friend Requests</h2>
+                <ul id="friend_requests">
+                    <!-- Dynamically list friend requests here -->
+                </ul>
             </div>
         </div>
     </div>
 
     <!-- Create Group Modal -->
     <div id="createGroupModal">
-            <h2 data-i18n="create_group">Create Group</h2>
-            <label for="groupName" data-i18n="group_name">Group Name:</label>
-            <input type="text" id="groupName">
-            <label for="groupMembers" data-i18n="add_members">Add Members (comma separated usernames):</label>
-            <input type="text" id="groupMembers">
-            <button onclick="createGroup()" data-i18n="create_group">Create</button>
-            <button onclick="hideCreateGroupModal()" data-i18n="cancel">Cancel</button>
+        <h2 data-i18n="create_group">Create Group</h2>
+        <label for="groupName" data-i18n="group_name">Group Name:</label>
+        <input type="text" id="groupName">
+        <label for="groupMembers" data-i18n="add_members">Add Members (comma separated usernames):</label>
+        <input type="text" id="groupMembers">
+        <button onclick="createGroup()" data-i18n="create_group">Create</button>
+        <button onclick="hideCreateGroupModal()" data-i18n="cancel">Cancel</button>
     </div>
     <div id="overlay"></div>
 </main>
 
-
-
 <script src="/static/js/libs/socket.io.min.js"></script>
 <script>
-
     let room_id = 0;
     function toggleCard(cardId) {
         const card = document.getElementById(cardId);
@@ -426,13 +308,14 @@
             arrow.classList.remove('down');
         }
     }
+    
     // when the user presses the "Enter" key inside of the "message box", 
     // the message is sent to the server
     $("#message").on("keyup", (e) => {
         if (e.key == "Enter") {
             send();
         }
-    })
+    });
 
     // when the user presses the enter key inside of the "receiver box"
     // the user joins a (socket) room
@@ -440,7 +323,7 @@
         if (e.key == "Enter") {
             join_room();
         }
-    })
+    });
 
     $(document).ready(() => {
         // room_id is undefined if the user hasn't joined a room
@@ -454,7 +337,7 @@
         $("#chat_box").hide();
         $("#input_box").show();
         room_id = parseInt(Cookies.get("room_id"));
-    })
+    });
 
     // Here's the Socket IO part of the code
     // things get a bit complicated here so brace yourselves :P
@@ -479,10 +362,7 @@
         alert(data.message);
     });
 
-
     //===========================================================================
-
-
 
     // we'll send the message to the server by emitting a "send" event
     async function send() {
@@ -498,13 +378,10 @@
         }
     }
 
-
-
     // we emit a join room event to the server to join a room
     function join_room(receiverUsername) {
         let receiver = receiverUsername || $("#receiver").val();
         //leave();
-
 
         socket.emit("join", username, receiver, (res) => {
             console.log('in joining a room')
@@ -523,9 +400,9 @@
             $("#chat_box").hide();
             $("#input_box").show();
             socket.emit("GetHistoryMessages", username, receiver);
-
         });
     }
+
     socket.on('incoming_messages_list', function (data) {
         console.log('Incoming messages list:', data);  // 打印日志用于调试
         // 清空消息框
@@ -535,7 +412,6 @@
             addMessage(msg.sender, msg.content);
         });
     });
-
 
     // function when the user clicks on "Leave Room"
     // emits a "leave" event, telling the server that we want to leave the room
@@ -581,7 +457,7 @@
                     if (data.error) {
                         alert(data.error);
                     } else {
-                        alert(data.message)
+                        alert(data.message);
                         socket.emit('friend_request_sent', { sender: senderUsername, receiver: friendUsername });
                     }
                 })
@@ -592,8 +468,6 @@
         }
     }
 
-
-    //////////////////////////////////////////////////////////////////////////////
     // Function to update a friend request's status
     document.addEventListener('DOMContentLoaded', function () {
         const socket = io();
@@ -629,7 +503,6 @@
             fetchFriends();
         });
     });
-
 
     function updateFriendRequest(requestId, status) {
         fetch('/update_friend_request', {
@@ -724,8 +597,10 @@
                     chatButton.onclick = function () {
                         join_room(friend['username']);
                     };
-                    const removeButton = document.createElement('button');
-                    removeButton.textContent = 'Remove';
+                     const removeButton = document.createElement('button');
+                removeButton.setAttribute('data-i18n', 'remove'); // 添加 data-i18n 属性
+                removeButton.textContent = translations[Cookies.get('language') || 'en']['remove']; // 设置按钮的初始文本
+
                     removeButton.onclick = function () {
                         removeFriend(friend['username']);
                     };
@@ -768,10 +643,6 @@
             });
     }
 
-    //##############################################################################
-    //# group chat
-    //##############################################################################
-
     function fetchGroups(username) {
         fetch(`/get_groups?username=${username}`)
             .then(response => {
@@ -796,8 +667,9 @@
 
                     if (group.is_owner) {
                         const addButton = document.createElement('button');
-                        addButton.textContent = 'Add';
+                        
                         addButton.setAttribute('data-i18n', 'add');
+                        addButton.textContent =translations[Cookies.get('language') || 'en']['add'];
                         addButton.onclick = function () {
                             toggleAddMemberForm();
                         };
@@ -899,6 +771,7 @@
                 toggleRemoveMemberForm(); // 发生错误后隐藏表单
             });
     }
+
     function showCreateGroupModal() {
         document.getElementById('createGroupModal').style.display = 'block';
     }
@@ -906,6 +779,7 @@
     function hideCreateGroupModal() {
         document.getElementById('createGroupModal').style.display = 'none';
     }
+
     function createGroup() {
         let groupName = document.getElementById('groupName').value;
         let groupMembers = document.getElementById('groupMembers').value.split(',').map(member => member.trim());
@@ -935,6 +809,7 @@
                 hideCreateGroupModal(); // Hide the modal after error
             });
     }
+
     function join_group_chat(groupId) {
         console.log("Joining group chat with ID:", groupId); // 添加日志
         socket.emit("join_group", { group_id: groupId, username: username }, (res) => {
@@ -989,114 +864,65 @@
         let box = $("#message_box");
         let messageType = sender === username ? 'sent' : 'received';
         if (sender === 'system') {
-        let systemMessage = $(`<p class="system-message"></p>`).text(message);
-        box.append(systemMessage);
-    } else {
-        let child = $(`<div class="message ${messageType}"><p></p></div>`);
-        child.find("p").text(message);
-        box.append(child);
-    }
-    }
-    ///////////////////////////
-    // change language
-    /////////////////////////
-    const translations = {
-    en: {
-        "home": "Home",
-        "knowledge": "Knowledge",
-        "settings": "Settings",
-        "username": "Username",
-        "logout": "Logout",
-        "message": "Message",
-        "send": "Send",
-        "leave_room": "Leave Room",
-        "friend_list": "Friend List",
-        "group_list": "Group List",
-        "create_group": "Create Group",
-        "add_friend": "Add Friend",
-        "friend_requests": "Friend Requests",
-        "add_new_member": "Add New Member",
-        "remove_member": "Remove Member",
-        "cancel": "Cancel"
-    },
-    zh: {
-        "home": "主页",
-        "knowledge": "知识",
-        "settings": "设置",
-        "username": "用户名",
-        "logout": "登出",
-        "message": "消息",
-        "send": "发送",
-        "leave_room": "离开房间",
-        "friend_list": "好友列表",
-        "group_list": "群组列表",
-        "create_group": "创建群组",
-        "add_friend": "添加好友",
-        "friend_requests": "好友请求",
-        "add_new_member": "添加新成员",
-        "remove_member": "移除成员",
-        "cancel": "Cancel"
-    },
-    es: {
-        "home": "Inicio",
-        "knowledge": "Conocimiento",
-        "settings": "Configuraciones",
-        "username": "Nombre de usuario",
-        "logout": "Cerrar sesión",
-        "message": "Mensaje",
-        "send": "Enviar",
-        "leave_room": "Salir de la sala",
-        "friend_list": "Lista de amigos",
-        "group_list": "Lista de grupos",
-        "create_group": "Crear grupo",
-        "add_friend": "Agregar amigo",
-        "friend_requests": "Solicitudes de amistad",
-        "add_new_member": "Agregar nuevo miembro",
-        "remove_member": "Eliminar miembro",
-        "cancel": "Cancelar"
-    }
-};
-  function setLanguage(language) {
-    if (!translations[language]) return;
-
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        if (translations[language][key]) {
-            element.innerText = translations[language][key];
+            let systemMessage = $(`<p class="system-message"></p>`).text(message);
+            box.append(systemMessage);
+        } else {
+            let child = $(`<div class="message ${messageType}"><p></p></div>`);
+            child.find("p").text(message);
+            box.append(child);
         }
-    });
-}
- function toggleLanguageSelector() {
-            const languageSelector = document.getElementById('language_selector');
-            const arrow = document.querySelector('.language-selector .arrow');
-            if (languageSelector.style.display === 'none' || languageSelector.style.display === '') {
-                languageSelector.style.display = 'block';
-                arrow.classList.add('down');
-            } else {
-                languageSelector.style.display = 'none';
-                arrow.classList.remove('down');
+    }
+
+    function setLanguage(language) {
+        if (!translations[language]) return;
+
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (translations[language][key]) {
+                element.innerText = translations[language][key];
             }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            if (translations[language][key]) {
+                element.placeholder = translations[language][key];
+            }
+        });
+
+        // Set a cookie to remember the selected language
+        Cookies.set('language', language, { expires: 7 });
+    }
+
+    function toggleLanguageSelector() {
+        const languageSelector = document.getElementById('language_selector');
+        const arrow = document.querySelector('.language-selector .arrow');
+        if (languageSelector.style.display === 'none' || languageSelector.style.display === '') {
+            languageSelector.style.display = 'block';
+            arrow.classList.add('down');
+        } else {
+            languageSelector.style.display = 'none';
+            arrow.classList.remove('down');
         }
-function updateTranslations() {
-    const language = currentLanguage; // Store the current language
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        if (translations[language][key]) {
-            element.innerText = translations[language][key];
-        }
+    }
+
+    // Check for the language cookie on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        const language = Cookies.get('language') || 'en';
+        setLanguage(language);
     });
-}
 
-// Call updateTranslations whenever necessary, e.g., after dynamically adding content
+    // Set default language to English if no cookie is found
+    setLanguage('en');
 
-
-
-// Set default language to English
-setLanguage('en');
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////
+    function updateTranslations() {
+        const language = Cookies.get('language') || 'en';
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (translations[language][key]) {
+                element.innerText = translations[language][key];
+            }
+        });
+    }
 </script>
 {% endblock %}
