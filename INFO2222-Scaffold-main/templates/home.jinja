@@ -16,7 +16,7 @@
         flex: 1;
         display: flex;
         padding: 20px;
-        margin-top: 60px; /* 确保主内容下移，避开导航栏 */
+        margin-top: 60px;
     }
 
     .container {
@@ -340,7 +340,7 @@
         room_id = parseInt(Cookies.get("room_id"));
     });
 
-    // Here's the Socket IO part of the code
+
     // things get a bit complicated here so brace yourselves :P
     let username = "{{ username }}";
 
@@ -370,16 +370,16 @@
         let message = $("#message").val();
         $("#message").val("");
         if (room_id >= 10000) {
-            // 发送群组消息
+
             sendGroupMessage(room_id - 10000, username, message);
         } else {
-            // 发送私聊消息
+
             socket.emit("send", username, message, room_id);
             //addMessage(username, message); 
         }
     }
 
-    // we emit a join room event to the server to join a room
+
     function join_room(receiverUsername) {
         let receiver = receiverUsername || $("#receiver").val();
         //leave();
@@ -398,7 +398,7 @@
                 return;
             }
 
-            // set the room id variable to the room id returned by the server
+    
             room_id = res;
             Cookies.set("room_id", room_id);
 
@@ -410,17 +410,17 @@
     }
 
     socket.on('incoming_messages_list', function (data) {
-        console.log('Incoming messages list:', data);  // 打印日志用于调试
-        // 清空消息框
+        console.log('Incoming messages list:', data);  
+
         $("#message_box").empty();
-        // 加载历史消息
+
         data.messages.forEach(msg => {
             addMessage(msg.sender, msg.content);
         });
     });
 
     // function when the user clicks on "Leave Room"
-    // emits a "leave" event, telling the server that we want to leave the room
+
     function leave() {
         Cookies.remove("room_id");
         socket.emit("leave", username, room_id);
@@ -430,7 +430,7 @@
     }
 
     // function to add a message to the message box
-    // called when an incoming message has reached a client
+
     function add_message(message, color) {
         let box = $("#message_box");
         let child = $(`<p style="color:${color}; margin: 0px;"></p>`).text(message);
@@ -521,9 +521,8 @@
             .then(response => response.json())
             .then(data => {
                 alert(data.message);
-                fetchFriendRequests(); // Re-fetch the friend request list to update UI
-                fetchFriends(); // Re-fetch the friend list to update UI
-            })
+                fetchFriendRequests(); 
+                fetchFriends(); 
             .catch(error => {
                 console.error('Error:', error);
                 alert('Failed to update friend request.');
@@ -532,7 +531,7 @@
 
     function fetchFriendRequests() {
         console.log('Fetching friend requests...');
-        let currentUsername = "{{ username }}"; // Retrieve the current username from server-side rendering variables or from another source
+        let currentUsername = "{{ username }}"; 
 
         fetch(`/get_friend_requests?username=${currentUsername}`)
             .then(response => {
@@ -542,7 +541,7 @@
                 return response.json();
             })
             .then(friendRequests => {
-                // get the container element for the friend request list
+
                 const friendRequestsList = document.getElementById('friend_requests');
                 // clear the current list content
                 friendRequestsList.innerHTML = '';
@@ -570,11 +569,10 @@
                             updateFriendRequest(request.id, 'rejected');
                         };
 
-                        // append the buttons to the listitem
                         listItem.appendChild(acceptButton);
                         listItem.appendChild(rejectButton);
                     }
-                    // add the listitem to the list
+
                     friendRequestsList.appendChild(listItem);
                 });
             })
@@ -595,7 +593,6 @@
                 const friendList = document.getElementById('friend_list');
                 friendList.innerHTML = ''; // clear the existing friend list
 
-                // iterate through the returned friend data and create a list item for each friend
                 data.forEach(friend => {
                     const li = document.createElement('li');
                     const chatButton = document.createElement('button');
@@ -604,15 +601,15 @@
                         join_room(friend['username']);
                     };
                     const removeButton = document.createElement('button');
-                    removeButton.setAttribute('data-i18n', 'remove'); // 添加 data-i18n 属性
-                    removeButton.textContent = translations[Cookies.get('language') || 'en']['remove']; // 设置按钮的初始文本
+                    removeButton.setAttribute('data-i18n', 'remove'); 
+                    removeButton.textContent = translations[Cookies.get('language') || 'en']['remove']; 
 
                     removeButton.onclick = function () {
                         removeFriend(friend['username']);
                     };
                     const statusSpan = document.createElement('span');
                     statusSpan.textContent = friend['is_online'] ? ' (Online)' : ' (Offline)';
-                    statusSpan.style.color = friend['is_online'] ? 'green' : 'red'; // Change text color based on online status
+                    statusSpan.style.color = friend['is_online'] ? 'green' : 'red'; 
 
                     li.appendChild(chatButton);
                     li.appendChild(removeButton);
@@ -637,7 +634,7 @@
                 if (data.message) {
                     console.log(data.message);
                     alert('Friend removed successfully.');
-                    fetchFriends(); // Re-fetch the friend list to update UI
+                    fetchFriends(); 
                 } else if (data.error) {
                     console.error(data.error);
                     alert('Failed to remove friend: ' + data.error);
@@ -703,7 +700,7 @@
 
         if (addMemberForm.style.display === 'none' || addMemberForm.style.display === '') {
             addMemberForm.style.display = 'block';
-            removeMemberForm.style.display = 'none'; // 隐藏移除成员表单
+            removeMemberForm.style.display = 'none'; 
         } else {
             addMemberForm.style.display = 'none';
         }
@@ -715,7 +712,7 @@
 
         if (removeMemberForm.style.display === 'none' || removeMemberForm.style.display === '') {
             removeMemberForm.style.display = 'block';
-            addMemberForm.style.display = 'none'; // 隐藏添加成员表单
+            addMemberForm.style.display = 'none'; 
         } else {
             removeMemberForm.style.display = 'none';
         }
@@ -723,8 +720,7 @@
 
     function addNewMember() {
         let newMemberUsername = document.getElementById('new_member_username').value;
-        let groupId = room_id - 10000;  // 获取当前群组的ID
-
+        let groupId = room_id - 10000;  
         fetch('/add_member_to_group', {
             method: 'POST',
             headers: {
@@ -740,20 +736,19 @@
                     alert(data.message);
                     fetchGroups("{{ username }}");
                 }
-                toggleAddMemberForm(); // 添加成功后隐藏表单
+                toggleAddMemberForm(); 
             })
             .catch(error => {
                 console.error('Error adding new member:', error);
                 alert('Failed to add new member.');
-                toggleAddMemberForm(); // 发生错误后隐藏表单
+                toggleAddMemberForm(); 
             });
     }
 
     function removeMember() {
         let removeMemberUsername = document.getElementById('remove_member_username').value;
-        let groupId = room_id - 10000;  // 获取当前群组的ID
-        let ownerUsername = "{{ username }}";  // 获取当前用户作为群主
-
+        let groupId = room_id - 10000;  
+        let ownerUsername = "{{ username }}";
         fetch('/remove_member_from_group', {
             method: 'POST',
             headers: {
@@ -769,12 +764,12 @@
                     alert(data.message);
                     fetchGroups(ownerUsername);
                 }
-                toggleRemoveMemberForm(); // 移除成功后隐藏表单
+                toggleRemoveMemberForm(); 
             })
             .catch(error => {
                 console.error('Error removing member:', error);
                 alert('Failed to remove member.');
-                toggleRemoveMemberForm(); // 发生错误后隐藏表单
+                toggleRemoveMemberForm(); 
             });
     }
 
@@ -807,24 +802,24 @@
                     console.error(data.error);
                     alert('Failed to create group: ' + data.error);
                 }
-                hideCreateGroupModal(); // Hide the modal after creation
+                hideCreateGroupModal(); 
             })
             .catch(error => {
                 console.error('Error creating group:', error);
                 alert('Error creating group.');
-                hideCreateGroupModal(); // Hide the modal after error
+                hideCreateGroupModal();
             });
     }
 
     function join_group_chat(groupId) {
-        console.log("Joining group chat with ID:", groupId); // 添加日志
+        console.log("Joining group chat with ID:", groupId); 
         socket.emit("join_group", { group_id: groupId, username: username }, (res) => {
             if (res.error) {
                 alert(res.error);
                 return;
             }
 
-            room_id = groupId + 10000;  // 群组ID加上10000
+            room_id = groupId + 10000; 
             Cookies.set("room_id", room_id);
             $("#chat_box").hide();
             $("#input_box").show();

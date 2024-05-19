@@ -148,7 +148,7 @@ def handle_group_message(data):
     db.insert_group_message(group_id, sender, message)
     print(message)
 
-    room_id = group_id + 10000  # 群组ID加上10000
+    room_id = group_id + 10000  
     emit("incoming_group_message", {"sender": sender, "message": message}, room=room_id)
 
 
@@ -156,7 +156,7 @@ def handle_group_message(data):
 def get_group_history_messages(data):
     group_id = data.get('group_id')
     messages = db.get_group_messages(group_id)
-    room_id = group_id + 10000  # 群组ID加上10000
+    room_id = group_id + 10000  
     messages_data = [{"sender": msg.sender, "content": msg.content} for msg in messages]
     emit("incoming_group_messages_list", {"messages": messages_data}, room=room_id)
 
