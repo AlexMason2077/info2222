@@ -388,6 +388,11 @@
             console.log('in joining a room')
             // res is a string with the error message if the error occurs
             // this is a pretty bad way of doing error handling, but watevs
+
+            if (res === null) {
+                return; 
+            }
+
             if (typeof res != "number") {
                 alert(res);
                 return;

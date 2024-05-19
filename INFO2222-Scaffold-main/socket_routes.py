@@ -81,7 +81,7 @@ def join(sender_name, receiver_name):
 
     # Check if the sender is muted
     if db.is_user_muted(sender_name):
-        emit('error', {"error": "You are muted and cannot join any room."}, room=request.sid)
+        #emit('error', {"error": "You are muted and cannot join any room."}, room=request.sid)
         return "You are muted and cannot join any room."
 
     # Check if they are friends
@@ -172,7 +172,7 @@ def join_group(data):
 
     # Check if the user is muted
     if db.is_user_muted(username):
-        emit("error", {"error": "You are muted and cannot join any group."}, room=request.sid)
+        #emit("error", {"error": "You are muted and cannot join any group."}, room=request.sid)
         return {"error": "You are muted and cannot join any group."}
 
     if not db.is_user_in_group(username, group_id):
