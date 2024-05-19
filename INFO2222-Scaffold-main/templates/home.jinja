@@ -370,10 +370,8 @@
         let message = $("#message").val();
         $("#message").val("");
         if (room_id >= 10000) {
-            // 发送群组消息
             sendGroupMessage(room_id - 10000, username, message);
         } else {
-            // 发送私聊消息
             socket.emit("send", username, message, room_id);
             //addMessage(username, message); 
         }
@@ -409,7 +407,7 @@
     }
 
     socket.on('incoming_messages_list', function (data) {
-        console.log('Incoming messages list:', data);  // 打印日志用于调试
+        console.log('Incoming messages list:', data); 
 
         $("#message_box").empty();
 
@@ -814,7 +812,7 @@
     }
 
     function join_group_chat(groupId) {
-        console.log("Joining group chat with ID:", groupId); // 添加日志
+        console.log("Joining group chat with ID:", groupId); 
         socket.emit("join_group", { group_id: groupId, username: username }, (res) => {
             if (res.error) {
                 alert(res.error);
@@ -840,12 +838,12 @@
         });
     }
 
-    // 监听传入的群组消息
+
     socket.on('incoming_group_message', function (data) {
         addMessage(data.sender, data.message);
     });
 
-    // 监听传入的历史群组消息
+
     socket.on('incoming_group_messages_list', function (data) {
         console.log('Incoming group messages list:', data);
         $("#message_box").empty();
@@ -858,7 +856,6 @@
         $("#message_box").empty();
     });
 
-    // 监听错误消息
     socket.on('error', function (data) {
         alert(data.error);
     });

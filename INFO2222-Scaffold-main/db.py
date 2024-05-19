@@ -279,7 +279,7 @@ def add_friend(user_username, friend_username):
     
 def db_remove_friend(user_username, friend_username):
     with Session(engine) as session:
-        # 查找并删除双方的好友关系
+
         friendships = session.query(Friendship).filter(
             or_(
                 (Friendship.user_username == user_username) & (Friendship.friend_username == friend_username),
@@ -573,7 +573,7 @@ def get_groups_for_user(username):
             group_list.append({
                 "id": group.id,
                 "name": group.name,
-                "is_owner": owner.username == username  # 当前用户是否是群主
+                "is_owner": owner.username == username  
             })
         return group_list
     except Exception as e:

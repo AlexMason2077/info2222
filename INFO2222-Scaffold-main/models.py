@@ -113,7 +113,6 @@ class Article(Base):
     author = Column(String(100), nullable=False)
     publish_date = Column(DateTime, nullable=False)
     
-    # 正确位置在类定义内部
     comments = relationship("Comment", order_by="Comment.id", back_populates="article")
 
 class Comment(Base):

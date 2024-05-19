@@ -159,7 +159,6 @@ def submit_article():
 
     username = session['username']
     
-    # 检查用户是否被禁言
     if is_user_muted(username):
         return jsonify({"success": False, "error": "User is muted and cannot post articles."})
 
@@ -402,7 +401,6 @@ def get_role(username):
     else:
         return {"error": "User not found"}, 404
 
-# 获取所有用户信息
 @app.route("/get_all_users", methods=["GET"])
 def get_all_users():
     if 'username' not in session:
